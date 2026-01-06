@@ -1,0 +1,67 @@
+$schema: http://json-schema.org/draft-04/schema#
+id: tumor_information
+title: tumor_information
+type: object
+namespace: https://link-to-data-portal/
+category: clinical
+program: '*'
+project: '*'
+description: tumor information pre PRT treatment
+submittable: true
+validators: null
+systemProperties:
+- id
+- project_id
+- state
+- created_datetime
+- updated_datetime
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+required:
+- node_id
+- cases
+- submitter_id
+- type
+links:
+- name: cases
+  backref: tumor_informations
+  label: part_of
+  target_type: case
+  multiplicity: many_to_many
+  required: true
+properties:
+  $ref: _definitions.yaml#/ubiquitous_properties
+  node_id:
+    type: string
+    description: node_id of the node in the data model
+  cases:
+    $ref: _definitions.yaml#/to_many
+  case_ids:
+    type: array
+    items:
+      type: string
+    description: a list of one more more case submitter_ids associated with the data
+  tumor_site:
+    type: string
+    description: primary tumor location
+  AJCC_stage:
+    type: string
+    description: staging of cancer progression through AJCC system, for more information
+      see https://training.seer.cancer.gov/staging/systems/ajcc.html
+  tumor_grade:
+    type: string
+    description: categorization of tumor through level of cell differentiation, determined
+      through analysis of tissue samples. for more information, see https://paulatakacsfoundation.org/tumor-grade/?gad_source=1&gad_campaignid=15707273928&gbraid=0AAAAABMUSfaKFQJI4RImGALEjw5pCXV2s&gclid=CjwKCAiA8vXIBhAtEiwAf3B-gzKHK-A8VFvk7s7DJRizsea9gFPTmUC9Hjw0RF5FIkg_QpnJnFnj9hoCK5QQAvD_BwE
+  liver_mets:
+    type: string
+    description: description of whether the tumor has metastasized to the liver
+  ki_67:
+    type: number
+    description: ki67 marker expression, which is strongly associated with tumor cell
+      proliferation and growth
+  PET_tumor_volume:
+    type: number
+    description: tumor volume as found in PET imaging pre PRT treatment
+additionalProperties: false

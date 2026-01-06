@@ -1,0 +1,87 @@
+global:
+  hostname: localhost
+  dev: true
+  dictionaryUrl: /dictionary/prt_model.yaml
+  postgres:
+    dbCreate: true
+    master:
+      username: postgres
+      password: postgres
+      host: postgresql
+      port: "5432"
+  tls:
+    enabled: false
+  dataUploadBucket: gen3-data
+  storage:
+    type: minio
+
+fence:
+  enabled: true
+  FENCE_CONFIG:
+    MOCK_AUTH: true
+    PUBLIC_URL: "http://localhost"
+    ENABLED_IDENTITY_PROVIDERS:
+      - mock
+  usersync:
+    userYamlS3Path: none
+  USER_YAML: |
+    users:
+      etanios:
+        email: etanios@uchicago.edu
+        display_name: user1
+        admin: true
+
+
+sheepdog:
+  enabled: true
+  dictionary:
+    enabled: true
+    config:
+      - name: prt_model
+        path: /dictionary/prt_model.yaml
+
+indexd:
+  enabled: true
+  defaultPrefix: minio://gen3-data/
+
+minio:
+  enabled: true
+  accessKey: minio
+  secretKey: minio123
+  buckets:
+    - name: gen3-data
+      policy: none
+      purge: false
+
+peregrine:
+  enabled: true
+
+revproxy:
+  enabled: true
+
+hatchery:
+  enabled: true
+
+portal:
+  enabled: true
+guppy:
+  enabled: false
+elasticsearch:
+  enabled: false
+wts:
+  enabled: false
+manifestservice:
+  enabled: false
+arborist:
+  enabled: true
+audit:
+  enabled: false
+
+localSecrets:
+  fenceDbCreds:
+    enabled: true
+    username: postgres
+    password: postgres
+    host: postgresql
+    database: postgres
+    dbcreated: "true"

@@ -1,0 +1,447 @@
+version: 0.1.0
+url: localhost
+nodes:
+- name: subject
+  description: The subject or patient
+  category: clinical
+  properties:
+  - name: subject_id
+    type: string
+    description: A deidentified identifier for the subject
+    required: true
+- name: case
+  description: Collection of data all related to one patient or case in a dataset or experiment
+  category: administrative
+  properties:
+  - name: case_ids
+    type: array
+    description: a list of submitter_ids associated with this data
+    required: true
+  - name: country_of_residence
+    type: string
+    description: country where the patient resides
+    required: false
+  - name: ethnicity
+    type: string
+    description: patient ethnicity
+    required: false
+  - name: race 
+    type: string
+    description: A geographic ancestral origin category that is assigned to a population group based mainly on physical characteristics that are thought to be distinct and inherent.
+    required: false
+  - name: sex
+    type: enum
+    enums:
+    - "Female"
+    - "Male"
+    - "Not Reported"
+    description: The biologic character or quality that distinguishes male and female from one another as expressed by analysis of the person's gonadal, morphologic (internal and external), chromosomal, and hormonal characteristics.
+- name: dicom_file
+  description: DICOM file information and parameters per study
+  category: data_file
+  properties:
+  - name: node_id
+    type: string
+    description: node id of the node
+    required: true
+  - name: submitter
+    type: string
+    description: human-readable, unique identifier for a record in the database
+    required: true
+  - name: series_uid
+    type: string
+    description: series instance UID, unique to the imaging series
+    required: true
+  - name: series_description
+    type: string
+    description: general description/information about the imaging
+    required: true
+  - name: modality
+    type: enum
+    enums:
+      - "PET"
+      - "CT"
+      - "SPECT"
+      - "MRI"
+    description: modality
+    required: true
+  - name: md5sum
+    type: string
+    description: 128 bit hash val expressed as hex number, file's digital footprint
+    required: true
+  - name: imaging_studies
+    type: array
+    description: submitter id or id of the imaging study
+    required: true
+  - name: file_size
+    type: integer
+    description: size of the data file in bytes
+    required: true
+  - name: file_name
+    type: string
+    description: name of file
+    required: true
+  - name: annotation_format
+    type: string
+    description: file format of the annotation file (example, json)
+    required: true
+  - name: annotation_method
+    type: enum
+    enums:
+      - "Clinically_derived"
+      - "Retrospective_expert"
+      - "Retrospective_general"
+      - "Retrospective_auto"
+    description: Defines the method by which the annotation was created. Clinically_derived - Based on information produced in the process of the subject's medical care; Retrospective_expert - Based on information produced retrospective to the subject's care by annotators with relevant special clinical expertise; Retrospective_general - Based on information produced retrospective to the subject's care by annotators without relevant special clinical expertise; Retrospective_auto - Based on information produced retrospective to the subject's care using automated means.
+    required: false
+  - name: manufacturer
+    type: string
+    description: manufacturer of model
+    required: false
+  - name: manufacturer_model_name
+    type: string
+    description: model name of machine
+    required: false
+  - name: software_versions
+    type: string
+    description: software version of application 
+    required: false
+  - name: collimator
+    type: string
+    description: type of collimator used for CT scnas
+    required: false
+  - name: attenuation_correction
+    type: string
+    description: if correction used for PET or SPECT data
+    required: false
+  - name: convolution_kernel
+    type: string
+    description: describe the convolution kernel used in imaging
+    required: false
+- name: condition
+  category: medical_history
+  description: information pertaining to relevant medical conditions, recorded from electronic medical record
+  properties:
+    - name: node_id
+      type: string
+      description: node_id of the node in the data model
+      required: true
+    - name: cases
+      type: enum
+      enums:
+        - array
+        - object
+      description: submitter_id of the case this condition describes
+      required: true
+    - name: case_ids
+      type: array
+      description: a list of one more more case submitter_ids associated with the data
+      required: false
+    - name: condition_code
+      type: string
+      description: code for a condition, assigned by the code system
+      required: false
+    - name: condition_name
+      type: string
+      description: name of the condition the patient has experienced
+      required: false
+    - name: days_to_condition_end
+      type: integer
+      description: The number of days from the index date to the date the subject no longer experienced the condition. This property is included to ensure personal privacy protection in accordance with the HIPAA Safe Harbor Method. More information can be found here https://www.hhs.gov/hipaa/for-professionals/special-topics/de-identification/index.html.
+      required: false
+    - name: days_to_condition_start
+      type: integer
+      description: The number of days from the index date to the date the subject was diagnosed with or began experiencing the condition. This property is included to ensure personal privacy protection in accordance with the HIPAA Safe Harbor Method. More information can be found here https://www.hhs.gov/hipaa/for-professionals/special-topics/de-identification/index.html.
+      required: false
+- name: surgery
+  category: medical_history
+  description: surgery before or after PRT therapy
+  properties:
+    - name: node_id
+      type: string
+      description: node_id of the node in the data model
+      required: true
+    - name: cases
+      type: enum
+      enums:
+        - array
+        - object
+      description: submitter_id of the case this condition describes
+      required: true
+    - name: case_ids
+      type: array
+      description: a list of one more more case submitter_ids associated with the data
+      required: false
+    - name: date_of_surgery
+      type: datetime
+      description: surgery date
+      required: false
+    - name: primary_tumor_removal
+      description: if the tumor has been removed through surgery
+      type: boolean
+      required: false
+    - name: time_between_PRT_surgery
+      type: integer
+      description: time between the surgery event and the start of PRT treatment
+      required: false
+    - name: pre_tumor_volume
+      type: number
+      description: tumor volume pre surgery, if debulking surgery was performed 
+      required: false
+    - name: post_tumor_volume
+      description: tumor volume post surgery, if debulking surgery was performed
+      type: number
+      required: false
+    - name: debulking_threshold
+      type: number
+      description: the goal optimal debulking threshold, depending on the cancer type. Often around 0.7 for NETs
+      required: false
+- name: tumor_information
+  category: clinical
+  description: tumor information pre PRT treatment 
+  properties: 
+    - name: node_id
+      type: string
+      description: node_id of the node in the data model
+      required: true
+    - name: cases
+      type: enum
+      enums:
+        - array
+        - object
+      description: submitter_id of the case this condition describes
+      required: true
+    - name: case_ids
+      type: array
+      description: a list of one more more case submitter_ids associated with the data
+      required: false
+    - name: tumor_site
+      type: string
+      description: primary tumor location
+      required: false 
+    - name: AJCC_stage
+      type: string
+      description: staging of cancer progression through AJCC system, for more information see https://training.seer.cancer.gov/staging/systems/ajcc.html
+      required: false
+    - name: tumor_grade
+      type: string
+      description: categorization of tumor through level of cell differentiation, determined through analysis of tissue samples. for more information, see https://paulatakacsfoundation.org/tumor-grade/?gad_source=1&gad_campaignid=15707273928&gbraid=0AAAAABMUSfaKFQJI4RImGALEjw5pCXV2s&gclid=CjwKCAiA8vXIBhAtEiwAf3B-gzKHK-A8VFvk7s7DJRizsea9gFPTmUC9Hjw0RF5FIkg_QpnJnFnj9hoCK5QQAvD_BwE
+      required: false
+    - name: liver_mets
+      type: string
+      description: description of whether the tumor has metastasized to the liver 
+      required: false
+    - name: ki_67
+      type: number
+      description: ki67 marker expression, which is strongly associated with tumor cell proliferation and growth
+      required: false
+    - name: PET_tumor_volume
+      type: number
+      description: tumor volume as found in PET imaging pre PRT treatment
+      required: false
+- name: PRT_therapy_information
+  category: clinical
+  description: information pertaining to the PRT therapy for the patient
+  properties: 
+    - name: node_id
+      type: string
+      description: node_id of the node in the data model
+      required: true
+    - name: cases
+      type: enum
+      enums:
+        - array
+        - object
+      description: submitter_id of the case this condition describes
+      required: true
+    - name: case_ids
+      type: array
+      description: a list of one more more case submitter_ids associated with the data
+      required: false
+    - name: therapy_type
+      type: string
+      description: alpha or beta therapy, or other
+      required: false
+    - name: pre_tumor_volume
+      type: number
+      description: tumor volume pre PRT treatment
+      required: false
+    - name: post_tumor_volume
+      type: number
+      description: tumor volume post PRT treatment
+      required: false
+    - name: net_injected_activity
+      type: number 
+      description: net volume of injected activity over the course of treatment
+      required: false
+    - name: num_cycles
+      type: integer
+      description: number of treatment cycles 
+      required: false
+    - name: overall_survival
+      type: number
+      description: measures the length of time from diagnosis or the start of treatment until death from any cause, often reported as 5 yr survival rate
+      required: false
+    - name: pre_chromograninA
+      type: number
+      description: (for NET applications) results of blood tests pre-treatment that measure CgA protein, a marker for NET tumors 
+      required: false
+    - name: post_chromograninA
+      type: number
+      description: (for NET applications) results of blood tests post-treatment that measure CgA protein, a marker for NET tumors 
+      required: false
+    - name: pre_SSTR+_PET
+      type: number
+      description: (for NET applications) somatostatin receptor density on NETs before treatment 
+    - name: post_SSTR+_PET
+      type: number
+      description: (for NET applications) somatostatin receptor density on NETs after treatment 
+- name: therapy_treatment
+  category: clinical
+  description: general information regarding other treatments, including hormone therapy, chemotherapy, somatostatin analog therapy, etc.
+  properties: 
+    - name: node_id
+      type: string
+      description: node_id of the node in the data model
+      required: true
+    - name: cases
+      type: enum
+      enums:
+        - array
+        - object
+      description: submitter_id of the case this condition describes
+      required: true
+    - name: case_ids
+      type: array
+      description: a list of one more more case submitter_ids associated with the data
+      required: false
+    - name: therapy_type
+      type: enum
+      enums:
+        - hormone_therapy
+        - chemotherapy
+        - immunotherapy 
+        - systemic_radiation_therapy
+        - liver_directed_therapy
+        - other
+      description: list of other potential therapies applied before PRT
+      required: false
+    - name: start_therapy_date
+      type: datetime
+      description: start date of therapy 
+      required: false
+    - name: end_therapy_date
+      type: datetime 
+      description: end date of therapy
+      required: false
+    - name: time_between_PRT_other
+      type: integer
+      description: time between the end of this therapy and the start of the PRT therapy 
+      required: false
+    - name: pre_tumor_volume
+      type: number
+      description: tumor volume before start of treatment
+      required: false
+    - name: post_tumor_volume
+      description: tumor volume after treatment
+      type: number
+      required: false
+- name: imaging_study
+  category: medical_history
+  description: information related to an imaging study 
+  properties:
+    - name: node_id
+      type: string
+      description: node_id of the node in the data model
+      required: true
+    - name: cases
+      type: enum
+      enums:
+        - array
+        - object
+      description: submitter_id of the case this condition describes
+      required: true
+    - name: case_ids
+      type: array
+      description: a list of one more more case submitter_ids associated with the data
+      required: false
+    - name: age_at_imaging
+      type: integer
+      description: patient age at time of imaging study
+      required: false
+    - name: loinc_code
+      type: string
+      description: The LOINC code assigned based on the study description provided. The Logical Observation Identifiers, Names, and Codes (LOINC) standard is A common language (set of identifiers, names, and codes) for clinical and laboratory observations.
+      required: false
+    - name: loinc_constrast
+      type: string
+      description: The LOINC indicator noting whether the image was completed with or without contrast, as associated with the assigned LOINC code. The Logical Observation Identifiers, Names, and Codes (LOINC) standard is A common language (set of identifiers, names, and codes) for clinical and laboratory observations.
+      required: false
+    - name: loinc_modality
+      type: string
+      description: The LOINC method or imaging modality associated with the assigned LOINC code. The Logical Observation Identifiers, Names, and Codes (LOINC) standard is A common language (set of identifiers, names, and codes) for clinical and laboratory observations.
+      required: false
+    - name: modality 
+      type: string
+      description: The modalities of the imaging study; derived from (0008, 0060) Modality. The Digital Imaging and Communications in Medicine (DICOM) standard is the international standard to transmit, store, retrieve, print, process, and display medical imaging information.
+      required: false
+    - name: year_of_study
+      type: integer
+      description: year at time of study
+      required: false
+links:
+  - name: cases
+    parent: subject
+    child: case
+    backref: subjects
+    label: subject_has_case
+    multiplicity: one_to_many
+    required: true
+
+  - name: conditions
+    parent: case
+    child: condition
+    backref: case_conditions
+    label: case_has_condition
+    multiplicity: one_to_many
+    required: true
+
+  - name: imaging_studies
+    parent: case
+    child: imaging_study
+    backref: case_imaging
+    label: case_has_imaging
+    multiplicity: one_to_many
+    required: true
+
+  - name: dicom_files
+    parent: imaging_study
+    child: dicom_file
+    backref: imaging_dicom_files
+    label: imaging_has_dicom
+    multiplicity: one_to_many
+    required: true
+
+  - name: tumor_information
+    parent: case
+    child: tumor_information
+    backref: condition_tumors
+    label: related_to
+    multiplicity: many_to_many
+    required: false
+
+  - name: prt_therapy_information
+    parent: tumor_information
+    child: prt_therapy_information
+    backref: tumor_prt
+    label: treated_by
+    multiplicity: one_to_one
+    required: false
+
+  - name: therapy_treatment
+    parent: tumor_information
+    child: therapy_treatment
+    backref: tumor_other_therapy
+    label: treated_by
+    multiplicity: one_to_one
+    required: false

@@ -1,0 +1,74 @@
+$schema: http://json-schema.org/draft-04/schema#
+id: therapy_treatment
+title: therapy_treatment
+type: object
+namespace: https://link-to-data-portal/
+category: clinical
+program: '*'
+project: '*'
+description: general information regarding other treatments, including hormone therapy,
+  chemotherapy, somatostatin analog therapy, etc.
+submittable: true
+validators: null
+systemProperties:
+- id
+- project_id
+- state
+- created_datetime
+- updated_datetime
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+required:
+- node_id
+- cases
+- submitter_id
+- type
+links:
+- name: tumor_informations
+  backref: therapy_treatments
+  label: part_of
+  target_type: tumor_information
+  multiplicity: one_to_one
+  required: true
+properties:
+  $ref: _definitions.yaml#/ubiquitous_properties
+  node_id:
+    type: string
+    description: node_id of the node in the data model
+  cases:
+    description: submitter_id of the case this condition describes
+    enum:
+    - array
+    - object
+  case_ids:
+    type: array
+    items:
+      type: string
+    description: a list of one more more case submitter_ids associated with the data
+  therapy_type:
+    description: list of other potential therapies applied before PRT
+    enum:
+    - hormone therapy
+    - chemotherapy
+    - immunotherapy
+    - systemic radiation therapy
+    - liver directed therapy
+    - other
+  start_therapy_date:
+    $ref: _definitions.yaml#/datetime
+  end_therapy_date:
+    $ref: _definitions.yaml#/datetime
+  time_between_PRT_other:
+    type: integer
+    description: time between the end of this therapy and the start of the PRT therapy
+  pre_tumor_volume:
+    type: number
+    description: tumor volume before start of treatment
+  post_tumor_volume:
+    type: number
+    description: tumor volume after treatment
+  tumor_informations:
+    $ref: _definitions.yaml#/to_one
+additionalProperties: false

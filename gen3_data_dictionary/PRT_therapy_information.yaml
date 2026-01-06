@@ -1,0 +1,78 @@
+$schema: http://json-schema.org/draft-04/schema#
+id: PRT_therapy_information
+title: PRT_therapy_information
+type: object
+namespace: https://link-to-data-portal/
+category: clinical
+program: '*'
+project: '*'
+description: information pertaining to the PRT therapy for the patient
+submittable: true
+validators: null
+systemProperties:
+- id
+- project_id
+- state
+- created_datetime
+- updated_datetime
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+required:
+- node_id
+- cases
+- submitter_id
+- type
+links: []
+properties:
+  $ref: _definitions.yaml#/ubiquitous_properties
+  node_id:
+    type: string
+    description: node_id of the node in the data model
+  cases:
+    description: submitter_id of the case this condition describes
+    enum:
+    - array
+    - object
+  case_ids:
+    type: array
+    items:
+      type: string
+    description: a list of one more more case submitter_ids associated with the data
+  therapy_type:
+    type: string
+    description: alpha or beta therapy, or other
+  pre_tumor_volume:
+    type: number
+    description: tumor volume pre PRT treatment
+  post_tumor_volume:
+    type: number
+    description: tumor volume post PRT treatment
+  net_injected_activity:
+    type: number
+    description: net volume of injected activity over the course of treatment
+  num_cycles:
+    type: integer
+    description: number of treatment cycles
+  overall_survival:
+    type: number
+    description: measures the length of time from diagnosis or the start of treatment
+      until death from any cause, often reported as 5 yr survival rate
+  pre_chromograninA:
+    type: number
+    description: (for NET applications) results of blood tests pre-treatment that
+      measure CgA protein, a marker for NET tumors
+  post_chromograninA:
+    type: number
+    description: (for NET applications) results of blood tests post-treatment that
+      measure CgA protein, a marker for NET tumors
+  pre_SSTR+_PET:
+    type: number
+    description: (for NET applications) somatostatin receptor density on NETs before
+      treatment
+  post_SSTR+_PET:
+    type: number
+    description: (for NET applications) somatostatin receptor density on NETs after
+      treatment
+additionalProperties: false

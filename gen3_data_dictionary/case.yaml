@@ -1,0 +1,62 @@
+$schema: http://json-schema.org/draft-04/schema#
+id: case
+title: case
+type: object
+namespace: https://link-to-data-portal/
+category: administrative
+program: '*'
+project: '*'
+description: Collection of data all related to one patient or case in a dataset or
+  experiment
+submittable: true
+validators: null
+systemProperties:
+- id
+- project_id
+- state
+- created_datetime
+- updated_datetime
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+required:
+- case_ids
+- submitter_id
+- type
+links:
+- name: subjects
+  backref: cases
+  label: part_of
+  target_type: subject
+  multiplicity: many_to_one
+  required: true
+properties:
+  $ref: _definitions.yaml#/ubiquitous_properties
+  case_ids:
+    type: array
+    items:
+      type: string
+    description: a list of submitter_ids associated with this data
+  country_of_residence:
+    type: string
+    description: country where the patient resides
+  ethnicity:
+    type: string
+    description: patient ethnicity
+  race:
+    type: string
+    description: A geographic ancestral origin category that is assigned to a population
+      group based mainly on physical characteristics that are thought to be distinct
+      and inherent.
+  sex:
+    description: The biologic character or quality that distinguishes male and female
+      from one another as expressed by analysis of the person's gonadal, morphologic
+      (internal and external), chromosomal, and hormonal characteristics.
+    enum:
+    - Female
+    - Male
+    - Not Reported
+  subjects:
+    $ref: _definitions.yaml#/to_one
+additionalProperties: false

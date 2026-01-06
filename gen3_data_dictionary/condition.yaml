@@ -1,0 +1,65 @@
+$schema: http://json-schema.org/draft-04/schema#
+id: condition
+title: condition
+type: object
+namespace: https://link-to-data-portal/
+category: medical_history
+program: '*'
+project: '*'
+description: information pertaining to relevant medical conditions, recorded from
+  electronic medical record
+submittable: true
+validators: null
+systemProperties:
+- id
+- project_id
+- state
+- created_datetime
+- updated_datetime
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+required:
+- node_id
+- cases
+- submitter_id
+- type
+links:
+- name: cases
+  backref: conditions
+  label: part_of
+  target_type: case
+  multiplicity: many_to_one
+  required: true
+properties:
+  $ref: _definitions.yaml#/ubiquitous_properties
+  node_id:
+    type: string
+    description: node_id of the node in the data model
+  cases:
+    $ref: _definitions.yaml#/to_one
+  case_ids:
+    type: array
+    items:
+      type: string
+    description: a list of one more more case submitter_ids associated with the data
+  condition_code:
+    type: string
+    description: code for a condition, assigned by the code system
+  condition_name:
+    type: string
+    description: name of the condition the patient has experienced
+  days_to_condition_end:
+    type: integer
+    description: The number of days from the index date to the date the subject no
+      longer experienced the condition. This property is included to ensure personal
+      privacy protection in accordance with the HIPAA Safe Harbor Method. More information
+      can be found here https://www.hhs.gov/hipaa/for-professionals/special-topics/de-identification/index.html.
+  days_to_condition_start:
+    type: integer
+    description: The number of days from the index date to the date the subject was
+      diagnosed with or began experiencing the condition. This property is included
+      to ensure personal privacy protection in accordance with the HIPAA Safe Harbor
+      Method. More information can be found here https://www.hhs.gov/hipaa/for-professionals/special-topics/de-identification/index.html.
+additionalProperties: false

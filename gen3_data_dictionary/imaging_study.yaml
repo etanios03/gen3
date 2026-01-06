@@ -1,0 +1,76 @@
+$schema: http://json-schema.org/draft-04/schema#
+id: imaging_study
+title: imaging_study
+type: object
+namespace: https://link-to-data-portal/
+category: medical_history
+program: '*'
+project: '*'
+description: information related to an imaging study
+submittable: true
+validators: null
+systemProperties:
+- id
+- project_id
+- state
+- created_datetime
+- updated_datetime
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+required:
+- node_id
+- cases
+- submitter_id
+- type
+links:
+- name: cases
+  backref: imaging_studys
+  label: part_of
+  target_type: case
+  multiplicity: many_to_one
+  required: true
+properties:
+  $ref: _definitions.yaml#/ubiquitous_properties
+  node_id:
+    type: string
+    description: node_id of the node in the data model
+  cases:
+    $ref: _definitions.yaml#/to_one
+  case_ids:
+    type: array
+    items:
+      type: string
+    description: a list of one more more case submitter_ids associated with the data
+  age_at_imaging:
+    type: integer
+    description: patient age at time of imaging study
+  loinc_code:
+    type: string
+    description: The LOINC code assigned based on the study description provided.
+      The Logical Observation Identifiers, Names, and Codes (LOINC) standard is A
+      common language (set of identifiers, names, and codes) for clinical and laboratory
+      observations.
+  loinc_constrast:
+    type: string
+    description: The LOINC indicator noting whether the image was completed with or
+      without contrast, as associated with the assigned LOINC code. The Logical Observation
+      Identifiers, Names, and Codes (LOINC) standard is A common language (set of
+      identifiers, names, and codes) for clinical and laboratory observations.
+  loinc_modality:
+    type: string
+    description: The LOINC method or imaging modality associated with the assigned
+      LOINC code. The Logical Observation Identifiers, Names, and Codes (LOINC) standard
+      is A common language (set of identifiers, names, and codes) for clinical and
+      laboratory observations.
+  modality:
+    type: string
+    description: The modalities of the imaging study; derived from (0008, 0060) Modality.
+      The Digital Imaging and Communications in Medicine (DICOM) standard is the international
+      standard to transmit, store, retrieve, print, process, and display medical imaging
+      information.
+  year_of_study:
+    type: integer
+    description: year at time of study
+additionalProperties: false
