@@ -1,7 +1,7 @@
+# this currently works 
 global:
   hostname: localhost
   dev: true
-  dictionaryUrl: /dictionary/prt_model.yaml
   postgres:
     dbCreate: true
     master:

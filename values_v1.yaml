@@ -1,6 +1,9 @@
+# test file, development
+# kubectl logs <node>
 global:
   hostname: localhost
   dev: true
+  dictionaryUrl: https://gen3-midrc-etanios03.s3.us-east-1.amazonaws.com/gen3_data_dictionary/gen3_bundled_schema.json
   postgres:
     dbCreate: true
     master:
@@ -33,11 +36,6 @@ fence:
 
 sheepdog:
   enabled: true
-  dictionary:
-    enabled: true
-    config:
-      - name: prt_model
-        path: /dictionary/prt_model.yaml
 
 indexd:
   enabled: true
@@ -84,3 +82,32 @@ localSecrets:
     host: postgresql
     database: postgres
     dbcreated: "true"
+  sheepdogDbCreds:
+    enabled: true
+    username: postgres
+    password: postgres
+    host: postgresql
+    database: postgres
+    dbcreated: "true"
+  peregrineDbCreds:
+    enabled: true
+    username: postgres
+    password: postgres
+    host: postgresql
+    database: postgres
+    dbcreated: "true"
+  arboristDbCreds:
+    enabled: true
+    username: postgres
+    password: postgres
+    host: postgresql
+    database: postgres
+    dbcreated: "true"
+  indexdDbCreds:
+    enabled: true
+    username: postgres
+    password: postgres
+    host: postgresql
+    database: postgres
+    dbcreated: "true"
+
