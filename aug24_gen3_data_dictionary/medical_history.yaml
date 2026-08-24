@@ -1,0 +1,68 @@
+$schema: http://json-schema.org/draft-04/schema#
+id: medical_history
+title: medical_history
+type: object
+namespace: http://localhost/
+category: medical_history
+program: '*'
+project: '*'
+description: Collection of relevant medical history nodes for a patient, including
+  prior conditions, surgeries, and other therapies
+submittable: true
+validators: null
+systemProperties:
+- id
+- project_id
+- state
+- created_datetime
+- updated_datetime
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+required:
+- case_ids
+- submitter_id
+- type
+links:
+- name: patient_infos
+  backref: medical_historys
+  label: part_of
+  target_type: patient_info
+  multiplicity: many_to_one
+  required: true
+properties:
+  $ref: _definitions.yaml#/ubiquitous_properties
+  case_ids:
+    type: array
+    items:
+      type: string
+    description: A list of one or more case submitter_ids associated with the data
+  condition_name:
+    type: string
+    description: Name of the condition the patient has experienced
+  condition_code:
+    type: string
+    description: Code for a condition, assigned by the code system
+  days_to_condition_start:
+    type: integer
+    description: The number of days from the index date to the date the subject was
+      diagnosed with or began experiencing the condition, in accordance with HIPAA
+      Safe Harbor de-identification
+  days_to_condition_end:
+    type: integer
+    description: The number of days from the index date to the date the subject no
+      longer experienced the condition, in accordance with HIPAA Safe Harbor de-identification
+  performance_status_ECOG:
+    description: ECOG performance status score describing patient's level of functioning
+      and ability to perform daily activities
+    enum:
+    - '0'
+    - '1'
+    - '2'
+    - '3'
+    - '4'
+    - '5'
+  patient_infos:
+    $ref: _definitions.yaml#/to_one
+additionalProperties: false

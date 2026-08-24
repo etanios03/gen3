@@ -1,0 +1,130 @@
+$schema: http://json-schema.org/draft-04/schema#
+id: dicom_file
+title: dicom_file
+type: object
+namespace: http://localhost/
+category: data_file
+program: '*'
+project: '*'
+description: DICOM file information and acquisition parameters per imaging series
+submittable: true
+validators: null
+systemProperties:
+- id
+- project_id
+- state
+- created_datetime
+- updated_datetime
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+required:
+- submitter_id_value
+- series_uid
+- series_description
+- modality
+- md5sum
+- file_size
+- file_name
+- submitter_id
+- type
+links:
+- exclusive: false
+  required: true
+  subgroup:
+  - name: imaging_studys
+    backref: dicom_files
+    label: part_of
+    target_type: imaging_study
+    multiplicity: many_to_one
+    required: true
+  - name: core_metadata_collections
+    backref: dicom_files
+    label: part_of
+    target_type: core_metadata_collection
+    multiplicity: one_to_one
+    required: false
+properties:
+  $ref: _definitions.yaml#/data_file_properties
+  submitter_id_value:
+    type: string
+    description: Human-readable unique identifier for a record in the database
+  series_uid:
+    type: string
+    description: Series instance UID, unique to the imaging series
+  series_description:
+    type: string
+    description: General description or information about the imaging series
+  modality:
+    description: Imaging modality
+    enum:
+    - PET
+    - CT
+    - SPECT
+    - MRI
+  md5sum:
+    type: string
+    description: 128-bit hash value expressed as hex number representing the file's
+      digital footprint
+  file_size:
+    type: integer
+    description: Size of the data file in bytes
+  file_name:
+    type: string
+    description: Name of the file
+  annotation_format:
+    type: string
+    description: File format of the annotation file, e.g. JSON
+  annotation_method:
+    description: Method by which the annotation was created
+    enum:
+    - Clinically_derived
+    - Retrospective_expert
+    - Retrospective_general
+    - Retrospective_auto
+  manufacturer:
+    type: string
+    description: Manufacturer of the imaging device
+  manufacturer_model_name:
+    type: string
+    description: Model name of the imaging device
+  software_versions:
+    type: string
+    description: Software version of the acquisition or reconstruction application
+  collimator:
+    type: string
+    description: Type of collimator used, relevant for SPECT acquisitions
+  attenuation_correction:
+    type: string
+    description: Attenuation correction method applied, relevant for PET and SPECT
+      data
+  convolution_kernel:
+    type: string
+    description: Convolution kernel used in CT image reconstruction
+  energy_window:
+    type: string
+    description: Energy window settings used for SPECT acquisition
+  imaging_studys:
+    $ref: _definitions.yaml#/to_one
+  core_metadata_collections:
+    $ref: _definitions.yaml#/to_one
+  data_category:
+    description: Broad categorization of the contents of the data file.
+    enum:
+    - data_category_1
+    - data_category_2
+    - data_category_3
+  data_format:
+    description: The format of the data in this data file
+    enum:
+    - data_format_1
+    - data_format_2
+    - data_format_3
+  data_type:
+    description: The type of data in this data file
+    enum:
+    - data_type_1
+    - data_type_2
+    - data_type_3
+additionalProperties: false

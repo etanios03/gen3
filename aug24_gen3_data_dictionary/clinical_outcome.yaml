@@ -1,0 +1,89 @@
+$schema: http://json-schema.org/draft-04/schema#
+id: clinical_outcome
+title: clinical_outcome
+type: object
+namespace: http://localhost/
+category: clinical
+program: '*'
+project: '*'
+description: Clinical outcome data linked to a treatment cycle and dosimetry results,
+  capturing treatment response and toxicity
+submittable: true
+validators: null
+systemProperties:
+- id
+- project_id
+- state
+- created_datetime
+- updated_datetime
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+required:
+- case_ids
+- submitter_id
+- type
+links:
+- exclusive: false
+  required: true
+  subgroup:
+  - name: treatment_cycles
+    backref: clinical_outcomes
+    label: part_of
+    target_type: treatment_cycle
+    multiplicity: many_to_one
+    required: true
+  - name: absorbed_doses
+    backref: clinical_outcomes
+    label: part_of
+    target_type: absorbed_dose
+    multiplicity: many_to_one
+    required: true
+properties:
+  $ref: _definitions.yaml#/ubiquitous_properties
+  case_ids:
+    type: array
+    items:
+      type: string
+    description: A list of one or more case submitter_ids associated with the data
+  treatment_response:
+    description: Treatment response assessment per RECIST or PERCIST criteria
+    enum:
+    - complete_response
+    - partial_response
+    - stable_disease
+    - progressive_disease
+    - not_evaluable
+  progression_free_survival:
+    type: number
+    description: Length of time in months during and after treatment that the patient
+      lives without disease progression
+  overall_survival:
+    type: number
+    description: Length of time in months from start of treatment until death from
+      any cause
+  toxicity_grade:
+    description: Toxicity grade per CTCAE criteria
+    enum:
+    - Grade_1
+    - Grade_2
+    - Grade_3
+    - Grade_4
+    - Grade_5
+  toxicity_organ:
+    description: Organ in which toxicity was observed
+    enum:
+    - kidneys
+    - marrow
+    - liver
+    - salivary_glands
+    - other
+  days_to_progression:
+    type: integer
+    description: Number of days from treatment start to documented disease progression
+  treatment_cycles:
+    $ref: _definitions.yaml#/to_one
+  absorbed_doses:
+    $ref: _definitions.yaml#/to_one
+additionalProperties: false

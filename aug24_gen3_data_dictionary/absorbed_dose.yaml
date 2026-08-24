@@ -1,0 +1,103 @@
+$schema: http://json-schema.org/draft-04/schema#
+id: absorbed_dose
+title: absorbed_dose
+type: object
+namespace: http://localhost/
+category: clinical
+program: '*'
+project: '*'
+description: Absorbed dose estimates for a target organ or lesion within a treatment
+  cycle
+submittable: true
+validators: null
+systemProperties:
+- id
+- project_id
+- state
+- created_datetime
+- updated_datetime
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+required:
+- case_ids
+- submitter_id
+- type
+links:
+- exclusive: false
+  required: true
+  subgroup:
+  - name: treatment_cycles
+    backref: absorbed_doses
+    label: part_of
+    target_type: treatment_cycle
+    multiplicity: many_to_one
+    required: true
+  - name: imaging_studys
+    backref: absorbed_doses
+    label: part_of
+    target_type: imaging_study
+    multiplicity: many_to_one
+    required: true
+properties:
+  $ref: _definitions.yaml#/ubiquitous_properties
+  case_ids:
+    type: array
+    items:
+      type: string
+    description: A list of one or more case submitter_ids associated with the data
+  target:
+    description: Anatomical target for which absorbed dose was calculated
+    enum:
+    - liver
+    - kidneys
+    - marrow
+    - salivary_glands
+    - lungs
+    - spleen
+    - rest_of_body
+    - lesion
+  target_id:
+    type: integer
+    description: Lesion ID to track lesion identity and lifecycle across treatment
+      cycles
+  mean:
+    type: number
+    description: Mean absorbed dose delivered to the target in Gy
+  SD:
+    type: number
+    description: Standard deviation of absorbed dose
+  D50:
+    type: number
+    description: Minimum absorbed dose received by the hottest 50% of the volume of
+      the organ
+  D90:
+    type: number
+    description: Minimum absorbed dose received by the hottest 90% of the volume of
+      the organ
+  lesion_volume:
+    type: number
+    description: Lesion volume in mL, tracked across treatment cycles to monitor response
+  cycle_num:
+    type: integer
+    description: Treatment cycle number to which this dose estimate corresponds
+  dosimetry_method:
+    description: Computational method used to derive the absorbed dose estimate
+    enum:
+    - MIRD
+    - voxel_dosimetry
+    - Monte_Carlo
+    - other
+  software_used:
+    type: string
+    description: Software used to perform dosimetry calculations, e.g. OLINDA, MIM,
+      Michigan Dosimetry Code
+  time_activity_curve_fit:
+    type: string
+    description: Functional form used to fit the time-activity curve, e.g. monoexponential
+  treatment_cycles:
+    $ref: _definitions.yaml#/to_one
+  imaging_studys:
+    $ref: _definitions.yaml#/to_one
+additionalProperties: false
