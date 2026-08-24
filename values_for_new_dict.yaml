@@ -1,0 +1,152 @@
+# this is for trying to add the data dictionary back into the cluster
+# aug 24, changed the github raw url link
+global:
+  dictionaryUrl: https://raw.githubusercontent.com/etanios03/gen3/refs/heads/main/aug24_gen3_data_dictionary/aug24_bundled_schema.json
+  hostname: localhost
+  dev: true
+  postgres:
+    dbCreate: true
+    master:
+      username: postgres
+      password: postgres
+      port: "5432"
+  tls:
+    enabled: false
+  dataUploadBucket: gen3-data
+  storage:
+    type: minio
+
+fence:
+  enabled: true
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+  limits: 
+    cpu: "200m"
+    memory: "256Mi"
+  FENCE_CONFIG:
+    MOCK_AUTH: true
+    PUBLIC_URL: "http://localhost"
+    ENABLED_IDENTITY_PROVIDERS:
+      - mock
+  usersync:
+    userYamlS3Path: none
+  USER_YAML: |
+    users:
+      etanios:
+        email: etanios@uchicago.edu
+        display_name: user1
+        admin: true
+
+
+sheepdog:
+  enabled: true
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+    limits: 
+      cpu: "200m"
+      memory: "256Mi"
+
+indexd:
+  enabled: true
+  resources:
+    requests:
+      cpu: "50m"
+      memory: "64Mi"
+    limits:
+      cpu: "100m"
+      memory: "128Mi"
+
+  defaultPrefix: minio://gen3-data/
+
+minio:
+  enabled: true
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+    limits:
+      cpu: "200m"
+      memory: "256Mi"
+  accessKey: minio
+  secretKey: minio123
+  buckets:
+    - name: gen3-data
+      policy: none
+      purge: false
+
+peregrine:
+  enabled: true
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+    limits:
+      cpu: "200m"
+      memory: "256Mi"
+
+revproxy:
+  enabled: true
+  resources:
+    requests:
+      cpu: "50m"
+      memory: "64Mi"
+    limits:
+      cpu: "100m"
+      memory: "128Mi"
+
+hatchery:
+  enabled: false
+
+portal:
+  enabled: true
+  resources: 
+    requests:
+      cpu: "500m"      # Higher CPU so webpack compiles faster
+      memory: "512Mi"   # Minimum memory needed for the portal build engine
+    limits:
+      cpu: "1000m"     # Allows up to 1 full CPU core during spikes
+      memory: "1024Mi" 
+  gitops:
+    json: |
+      {
+        "graphql": {
+          "boardCounts": [
+            { "graphql": "_patient_info_count", "name": "Patient", "plural": "Patients" },
+            { "graphql": "_tumor_information_count", "name": "Tumor", "plural": "Tumors" },
+            { "graphql": "_imaging_study_count", "name": "Imaging Study", "plural": "Imaging Studies" }
+          ],
+          "chartCounts": [
+            { "graphql": "_patient_info_count", "name": "Patient" },
+            { "graphql": "_tumor_information_count", "name": "Tumor" },
+            { "graphql": "_imaging_study_count", "name": "Imaging Study" }
+          ],
+          "projectDetails": "boardCounts"
+        },
+        "components": {
+          "appName": "MIDRC Test App"
+        }
+      }
+
+
+guppy:
+  enabled: false
+elasticsearch:
+  enabled: false
+wts:
+  enabled: false
+manifestservice:
+  enabled: false
+arborist:
+  enabled: true
+  resources:
+    requests:
+      cpu: "50m"
+      memory: "64Mi"
+    limits:
+      cpu: "100m"
+      memory: "128Mi"
+audit:
+  enabled: false

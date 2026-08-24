@@ -1,0 +1,639 @@
+version: 0.1.0
+url: http://localhost
+nodes:
+- name: patient_info
+  title: Patient Information
+  description: The subject or patient in the theranostic treatment program
+  category: clinical
+  properties:
+  - name: subject_id
+    type: string
+    description: A deidentified identifier for the subject
+    required: true
+  - name: country_of_residence
+    type: string
+    description: Country where the patient resides
+    required: false
+  - name: ethnicity
+    type: string
+    description: Patient ethnicity
+    required: false
+  - name: race
+    type: string
+    description: A geographic ancestral origin category assigned to a population group
+      based mainly on physical characteristics that are thought to be distinct and
+      inherent
+    required: false
+  - name: sex
+    type: enum
+    enums:
+    - Female
+    - Male
+    - Not Reported
+    description: The biologic character or quality that distinguishes male and female
+      from one another as expressed by analysis of the person's gonadal, morphologic,
+      chromosomal, and hormonal characteristics
+    required: false
+
+- name: medical_history
+  title: Medical History
+  description: Collection of relevant medical history nodes for a patient, including
+    prior conditions, surgeries, and other therapies
+  category: medical_history
+  properties:
+
+  - name: case_ids
+    type: array
+    description: A list of one or more case submitter_ids associated with the data
+    required: true
+  - name: condition_name
+    type: string
+    description: Name of the condition the patient has experienced
+    required: false
+  - name: condition_code
+    type: string
+    description: Code for a condition, assigned by the code system
+    required: false
+  - name: days_to_condition_start
+    type: integer
+    description: The number of days from the index date to the date the subject was
+      diagnosed with or began experiencing the condition, in accordance with HIPAA
+      Safe Harbor de-identification
+    required: false
+  - name: days_to_condition_end
+    type: integer
+    description: The number of days from the index date to the date the subject no
+      longer experienced the condition, in accordance with HIPAA Safe Harbor de-identification
+    required: false
+  - name: performance_status_ECOG
+    type: enum
+    enums:
+    - '0'
+    - '1'
+    - '2'
+    - '3'
+    - '4'
+    - '5'
+    description: ECOG performance status score describing patient's level of functioning
+      and ability to perform daily activities
+    required: false
+
+- name: surgery
+  title: Surgery
+  description: Surgery performed before or after RPT therapy
+  category: medical_history
+  properties:
+  - name: case_ids
+    type: array
+    description: A list of one or more case submitter_ids associated with the data
+    required: true
+  - name: date_of_surgery
+    type: datetime
+    description: Surgery date
+    required: false
+  - name: primary_tumor_removal
+    type: boolean
+    description: Whether the tumor has been removed through surgery
+    required: false
+  - name: time_between_RPT_surgery
+    type: integer
+    description: Time in days between the surgery event and the start of RPT treatment
+    required: false
+  - name: pre_tumor_volume
+    type: number
+    description: Tumor volume pre-surgery, if debulking surgery was performed
+    required: false
+  - name: post_tumor_volume
+    type: number
+    description: Tumor volume post-surgery, if debulking surgery was performed
+    required: false
+  - name: debulking_threshold
+    type: number
+    description: The goal optimal debulking threshold depending on cancer type; typically
+      around 0.7 for NETs
+    required: false
+
+- name: therapy_treatment
+  title: Other Therapy Treatment
+  description: General information regarding other treatments including hormone therapy,
+    chemotherapy, somatostatin analog therapy, etc.
+  category: medical_history
+  properties:
+  - name: case_ids
+    type: array
+    description: A list of one or more case submitter_ids associated with the data
+    required: true
+  - name: therapy_type
+    type: enum
+    enums:
+    - hormone_therapy
+    - chemotherapy
+    - immunotherapy
+    - systemic_radiation_therapy
+    - liver_directed_therapy
+    - other
+    description: Type of therapy applied before or alongside RPT
+    required: false
+  - name: start_therapy_date
+    type: datetime
+    description: Start date of therapy
+    required: false
+  - name: end_therapy_date
+    type: datetime
+    description: End date of therapy
+    required: false
+  - name: time_between_RPT_other
+    type: integer
+    description: Time in days between the end of this therapy and the start of RPT
+      therapy
+    required: false
+  - name: pre_tumor_volume
+    type: number
+    description: Tumor volume before start of treatment
+    required: false
+  - name: post_tumor_volume
+    type: number
+    description: Tumor volume after treatment
+    required: false
+
+- name: tumor_information
+  title: Tumor Information
+  description: Tumor information prior to RPT treatment
+  category: clinical
+  properties:
+  - name: case_ids
+    type: array
+    description: A list of one or more case submitter_ids associated with the data
+    required: true
+  - name: tumor_site
+    type: string
+    description: Primary tumor location
+    required: false
+  - name: AJCC_stage
+    type: string
+    description: Staging of cancer progression through the AJCC system
+    required: false
+  - name: tumor_grade
+    type: string
+    description: Categorization of tumor through level of cell differentiation, determined
+      through analysis of tissue samples
+    required: false
+  - name: liver_mets
+    type: boolean
+    description: Whether the tumor has metastasized to the liver
+    required: false
+  - name: ki_67
+    type: number
+    description: Ki-67 marker expression, strongly associated with tumor cell proliferation
+      and growth
+    required: false
+  - name: PET_tumor_volume
+    type: number
+    description: Tumor volume as found in PET imaging prior to RPT treatment
+    required: false
+
+- name: treatment_cycle
+  title: Treatment Cycle
+  description: A single cycle of RPT treatment, including radiopharmaceutical administered
+    and activity delivered
+  category: clinical
+  properties:
+  - name: case_ids
+    type: array
+    description: A list of one or more case submitter_ids associated with the data
+    required: true
+  - name: cycle_number
+    type: integer
+    description: The sequential number of this treatment cycle
+    required: true
+  - name: radiopharmaceutical
+    type: string
+    description: Name of the radiopharmaceutical administered, e.g. [177Lu]Lu-DOTATATE
+    required: false
+  - name: therapy_type
+    type: enum
+    enums:
+    - alpha
+    - beta
+    - auger
+    - other
+    description: Type of ionizing radiation delivered by the radiopharmaceutical
+    required: false
+  - name: net_injected_activity
+    type: number
+    description: Net activity injected during this treatment cycle, in MBq
+    required: false
+  - name: therapeutic_target
+    type: string
+    description: Intended molecular or anatomical therapeutic target, e.g. SSTR2
+    required: false
+  - name: pre_SSTR_PET
+    type: number
+    description: For NET applications, somatostatin receptor density on NETs before
+      treatment
+    required: false
+  - name: post_SSTR_PET
+    type: number
+    description: For NET applications, somatostatin receptor density on NETs after
+      treatment
+    required: false
+  - name: pre_chromograninA
+    type: number
+    description: For NET applications, CgA protein level pre-treatment, a marker
+      for NET tumors
+    required: false
+  - name: post_chromograninA
+    type: number
+    description: For NET applications, CgA protein level post-treatment, a marker
+      for NET tumors
+    required: false
+  - name: overall_survival
+    type: number
+    description: Length of time from diagnosis or start of treatment until death from
+      any cause
+    required: false
+
+- name: laboratory_tests
+  title: Laboratory Tests
+  description: Laboratory test results linked to a treatment cycle, including renal
+    function and blood work
+  category: clinical
+  properties:
+  - name: case_ids
+    type: array
+    description: A list of one or more case submitter_ids associated with the data
+    required: true
+  - name: loinc_code
+    type: string
+    description: LOINC code identifying the laboratory test performed
+    required: false
+  - name: lab_value
+    type: number
+    description: Numeric result of the laboratory test
+    required: false
+  - name: lab_unit
+    type: string
+    description: Unit of measurement for the lab result
+    required: false
+  - name: collection_timepoint
+    type: integer
+    description: Days from treatment cycle start at which the sample was collected
+    required: false
+  - name: creatinine_clearance
+    type: number
+    description: Creatinine clearance value, used to assess renal function prior to
+      and during RPT
+    required: false
+
+- name: imaging_study
+  title: Imaging Study
+  description: Information related to an imaging study within a treatment course
+  category: medical_history
+  properties:
+  - name: case_ids
+    type: array
+    description: A list of one or more case submitter_ids associated with the data
+    required: true
+  - name: age_at_imaging
+    type: integer
+    description: Patient age at time of imaging study
+    required: false
+  - name: loinc_code
+    type: string
+    description: The LOINC code assigned based on the study description provided
+    required: false
+  - name: loinc_contrast
+    type: string
+    description: LOINC indicator noting whether the image was completed with or without
+      contrast
+    required: false
+  - name: loinc_modality
+    type: string
+    description: The LOINC method or imaging modality associated with the assigned
+      LOINC code
+    required: false
+  - name: modality
+    type: enum
+    enums:
+    - PET
+    - CT
+    - SPECT
+    - MRI
+    description: Modality of the imaging study, derived from DICOM tag (0008,0060)
+    required: false
+  - name: year_of_study
+    type: integer
+    description: Year at time of study
+    required: false
+  - name: scan_timepoint
+    type: integer
+    description: Days from treatment cycle start at which this imaging study was acquired,
+      to support multi-timepoint time-series linking
+    required: false
+
+- name: dicom_file
+  title: DICOM File
+  description: DICOM file information and acquisition parameters per imaging series
+  category: data_file
+  properties:
+  - name: submitter_id_value
+    type: string
+    description: Human-readable unique identifier for a record in the database
+    required: true
+  - name: series_uid
+    type: string
+    description: Series instance UID, unique to the imaging series
+    required: true
+  - name: series_description
+    type: string
+    description: General description or information about the imaging series
+    required: true
+  - name: modality
+    type: enum
+    enums:
+    - PET
+    - CT
+    - SPECT
+    - MRI
+    description: Imaging modality
+    required: true
+  - name: md5sum
+    type: string
+    description: 128-bit hash value expressed as hex number representing the file's
+      digital footprint
+    required: true
+  - name: file_size
+    type: integer
+    description: Size of the data file in bytes
+    required: true
+  - name: file_name
+    type: string
+    description: Name of the file
+    required: true
+  - name: annotation_format
+    type: string
+    description: File format of the annotation file, e.g. JSON
+    required: false
+  - name: annotation_method
+    type: enum
+    enums:
+    - Clinically_derived
+    - Retrospective_expert
+    - Retrospective_general
+    - Retrospective_auto
+    description: Method by which the annotation was created
+    required: false
+  - name: manufacturer
+    type: string
+    description: Manufacturer of the imaging device
+    required: false
+  - name: manufacturer_model_name
+    type: string
+    description: Model name of the imaging device
+    required: false
+  - name: software_versions
+    type: string
+    description: Software version of the acquisition or reconstruction application
+    required: false
+  - name: collimator
+    type: string
+    description: Type of collimator used, relevant for SPECT acquisitions
+    required: false
+  - name: attenuation_correction
+    type: string
+    description: Attenuation correction method applied, relevant for PET and SPECT
+      data
+    required: false
+  - name: convolution_kernel
+    type: string
+    description: Convolution kernel used in CT image reconstruction
+    required: false
+  - name: energy_window
+    type: string
+    description: Energy window settings used for SPECT acquisition
+    required: false
+
+- name: absorbed_dose
+  title: Absorbed Dose
+  description: Absorbed dose estimates for a target organ or lesion within a treatment
+    cycle
+  category: clinical
+  properties:
+  - name: case_ids
+    type: array
+    description: A list of one or more case submitter_ids associated with the data
+    required: true
+  - name: target
+    type: enum
+    enums:
+    - liver
+    - kidneys
+    - marrow
+    - salivary_glands
+    - lungs
+    - spleen
+    - rest_of_body
+    - lesion
+    description: Anatomical target for which absorbed dose was calculated
+    required: false
+  - name: target_id
+    type: integer
+    description: Lesion ID to track lesion identity and lifecycle across treatment
+      cycles
+    required: false
+  - name: mean
+    type: number
+    description: Mean absorbed dose delivered to the target in Gy
+    required: false
+  - name: SD
+    type: number
+    description: Standard deviation of absorbed dose
+    required: false
+  - name: D50
+    type: number
+    description: Minimum absorbed dose received by the hottest 50% of the volume
+      of the organ
+    required: false
+  - name: D90
+    type: number
+    description: Minimum absorbed dose received by the hottest 90% of the volume
+      of the organ
+    required: false
+  - name: lesion_volume
+    type: number
+    description: Lesion volume in mL, tracked across treatment cycles to monitor response
+    required: false
+  - name: cycle_num
+    type: integer
+    description: Treatment cycle number to which this dose estimate corresponds
+    required: false
+  - name: dosimetry_method
+    type: enum
+    enums:
+    - MIRD
+    - voxel_dosimetry
+    - Monte_Carlo
+    - other
+    description: Computational method used to derive the absorbed dose estimate
+    required: false
+  - name: software_used
+    type: string
+    description: Software used to perform dosimetry calculations, e.g. OLINDA, MIM,
+      Michigan Dosimetry Code
+    required: false
+  - name: time_activity_curve_fit
+    type: string
+    description: Functional form used to fit the time-activity curve, e.g. monoexponential
+    required: false
+
+- name: clinical_outcome
+  title: Clinical Outcome
+  description: Clinical outcome data linked to a treatment cycle and dosimetry results,
+    capturing treatment response and toxicity
+  category: clinical
+  properties:
+  - name: case_ids
+    type: array
+    description: A list of one or more case submitter_ids associated with the data
+    required: true
+  - name: treatment_response
+    type: enum
+    enums:
+    - complete_response
+    - partial_response
+    - stable_disease
+    - progressive_disease
+    - not_evaluable
+    description: Treatment response assessment per RECIST or PERCIST criteria
+    required: false
+  - name: progression_free_survival
+    type: number
+    description: Length of time in months during and after treatment that the patient
+      lives without disease progression
+    required: false
+  - name: overall_survival
+    type: number
+    description: Length of time in months from start of treatment until death from
+      any cause
+    required: false
+  - name: toxicity_grade
+    type: enum
+    enums:
+    - Grade_1
+    - Grade_2
+    - Grade_3
+    - Grade_4
+    - Grade_5
+    description: Toxicity grade per CTCAE criteria
+    required: false
+  - name: toxicity_organ
+    type: enum
+    enums:
+    - kidneys
+    - marrow
+    - liver
+    - salivary_glands
+    - other
+    description: Organ in which toxicity was observed
+    required: false
+  - name: days_to_progression
+    type: integer
+    description: Number of days from treatment start to documented disease progression
+    required: false
+
+links:
+- name: cases
+  parent: patient_info
+  child: medical_history
+  backref: patient_medical_history
+  label: patient_has_medical_history
+  multiplicity: one_to_many
+  required: false
+
+- name: surgeries
+  parent: patient_info
+  child: surgery
+  backref: patient_surgeries
+  label: patient_has_surgery
+  multiplicity: one_to_many
+  required: false
+
+- name: other_therapies
+  parent: patient_info
+  child: therapy_treatment
+  backref: patient_other_therapies
+  label: patient_has_therapy
+  multiplicity: one_to_many
+  required: false
+
+- name: tumor_information
+  parent: patient_info
+  child: tumor_information
+  backref: patient_tumor_info
+  label: patient_has_tumor
+  multiplicity: one_to_many
+  required: false
+
+- name: treatment_cycles
+  parent: patient_info
+  child: treatment_cycle
+  backref: patient_treatment_cycles
+  label: patient_has_treatment_cycle
+  multiplicity: one_to_many
+  required: false
+
+- name: laboratory_tests
+  parent: treatment_cycle
+  child: laboratory_tests
+  backref: cycle_lab_tests
+  label: cycle_has_lab_tests
+  multiplicity: one_to_many
+  required: false
+
+- name: imaging_studies
+  parent: treatment_cycle
+  child: imaging_study
+  backref: cycle_imaging_studies
+  label: cycle_has_imaging_study
+  multiplicity: one_to_many
+  required: false
+
+- name: dicom_files
+  parent: imaging_study
+  child: dicom_file
+  backref: imaging_dicom_files
+  label: imaging_has_dicom
+  multiplicity: one_to_many
+  required: true
+
+- name: absorbed_dose
+  parent: treatment_cycle
+  child: absorbed_dose
+  backref: cycle_absorbed_dose
+  label: cycle_has_absorbed_dose
+  multiplicity: one_to_many
+  required: false
+
+- name: dose_to_imaging
+  parent: imaging_study
+  child: absorbed_dose
+  backref: imaging_absorbed_dose
+  label: imaging_informs_dose
+  multiplicity: one_to_many
+  required: false
+
+- name: clinical_outcomes
+  parent: treatment_cycle
+  child: clinical_outcome
+  backref: cycle_clinical_outcomes
+  label: cycle_has_outcome
+  multiplicity: one_to_many
+  required: false
+
+- name: outcome_to_dose
+  parent: absorbed_dose
+  child: clinical_outcome
+  backref: dose_clinical_outcome
+  label: dose_predicts_outcome
+  multiplicity: one_to_many
+  required: false
