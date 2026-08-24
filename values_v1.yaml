@@ -1,6 +1,7 @@
-# aug 24, all the same as values_for_new_dict.yaml except without dictionaryUrl
+# aug 24, all the same as values_for_new_dict.yaml except with a smaller gitops 
 # this is to test whether the portal node and webex will load without the dictionary, or if my laptop is just slow
 global:
+  dictionaryUrl: https://raw.githubusercontent.com/etanios03/gen3/refs/heads/main/aug24_gen3_data_dictionary/aug24_bundled_schema.json
   hostname: localhost
   dev: true
   postgres:
@@ -108,7 +109,22 @@ portal:
     limits:
       cpu: "1000m"     # Allows up to 1 full CPU core during spikes
       memory: "1024Mi" 
-
+  gitops:
+    json: |
+      {
+        "graphql": {
+          "boardCounts": [
+            { 
+              "graphql": "_patient_info_count", 
+              "name": "Patient", 
+              "plural": "Patients" 
+            }
+          ]
+        },
+        "components": {
+          "appName": "MIDRC Test App"
+        }
+      }
 
 guppy:
   enabled: false

@@ -97,7 +97,7 @@ if kind get clusters | grep -q '^kind$'; then
   echo "Deleting existing Kind cluster..."
   kind delete cluster
 else
-  echo "️ No existing Kind cluster found."
+  echo " No existing Kind cluster found."
 fi
 
 cat <<EOF | kind create cluster --config=-
@@ -148,6 +148,7 @@ else
     exit 1
 fi
 
+helm repo add gen3 https://helm.gen3.org
 helm repo update
 
 # --- INSTALL GEN3 ON HELM REPO ---

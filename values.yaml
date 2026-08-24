@@ -1,4 +1,6 @@
-# this currently works 
+# this currently works without the data dictionary situation
+# if you run this with the mac setup, and let it process for about ~30 minutes,
+# it will show a midrc generic database without the new data model
 global:
   hostname: localhost
   dev: true
