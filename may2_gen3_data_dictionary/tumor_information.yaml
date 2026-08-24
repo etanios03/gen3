@@ -1,0 +1,66 @@
+$schema: http://json-schema.org/draft-04/schema#
+id: tumor_information
+title: tumor_information
+type: object
+namespace: http://localhost/
+category: clinical
+program: '*'
+project: '*'
+description: Tumor information prior to RPT treatment
+submittable: true
+validators: null
+systemProperties:
+- id
+- project_id
+- state
+- created_datetime
+- updated_datetime
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+required:
+- node_id
+- case_ids
+- submitter_id
+- type
+links:
+- name: patient_infos
+  backref: tumor_informations
+  label: part_of
+  target_type: patient_info
+  multiplicity: many_to_one
+  required: true
+properties:
+  $ref: _definitions.yaml#/ubiquitous_properties
+  node_id:
+    type: string
+    description: Node ID of the node in the data model
+  case_ids:
+    type: array
+    items:
+      type: string
+    description: A list of one or more case submitter_ids associated with the data
+  tumor_site:
+    type: string
+    description: Primary tumor location
+  AJCC_stage:
+    type: string
+    description: Staging of cancer progression through the AJCC system
+  tumor_grade:
+    type: string
+    description: Categorization of tumor through level of cell differentiation, determined
+      through analysis of tissue samples
+  liver_mets:
+    type: boolean
+    description: Whether the tumor has metastasized to the liver
+  ki_67:
+    type: number
+    description: Ki-67 marker expression, strongly associated with tumor cell proliferation
+      and growth
+  PET_tumor_volume:
+    type: number
+    description: Tumor volume as found in PET imaging prior to RPT treatment
+  patient_infos:
+    $ref: _definitions.yaml#/to_one
+additionalProperties: false

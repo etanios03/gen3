@@ -1,0 +1,51 @@
+$schema: http://json-schema.org/draft-04/schema#
+id: patient_info
+title: patient_info
+type: object
+namespace: http://localhost/
+category: clinical
+program: '*'
+project: '*'
+description: The subject or patient in the theranostic treatment program
+submittable: true
+validators: null
+systemProperties:
+- id
+- project_id
+- state
+- created_datetime
+- updated_datetime
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+required:
+- subject_id
+- submitter_id
+- type
+links: []
+properties:
+  $ref: _definitions.yaml#/ubiquitous_properties
+  subject_id:
+    type: string
+    description: A deidentified identifier for the subject
+  country_of_residence:
+    type: string
+    description: Country where the patient resides
+  ethnicity:
+    type: string
+    description: Patient ethnicity
+  race:
+    type: string
+    description: A geographic ancestral origin category assigned to a population group
+      based mainly on physical characteristics that are thought to be distinct and
+      inherent
+  sex:
+    description: The biologic character or quality that distinguishes male and female
+      from one another as expressed by analysis of the person's gonadal, morphologic,
+      chromosomal, and hormonal characteristics
+    enum:
+    - Female
+    - Male
+    - Not Reported
+additionalProperties: false

@@ -1,0 +1,70 @@
+$schema: http://json-schema.org/draft-04/schema#
+id: therapy_treatment
+title: therapy_treatment
+type: object
+namespace: http://localhost/
+category: medical_history
+program: '*'
+project: '*'
+description: General information regarding other treatments including hormone therapy,
+  chemotherapy, somatostatin analog therapy, etc.
+submittable: true
+validators: null
+systemProperties:
+- id
+- project_id
+- state
+- created_datetime
+- updated_datetime
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+required:
+- node_id
+- case_ids
+- submitter_id
+- type
+links:
+- name: patient_infos
+  backref: therapy_treatments
+  label: part_of
+  target_type: patient_info
+  multiplicity: many_to_one
+  required: true
+properties:
+  $ref: _definitions.yaml#/ubiquitous_properties
+  node_id:
+    type: string
+    description: Node ID of the node in the data model
+  case_ids:
+    type: array
+    items:
+      type: string
+    description: A list of one or more case submitter_ids associated with the data
+  therapy_type:
+    description: Type of therapy applied before or alongside RPT
+    enum:
+    - hormone_therapy
+    - chemotherapy
+    - immunotherapy
+    - systemic_radiation_therapy
+    - liver_directed_therapy
+    - other
+  start_therapy_date:
+    $ref: _definitions.yaml#/datetime
+  end_therapy_date:
+    $ref: _definitions.yaml#/datetime
+  time_between_RPT_other:
+    type: integer
+    description: Time in days between the end of this therapy and the start of RPT
+      therapy
+  pre_tumor_volume:
+    type: number
+    description: Tumor volume before start of treatment
+  post_tumor_volume:
+    type: number
+    description: Tumor volume after treatment
+  patient_infos:
+    $ref: _definitions.yaml#/to_one
+additionalProperties: false

@@ -1,0 +1,74 @@
+$schema: http://json-schema.org/draft-04/schema#
+id: imaging_study
+title: imaging_study
+type: object
+namespace: http://localhost/
+category: medical_history
+program: '*'
+project: '*'
+description: Information related to an imaging study within a treatment course
+submittable: true
+validators: null
+systemProperties:
+- id
+- project_id
+- state
+- created_datetime
+- updated_datetime
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+required:
+- node_id
+- case_ids
+- submitter_id
+- type
+links:
+- name: treatment_cycles
+  backref: imaging_studys
+  label: part_of
+  target_type: treatment_cycle
+  multiplicity: many_to_one
+  required: true
+properties:
+  $ref: _definitions.yaml#/ubiquitous_properties
+  node_id:
+    type: string
+    description: Node ID of the node in the data model
+  case_ids:
+    type: array
+    items:
+      type: string
+    description: A list of one or more case submitter_ids associated with the data
+  age_at_imaging:
+    type: integer
+    description: Patient age at time of imaging study
+  loinc_code:
+    type: string
+    description: The LOINC code assigned based on the study description provided
+  loinc_contrast:
+    type: string
+    description: LOINC indicator noting whether the image was completed with or without
+      contrast
+  loinc_modality:
+    type: string
+    description: The LOINC method or imaging modality associated with the assigned
+      LOINC code
+  modality:
+    description: Modality of the imaging study, derived from DICOM tag (0008,0060)
+    enum:
+    - PET
+    - CT
+    - SPECT
+    - MRI
+  year_of_study:
+    type: integer
+    description: Year at time of study
+  scan_timepoint:
+    type: integer
+    description: Days from treatment cycle start at which this imaging study was acquired,
+      to support multi-timepoint time-series linking
+  treatment_cycles:
+    $ref: _definitions.yaml#/to_one
+additionalProperties: false

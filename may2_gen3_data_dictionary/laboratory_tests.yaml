@@ -1,0 +1,63 @@
+$schema: http://json-schema.org/draft-04/schema#
+id: laboratory_tests
+title: laboratory_tests
+type: object
+namespace: http://localhost/
+category: clinical
+program: '*'
+project: '*'
+description: Laboratory test results linked to a treatment cycle, including renal
+  function and blood work
+submittable: true
+validators: null
+systemProperties:
+- id
+- project_id
+- state
+- created_datetime
+- updated_datetime
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+required:
+- node_id
+- case_ids
+- submitter_id
+- type
+links:
+- name: treatment_cycles
+  backref: laboratory_testss
+  label: part_of
+  target_type: treatment_cycle
+  multiplicity: many_to_one
+  required: true
+properties:
+  $ref: _definitions.yaml#/ubiquitous_properties
+  node_id:
+    type: string
+    description: Node ID of the node in the data model
+  case_ids:
+    type: array
+    items:
+      type: string
+    description: A list of one or more case submitter_ids associated with the data
+  loinc_code:
+    type: string
+    description: LOINC code identifying the laboratory test performed
+  lab_value:
+    type: number
+    description: Numeric result of the laboratory test
+  lab_unit:
+    type: string
+    description: Unit of measurement for the lab result
+  collection_timepoint:
+    type: integer
+    description: Days from treatment cycle start at which the sample was collected
+  creatinine_clearance:
+    type: number
+    description: Creatinine clearance value, used to assess renal function prior to
+      and during RPT
+  treatment_cycles:
+    $ref: _definitions.yaml#/to_one
+additionalProperties: false

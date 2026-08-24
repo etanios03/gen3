@@ -1,0 +1,64 @@
+$schema: http://json-schema.org/draft-04/schema#
+id: surgery
+title: surgery
+type: object
+namespace: http://localhost/
+category: medical_history
+program: '*'
+project: '*'
+description: Surgery performed before or after RPT therapy
+submittable: true
+validators: null
+systemProperties:
+- id
+- project_id
+- state
+- created_datetime
+- updated_datetime
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+required:
+- node_id
+- case_ids
+- submitter_id
+- type
+links:
+- name: patient_infos
+  backref: surgerys
+  label: part_of
+  target_type: patient_info
+  multiplicity: many_to_one
+  required: true
+properties:
+  $ref: _definitions.yaml#/ubiquitous_properties
+  node_id:
+    type: string
+    description: Node ID of the node in the data model
+  case_ids:
+    type: array
+    items:
+      type: string
+    description: A list of one or more case submitter_ids associated with the data
+  date_of_surgery:
+    $ref: _definitions.yaml#/datetime
+  primary_tumor_removal:
+    type: boolean
+    description: Whether the tumor has been removed through surgery
+  time_between_RPT_surgery:
+    type: integer
+    description: Time in days between the surgery event and the start of RPT treatment
+  pre_tumor_volume:
+    type: number
+    description: Tumor volume pre-surgery, if debulking surgery was performed
+  post_tumor_volume:
+    type: number
+    description: Tumor volume post-surgery, if debulking surgery was performed
+  debulking_threshold:
+    type: number
+    description: The goal optimal debulking threshold depending on cancer type; typically
+      around 0.7 for NETs
+  patient_infos:
+    $ref: _definitions.yaml#/to_one
+additionalProperties: false
