@@ -1,4 +1,4 @@
-# this is for trying to add the data dictionary back into the cluster
+# aug 24: this works on macbook pro m1 
 # aug 24, changed the github raw url link
 global:
   dictionaryUrl: https://raw.githubusercontent.com/etanios03/gen3/refs/heads/main/aug24_gen3_data_dictionary/aug24_bundled_schema.json
@@ -11,7 +11,65 @@ global:
       password: postgres
       port: "5432"
   tls:
-    enabled: false
+    enabled: true
+    key: |
+      -----BEGIN PRIVATE KEY-----
+      MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCs54XsevgTF9gY
+      e0SMSDg0v0UUcPkcxTcdZFrnmt3iWXeFxMoTLK5IQ8H2WjBkHE3WRG+babMxc3fJ
+      84ogbbBhZAevJOvLCtL0kAkalo+6zvjrzkOsaa2EvvOuYC2/sgp+Y3dI795vrhQ3
+      W/xE+lzVdPw2PnpTqeFZ9WvgOpXmmDB765HEo7a/90d4ZWJ9JQ47ge2oxbP2dXt+
+      K1++/1t4Dtdx5tHrVuwX30FffGzy7PbYCMoJncl+mnOToXNFo4jW2jclDektAWxu
+      6URTcc/jOV50CJdhiuwBjcswRC3iEjJ9fcoVvtZcqi6VYz7GQkjkuvmqe/IWmEK+
+      EUrJhgb7AgMBAAECggEABBxE7MhHmXyZoItdp9AXtflOFRxSb8KoesRl/NeLqtPh
+      qYZyH16Sjhk+RTMDr32UxCFAXft3TReno19syzSQWuBb5mgESwFo3nOGI+GsbQ56
+      kHCI31Jr05oOhPi4XbRH15VZwpwhN5p11JMVPjaNem2biVaW5eJF/zN8awo5gg/W
+      IrOsD4bYVpmPDd4cXeSKrEmCCNQmblcoBgakDd4zfah8QwBsF4FP1LZUuNcPLKyj
+      YLsl74rkiWJg6S5OalboDG8VoKBHifRwrSO07/IlZJlunT67djfgPHCDyjVjdWmw
+      2uAEIXJuylfV5Z6/zUEJMoW0zygAuwX8UuVBouaOEQKBgQDHX3572KBb19N6jPiV
+      PZdDhy1DaW20YPwU4up0aLRc4Zzap85IA3Tt+LKRMH7gLYQ2rkKLNdqLUHnv2fy/
+      T5bPRjYro6TOxR8lHd8S7r5/INwd8EzVhrZvegHAI8V0CMjByi3KRg0HMsQGfOmK
+      Q/wALxizvuL0JKnA3lKq9snBFQKBgQDeA3trfxbEKJFKOHX2+7UiT73Fy/cs2o23
+      QRnMsPOvaW1mXOEmWArZ+AqaoWNr88a6rh/Z00xEYOnqABkaYu+98g6ChA4L6GFa
+      cisLAEqXnryu0mHtE8qNkPQuF82mqCH2B6BY9RC+RrcfpAkUy7/NN/M5npDLfx+U
+      df7ynHsLzwKBgFfqORkdfiDhvARnU1pj7Wa+newC+ng26BHBugcZAKeQaR1WL7U7
+      qP0i1IMHcnsiNxHxp7BBUBxsoUhtxHEMBIFkAZEeuRbgf4pbcLmlg2UFtWqSQx9J
+      JvtjPpBedbxj/zrND4IJf8cz0JLX1Be/QMlH+0mPm/5yiFRe9O8kofS9AoGBAMOX
+      +cII43vJ6caj23nO5BPogN6kBY2ktrm+RwaI1wexMErAhTOM2XKTDnSQvtC6oliR
+      U0pK16ReZXZcw8D1bRXBDXt68A0Zm7tdXgKBLTZLCRxUCSYfC5KRJC7/lZTAB7uD
+      mIcG0Mtx7Z+Yms+ReddI9aXLxvEhfCcFlakUp2sNAoGBALvJFicw5dKe45uWlPEE
+      zZ+u51U5gpOO4i0kgLMla8NbeaR00s3Gm9STyywHgtb3jC88bXSpEifcIJHWrtOa
+      gTOI2/s9JxBOXC8G1FT8DFiggm6UY3YQtku7zYQkUWe8jE2dwbCAj+BOsEm8jHbc
+      eIB+p+qkw3Xsxl8QhGzsgx7c
+      -----END PRIVATE KEY-----
+
+    cert: |
+      -----BEGIN CERTIFICATE-----
+      MIIEfTCCAuWgAwIBAgIRAPt6WJI2acsTnh0CsUI9sq0wDQYJKoZIhvcNAQELBQAw
+      gZkxHjAcBgNVBAoTFW1rY2VydCBkZXZlbG9wbWVudCBDQTE3MDUGA1UECwwuZXZl
+      dGFuaW9zQEZhZHlzLU1hY0Jvb2stUHJvLmxvY2FsIChFdmUgVGFuaW9zKTE+MDwG
+      A1UEAww1bWtjZXJ0IGV2ZXRhbmlvc0BGYWR5cy1NYWNCb29rLVByby5sb2NhbCAo
+      RXZlIFRhbmlvcykwHhcNMjYwODI0MjAwMDU3WhcNMjgxMTI0MjEwMDU3WjBiMScw
+      JQYDVQQKEx5ta2NlcnQgZGV2ZWxvcG1lbnQgY2VydGlmaWNhdGUxNzA1BgNVBAsM
+      LmV2ZXRhbmlvc0BGYWR5cy1NYWNCb29rLVByby5sb2NhbCAoRXZlIFRhbmlvcykw
+      ggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCs54XsevgTF9gYe0SMSDg0
+      v0UUcPkcxTcdZFrnmt3iWXeFxMoTLK5IQ8H2WjBkHE3WRG+babMxc3fJ84ogbbBh
+      ZAevJOvLCtL0kAkalo+6zvjrzkOsaa2EvvOuYC2/sgp+Y3dI795vrhQ3W/xE+lzV
+      dPw2PnpTqeFZ9WvgOpXmmDB765HEo7a/90d4ZWJ9JQ47ge2oxbP2dXt+K1++/1t4
+      Dtdx5tHrVuwX30FffGzy7PbYCMoJncl+mnOToXNFo4jW2jclDektAWxu6URTcc/j
+      OV50CJdhiuwBjcswRC3iEjJ9fcoVvtZcqi6VYz7GQkjkuvmqe/IWmEK+EUrJhgb7
+      AgMBAAGjdjB0MA4GA1UdDwEB/wQEAwIFoDATBgNVHSUEDDAKBggrBgEFBQcDATAf
+      BgNVHSMEGDAWgBTxvj/bktAfnblajxUsEbQ+tKIxnDAsBgNVHREEJTAjgglsb2Nh
+      bGhvc3SHBH8AAAGHEAAAAAAAAAAAAAAAAAAAAAEwDQYJKoZIhvcNAQELBQADggGB
+      AB+MABrIwcsbAXVx/ELX5O6VfH8SX4f1dKWY4QFitSiAZcGigIr3htSZATaOZF79
+      udAhOYG6djn3Vs+5zCKTum9WQTU2QAfV1obzs2tLQoO33mny2xzdvHRchg+tTTG6
+      NWOPwDBYByLAKwTyBy2j6TIWxvAhl4JEML9jKGrb4/6+agC/UiEghqvYmeG3JJjJ
+      r+wZ0nw9OeBGvoBW2Bf66Yhr6XfcR9RIsPR2q2cti4Y5ThlhRAr7Auy/7tNTBNYt
+      By0yD6phtHJZ1Y7BRtNhAVXWWMhpvLMwny5yfyy+68uXBUFU2f6S0zyOsg2zUHXR
+      NdUQbYhGbD3CEN07cfjgDrO9UgEjX2Uu+pOgDXk8JIC+Dyq87x3xjFXCrq9Unjqk
+      1Uf/AykDtJEfXVdYjg/ErQS93xBaqKW0p3eVTVNCX4XSmxdhjzlbH16DFr4A54tO
+      IVuX4fcG/ilhuEDlUer/nI7gfH3ty8wFB98QP3W2FxeVgau/MprL04ZjgQJTOkqN
+      jQ==
+      -----END CERTIFICATE-----
   dataUploadBucket: gen3-data
   storage:
     type: minio
@@ -26,7 +84,7 @@ fence:
     memory: "256Mi"
   FENCE_CONFIG:
     MOCK_AUTH: true
-    PUBLIC_URL: "http://localhost"
+    PUBLIC_URL: "https://localhost"
     ENABLED_IDENTITY_PROVIDERS:
       - mock
   usersync:
