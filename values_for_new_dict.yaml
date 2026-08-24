@@ -53,11 +53,11 @@ indexd:
   enabled: true
   resources:
     requests:
-      cpu: "50m"
-      memory: "64Mi"
-    limits:
       cpu: "100m"
-      memory: "128Mi"
+      memory: "256Mi"
+    limits:
+      cpu: "500m"
+      memory: "512Mi"
 
   defaultPrefix: minio://gen3-data/
 
@@ -104,11 +104,11 @@ portal:
   enabled: true
   resources: 
     requests:
-      cpu: "500m"      # Higher CPU so webpack compiles faster
-      memory: "512Mi"   # Minimum memory needed for the portal build engine
+      cpu: "1000m"      # Higher CPU so webpack compiles faster
+      memory: "2Gi"   # Minimum memory needed for the portal build engine
     limits:
-      cpu: "1000m"     # Allows up to 1 full CPU core during spikes
-      memory: "1024Mi" 
+      cpu: "2000m"     # Allows up to 1 full CPU core during spikes
+      memory: "6Gi" 
   gitops:
     json: |
       {

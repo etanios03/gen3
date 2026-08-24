@@ -114,12 +114,8 @@ portal:
       {
         "graphql": {
           "boardCounts": [
-            { 
-              "graphql": "_patient_info_count", 
-              "name": "Patient", 
-              "plural": "Patients" 
-            }
-          ]
+            { "graphql": "_patient_info_count", "name": "Patient", "plural": "Patients"},
+          ],
         },
         "components": {
           "appName": "MIDRC Test App"

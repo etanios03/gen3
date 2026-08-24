@@ -152,7 +152,7 @@ helm repo add gen3 https://helm.gen3.org
 helm repo update
 
 # --- INSTALL GEN3 ON HELM REPO ---
-helm upgrade --install dev gen3/gen3 -f values_v1.yaml
+helm upgrade --install dev gen3/gen3 -f values_for_new_dict.yaml
 #helm upgrade --install dev gen3/gen3 
 
 echo "Gen3 setup complete"
