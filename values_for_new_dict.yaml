@@ -90,11 +90,69 @@ fence:
   usersync:
     userYamlS3Path: none
   USER_YAML: |
+    authz:
+      resources:
+        - name: services
+          subresources:
+            - name: sheepdog
+              subresources:
+                - name: submission
+                  subresources:
+                    - name: program
+                    - name: project
+        - name: programs
+          subresources:
+              - name: program1
+                subresources:
+                  - name: projects
+                    subresources:
+                      - name: project1
+
+      roles:
+        - id: sheepdog_admin
+          description: sheepdog admin role for program/project crud
+          permissions:
+            - id: sheepdog_admin_action
+              action:
+                service: sheepdog
+                method: '*'
+        - id: reader
+          permissions:
+            - id: reader
+              action:
+                method: read
+                service: '*'
+        - id: storage_reader
+          permissions:
+            - id: storage_reader
+              action:
+                method: read-storage
+                service: '*'
+
+      policies:
+        - id: services.sheepdog-admin
+          description: CRUD access to programs and projects
+          role_ids:
+            - sheepdog_admin
+          resource_paths:
+            - /services/sheepdog/submission/program
+            - /services/sheepdog/submission/project
+        - id: program_reader
+          description: Read access to programs
+          role_ids:
+            - reader
+            - storage_reader
+          resource_paths:
+            - /programs/program1
+
     users:
-      etanios:
-        email: etanios@uchicago.edu
-        display_name: user1
+      test:
+        email: test@example.com
+        display_name: mock test user
         admin: true
+        policies:
+          - services.sheepdog-admin
+          - program_reader
 
 
 sheepdog:

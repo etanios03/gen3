@@ -17,3 +17,12 @@ kubectl delete pod portal-deployment-5d8896857d-xkrm5 (with the pod name) so tha
 how to check memory limits: kubectl describe nodes | grep -A 5 "Allocated resources"
 
 to get logs: kubectl logs 
+
+
+api key for gen3-client:
+https://docs.gen3.org/gen3-resources/tools/data-client/#configure-a-profile-with-credentials
+
+
+how to make the program and project nodes:
+https://docs.gen3.org/gen3-resources/operator-guide/submit-structured-data/#order-of-node-submission
+** to check if succeeded, look at sheepdog logs
