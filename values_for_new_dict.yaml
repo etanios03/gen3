@@ -102,11 +102,11 @@ fence:
                     - name: project
         - name: programs
           subresources:
-              - name: program1
-                subresources:
-                  - name: projects
-                    subresources:
-                      - name: project1
+            - name: program1
+              subresources:
+                - name: projects
+                  subresources:
+                    - name: project1
 
       roles:
         - id: sheepdog_admin
@@ -128,6 +128,24 @@ fence:
               action:
                 method: read-storage
                 service: '*'
+        - id: creator
+          permissions:
+            - id: creator
+              action:
+                method: create
+                service: '*'
+        - id: updater
+          permissions:
+            - id: updater
+              action:
+                method: update
+                service: '*'
+        - id: storage_writer
+          permissions:
+            - id: storage_writer
+              action:
+                method: write-storage
+                service: '*'
 
       policies:
         - id: services.sheepdog-admin
@@ -137,11 +155,14 @@ fence:
           resource_paths:
             - /services/sheepdog/submission/program
             - /services/sheepdog/submission/project
-        - id: program_reader
-          description: Read access to programs
+        - id: program1_reader
+          description: Full read/write access to program1 and its data
           role_ids:
             - reader
             - storage_reader
+            - creator
+            - updater
+            - storage_writer
           resource_paths:
             - /programs/program1
 
@@ -152,7 +173,8 @@ fence:
         admin: true
         policies:
           - services.sheepdog-admin
-          - program_reader
+          - program1_reader
+      
 
 
 sheepdog:

@@ -21,6 +21,12 @@ to get logs: kubectl logs
 
 api key for gen3-client:
 https://docs.gen3.org/gen3-resources/tools/data-client/#configure-a-profile-with-credentials
+/Applications/gen3-client configure --profile=demo --cred=~/Desktop/credentials.json --apiendpoint=https://localhost
+/Applications/gen3-client auth --profile=demo
+
+
+uploading data with data client:
+https://docs.gen3.org/gen3-resources/tools/data-client/#uploading-data-with-the-data-client
 
 
 how to make the program and project nodes:
