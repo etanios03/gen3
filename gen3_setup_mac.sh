@@ -24,7 +24,7 @@ check_and_install() {
       echo "Install manually: $url"
       exit 1
     }
-    echo "✅ $cmd installed successfully."
+    echo "$cmd installed successfully."
   fi
 }
 
