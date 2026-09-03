@@ -158,3 +158,6 @@ helm upgrade --install dev gen3/gen3 -f values_for_new_dict.yaml
 echo "Gen3 setup complete"
 
 echo "type 'k9s' in the terminal to see all nodes"
+
+
+# ---- MINIO ADDITION TO BACKEND FOR DATA UPLOAD -----

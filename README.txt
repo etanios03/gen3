@@ -32,3 +32,11 @@ https://docs.gen3.org/gen3-resources/tools/data-client/#uploading-data-with-the-
 how to make the program and project nodes:
 https://docs.gen3.org/gen3-resources/operator-guide/submit-structured-data/#order-of-node-submission
 ** to check if succeeded, look at sheepdog logs
+
+
+how to delete: kind delete cluster
+
+
+how to add minio for data bucket storage:
+https://github.com/minio/minio/blob/master/helm/minio/README.md
+
