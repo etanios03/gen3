@@ -1,0 +1,19 @@
+{
+  "*submitter_id": null, 
+  "pre_chromograninA": null, 
+  "patient_infos": {
+    "submitter_id": null
+  }, 
+  "project_id": null, 
+  "net_injected_activity": null, 
+  "therapy_type": null, 
+  "pre_SSTR_PET": null, 
+  "overall_survival": null, 
+  "post_chromograninA": null, 
+  "*case_ids": null, 
+  "post_SSTR_PET": null, 
+  "*type": "treatment_cycle", 
+  "radiopharmaceutical": null, 
+  "*cycle_number": null, 
+  "therapeutic_target": null
+}

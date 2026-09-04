@@ -70,9 +70,6 @@ global:
       IVuX4fcG/ilhuEDlUer/nI7gfH3ty8wFB98QP3W2FxeVgau/MprL04ZjgQJTOkqN
       jQ==
       -----END CERTIFICATE-----
-  dataUploadBucket: gen3-data
-  storage:
-    type: minio
 
 fence:
   enabled: true
@@ -87,6 +84,15 @@ fence:
     PUBLIC_URL: "https://localhost"
     ENABLED_IDENTITY_PROVIDERS:
       - mock
+    AWS_CREDENTIALS:
+      'CRED1':
+        aws_access_key_id: 'minioadmin'
+        aws_secret_access_key: 'minioadmin123'
+    S3_BUCKETS:
+      dicom-bucket:
+        cred: 'CRED1'
+        endpoint_url: 'http://minio.gen3.svc.cluster.local:9000'
+    DATA_UPLOAD_BUCKET: 'dicom-bucket'
   usersync:
     usersync: true
     userYamlS3Path: none
@@ -198,23 +204,6 @@ indexd:
       cpu: "500m"
       memory: "512Mi"
 
-  defaultPrefix: minio://gen3-data/
-
-minio:
-  enabled: true
-  resources:
-    requests:
-      cpu: "100m"
-      memory: "128Mi"
-    limits:
-      cpu: "200m"
-      memory: "256Mi"
-  accessKey: minio
-  secretKey: minio123
-  buckets:
-    - name: gen3-data
-      policy: none
-      purge: false
 
 peregrine:
   enabled: true

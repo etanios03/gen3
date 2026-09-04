@@ -1,0 +1,10 @@
+{
+  "country_of_residence": "null", 
+  "*subject_id": null, 
+  "sex": null, 
+  "race": null, 
+  "*submitter_id": null, 
+  "*type": "patient_info", 
+  "ethnicity": null, 
+  "project_id": null
+}

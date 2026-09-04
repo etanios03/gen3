@@ -4,7 +4,7 @@ truststore.inject_into_ssl()
 
 from gen3.auth import Gen3Auth
 
-auth = Gen3Auth("https://localhost", refresh_file="sept_2_credentials.json")
+auth = Gen3Auth("https://localhost", refresh_file="sept_3_credentials.json")
 
 # this works for creating a program and project, have not yet tested if putting in metadata works
 from gen3.submission import Gen3Submission
@@ -30,4 +30,4 @@ print(sub.get_programs())
 print(sub.get_projects("program1"))
 
 dictionary = sub.get_dictionary_all()
-print(dictionary)
+

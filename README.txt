@@ -40,3 +40,14 @@ how to delete: kind delete cluster
 how to add minio for data bucket storage:
 https://github.com/minio/minio/blob/master/helm/minio/README.md
 
+
+activate uv venv: go to desktop folder, then do source .venv/bin/activate
+
+
+---- MANUAL JOB RUNNING FOR USERSYNC ----
+*user sync node runs every 30 minutes, but we need it to sync so that we have sheepdog access 
+before the gen3_sdk.py runs and adds the program and project nodes
+
+run these commands: 
+kubectl get cronjob -n gen3 (to see the scheduled jobs)
+kubectl create job --from=cronjob/usersync manual-usersync-1 -n gen3 (for a manual usersync job to get the user.yaml)

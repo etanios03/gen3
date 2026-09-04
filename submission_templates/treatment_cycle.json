@@ -1,0 +1,19 @@
+{
+  "*submitter_id": "321", 
+  "pre_chromograninA": 50, 
+  "patient_infos": {
+    "submitter_id": "321"
+  }, 
+  "project_id": "program1-project1", 
+  "net_injected_activity": 100, 
+  "therapy_type": "beta", 
+  "pre_SSTR_PET": 100, 
+  "overall_survival": 50, 
+  "post_chromograninA": 100, 
+  "*case_ids": ["0"], 
+  "post_SSTR_PET": 100, 
+  "*type": "treatment_cycle", 
+  "radiopharmaceutical": "Lu-177", 
+  "*cycle_number": 1, 
+  "therapeutic_target": "lesion"
+}

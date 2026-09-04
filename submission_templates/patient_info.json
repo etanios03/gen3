@@ -1,0 +1,11 @@
+{
+  "id": "null",
+  "type": "patient_info",
+  "project_id": "program1-project1",
+  "submitter_id": "321",
+  "subject_id": "123",
+  "country_of_residence": "USA",
+  "ethnicity": "White",
+  "race": "White",
+  "sex": "Female"
+} 

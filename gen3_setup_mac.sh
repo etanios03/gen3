@@ -152,7 +152,7 @@ helm repo add gen3 https://helm.gen3.org
 helm repo update
 
 # --- INSTALL GEN3 ON HELM REPO ---
-helm upgrade --install dev gen3/gen3 -f values_for_new_dict.yaml
+helm upgrade --install dev gen3/gen3 -f values_for_new_dict.yaml --namespace gen3 --create-namespace
 #helm upgrade --install dev gen3/gen3 
 
 echo "Gen3 setup complete"
@@ -161,3 +161,30 @@ echo "type 'k9s' in the terminal to see all nodes"
 
 
 # ---- MINIO ADDITION TO BACKEND FOR DATA UPLOAD -----
+
+echo "Adding MinIO helm repo..."
+helm repo add minio https://charts.min.io/
+helm repo update
+
+echo "Installing MinIO into the gen3 namespace..."
+helm upgrade --install minio minio/minio \
+  --namespace gen3 \
+  --timeout 10m \
+  --set mode=standalone \
+  --set rootUser=minioadmin \
+  --set rootPassword=minioadmin123 \
+  --set persistence.enabled=false \
+  --set resources.requests.memory=512Mi \
+  --set resources.requests.cpu=250m \
+  --set resources.limits.memory=1Gi \
+  --set buckets[0].name=dicom-bucket \
+  --set buckets[0].policy=none \
+  --set buckets[0].purge=false
+
+
+echo "Waiting for MinIO to become ready..."
+kubectl rollout status deployment/minio --namespace gen3 --timeout=300s
+
+echo "MinIO is up. S3 endpoint inside the cluster: http://minio.gen3.svc.cluster.local:9000"
+echo "Console (port-forward to view): kubectl port-forward -n gen3 svc/minio-console 9001:9001"
+echo "MinIO setup complete."
