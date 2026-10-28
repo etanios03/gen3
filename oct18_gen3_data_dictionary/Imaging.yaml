@@ -1,0 +1,73 @@
+$schema: http://json-schema.org/draft-04/schema#
+id: Imaging
+title: Imaging
+type: object
+namespace: http://localhost/
+category: medical_history
+program: '*'
+project: '*'
+description: Information related to an imaging study within a treatment course
+submittable: true
+validators: null
+systemProperties:
+- id
+- project_id
+- state
+- created_datetime
+- updated_datetime
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+required:
+- case_ids
+- submitter_id
+- type
+links:
+- name: TreatmentCycles
+  backref: Imagings
+  label: part_of
+  target_type: TreatmentCycle
+  multiplicity: many_to_one
+  required: true
+properties:
+  $ref: _definitions.yaml#/ubiquitous_properties
+  case_ids:
+    type: array
+    items:
+      type: string
+    description: A list of one or more case submitter_ids associated with the data
+  loinc_code:
+    type: string
+    description: The LOINC code assigned based on the study description provided
+  loinc_contrast:
+    type: string
+    description: LOINC indicator noting whether the image was completed with or without
+      contrast
+  loinc_modality:
+    type: string
+    description: The LOINC method or imaging modality associated with the assigned
+      LOINC code
+  modality:
+    description: Modality of the imaging study, derived from DICOM tag (0008,0060)
+    enum:
+    - PET
+    - CT
+    - SPECT
+    - MRI
+  SUV_max:
+    type: number
+    description: highest point of radioactive tracer concentration in region of tissue
+  mean_SUV:
+    type: number
+    description: average concentration of radiopharmaceutical within a specific region
+  tumor_volume:
+    type: number
+    description: volume of tumor
+  scan_timepoint:
+    type: integer
+    description: Days from treatment cycle start at which this imaging study was acquired,
+      to support multi-timepoint time-series linking
+  TreatmentCycles:
+    $ref: _definitions.yaml#/to_one
+additionalProperties: false

@@ -1,0 +1,53 @@
+$schema: http://json-schema.org/draft-04/schema#
+id: TreatmentCycle
+title: Treatment Cycle
+type: object
+namespace: http://localhost/
+category: clinical
+program: '*'
+project: '*'
+description: A single cycle of RPT treatment, including radiopharmaceutical administered
+  and activity delivered
+submittable: true
+validators: null
+systemProperties:
+- id
+- project_id
+- state
+- created_datetime
+- updated_datetime
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+required:
+- case_ids
+- cycle_number
+- submitter_id
+- type
+links:
+- name: TreatmentCourses
+  backref: TreatmentCycles
+  label: part_of
+  target_type: TreatmentCourse
+  multiplicity: many_to_one
+  required: true
+properties:
+  $ref: _definitions.yaml#/ubiquitous_properties
+  case_ids:
+    type: array
+    items:
+      type: string
+    description: A list of one or more case submitter_ids associated with the data
+  cycle_number:
+    type: integer
+    description: The sequential number of this treatment cycle
+  administered_activity:
+    type: number
+    description: Net activity injected during this treatment cycle, in MBq
+  therapeutic_target:
+    type: string
+    description: Intended molecular or anatomical therapeutic target, e.g. SSTR2
+  TreatmentCourses:
+    $ref: _definitions.yaml#/to_one
+additionalProperties: false

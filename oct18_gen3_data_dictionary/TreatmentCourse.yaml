@@ -1,0 +1,57 @@
+$schema: http://json-schema.org/draft-04/schema#
+id: TreatmentCourse
+title: Treatment Course
+type: object
+namespace: http://localhost/
+category: clinical
+program: '*'
+project: '*'
+description: Description of an overall course of radiopharmaceutical treatments
+submittable: true
+validators: null
+systemProperties:
+- id
+- project_id
+- state
+- created_datetime
+- updated_datetime
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+required:
+- case_ids
+- submitter_id
+- type
+links:
+- name: PatientInformations
+  backref: TreatmentCourses
+  label: part_of
+  target_type: PatientInformation
+  multiplicity: many_to_one
+  required: true
+properties:
+  $ref: _definitions.yaml#/ubiquitous_properties
+  case_ids:
+    type: array
+    items:
+      type: string
+    description: A list of one or more case submitter_ids associated with the data
+  radiopharmaceutical:
+    type: string
+    description: Name of the radiopharmaceutical administered, e.g. [177Lu]Lu-DOTATATE
+  therapy_type:
+    description: Type of ionizing radiation delivered by the radiopharmaceutical
+    enum:
+    - alpha
+    - beta
+    - auger
+    - other
+  number_of_cycles:
+    type: integer
+    description: the number of cycles
+  start_date:
+    $ref: _definitions.yaml#/datetime
+  PatientInformations:
+    $ref: _definitions.yaml#/to_one
+additionalProperties: false
