@@ -1,5 +1,6 @@
 # aug 24: this works on macbook pro m1 
 # aug 24, changed the github raw url link
+# nov 2, this loads on wsl 
 global:
   dictionaryUrl: https://raw.githubusercontent.com/etanios03/gen3/refs/heads/main/aug24_gen3_data_dictionary/aug24_bundled_schema.json
   hostname: localhost
