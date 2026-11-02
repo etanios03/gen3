@@ -243,14 +243,14 @@ portal:
       {
         "graphql": {
           "boardCounts": [
-            { "graphql": "_patient_info_count", "name": "Patient", "plural": "Patients" },
-            { "graphql": "_tumor_information_count", "name": "Tumor", "plural": "Tumors" },
-            { "graphql": "_imaging_study_count", "name": "Imaging Study", "plural": "Imaging Studies" }
+            { "graphql": "_PatientInformation_count", "name": "Patient", "plural": "Patients" },
+            { "graphql": "_TumorInformation_count", "name": "Tumor", "plural": "Tumors" },
+            { "graphql": "_Imaging_count", "name": "Imaging Study", "plural": "Imaging Studies" }
           ],
           "chartCounts": [
-            { "graphql": "_patient_info_count", "name": "Patient" },
-            { "graphql": "_tumor_information_count", "name": "Tumor" },
-            { "graphql": "_imaging_study_count", "name": "Imaging Study" }
+            { "graphql": "_PatientInformation_count", "name": "Patient" },
+            { "graphql": "_TumorInformation_count", "name": "Tumor" },
+            { "graphql": "_Imaging_count", "name": "Imaging Study" }
           ],
           "projectDetails": "boardCounts"
         },
