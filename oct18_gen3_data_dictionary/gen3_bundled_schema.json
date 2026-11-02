@@ -726,7 +726,7 @@
                 "type": "string",
                 "description": "Categorization of tumor through level of cell differentiation, determined through analysis of tissue samples"
             },
-            "extra-abdominal_mets": {
+            "extra_abdominal_mets": {
                 "type": "boolean",
                 "description": "Whether the tumor has metastasized"
             },
