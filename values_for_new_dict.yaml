@@ -255,7 +255,7 @@ portal:
           "projectDetails": "boardCounts"
         },
         "components": {
-          "appName": "MIDRC Test App"
+          "appName": "MIDRC Theranostics Prototype"
         }
       }
 
