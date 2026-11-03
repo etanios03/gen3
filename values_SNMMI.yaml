@@ -1,7 +1,7 @@
 # nov 2, this is a copy of values_for_new_dict but without the gitops
 # and with the SNMMI data model from their github instead of in-house made with gen3schemadev
 global:
-  dictionaryUrl: https://raw.githubusercontent.com/etanios03/gen3/refs/heads/main/SNMMI-MIDRC/gen3_dictionary.json
+  dictionaryUrl: https://raw.githubusercontent.com/etanios03/gen3/refs/heads/main/SNMMI-MIDRC/bundle.json
   hostname: localhost
   dev: true
   postgres:
