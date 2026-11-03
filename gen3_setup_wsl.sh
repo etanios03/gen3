@@ -154,7 +154,7 @@ echo "✅ ingress-nginx is ready"
 # -----------------------------
 # GEN3
 # -----------------------------
-helm upgrade --install dev gen3/gen3 -f values_for_new_dict.yaml
+helm upgrade --install dev gen3/gen3 -f values_SNMMI.yaml
 
 echo "🎉 Gen3 setup complete"
 echo "👉 Run: k9s"

@@ -1,0 +1,300 @@
+$schema: http://json-schema.org/draft-04/schema#
+additionalProperties: false
+category: administrative
+description: Information about a specific visit for a specific case or patient.
+id: visit
+links:
+- backref: visits
+  label: member_of
+  multiplicity: many_to_one
+  name: cases
+  required: true
+  target_type: case
+- name: provenance_records
+  target_type: provenance
+  backref: nmmi_visit_provenance_records
+  label: documented_by
+  multiplicity: many_to_many
+  required: false
+namespace: https://data.midrc.org
+nodeTerms: null
+program: '*'
+project: '*'
+properties:
+  case_ids:
+    description: A list of one or more case submitter_ids associated with this data.
+    items:
+      type: string
+    type: array
+  cases:
+    anyOf:
+    - items:
+        additionalProperties: true
+        minItems: 1
+        properties:
+          id:
+            pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+            term:
+              description: 'A 128-bit identifier. Depending on the mechanism used
+                to generate it, it is either guaranteed to be different from all other
+                UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+                Its relatively small size lends itself well to sorting, ordering,
+                and hashing of all sorts, storing in databases, simple allocation,
+                and ease of programming in general.
+
+                '
+              termDef:
+                cde_id: C54100
+                cde_version: null
+                source: NCIt
+                term: Universally Unique Identifier
+                term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+            type: string
+          submitter_id:
+            type: string
+        type: object
+      type: array
+    - additionalProperties: true
+      properties:
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+        submitter_id:
+          type: string
+      type: object
+    description: The submitter_id or id of the case this visit belongs to, i.e., a
+      link to a record in the parent node.
+  created_datetime:
+    oneOf:
+    - format: date-time
+      type: string
+    - type: 'null'
+    term:
+      description: 'A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]
+
+        '
+  days_to_hospital_admission:
+    description: The number of days between the case's index date and the date of
+      the patient's hospital admission.
+    type: integer
+  days_to_hospital_discharge:
+    description: The number of days between the case's index date and the date of
+      the patient's hospital discharge.
+    type: integer
+  days_to_icu_admission:
+    description: The number of days between the case's index date and the date of
+      the patient's ICU admission.
+    type: integer
+  days_to_icu_discharge:
+    description: The number of days between the case's index date and the date of
+      the patient's ICU discharge..
+    type: integer
+  discharge_type:
+    description: The status or destination of the patient at the time of discharge.
+    type: string
+  id:
+    pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+    systemAlias: node_id
+    term:
+      description: 'A 128-bit identifier. Depending on the mechanism used to generate
+        it, it is either guaranteed to be different from all other UUIDs/GUIDs generated
+        until 3400 AD or extremely likely to be different. Its relatively small size
+        lends itself well to sorting, ordering, and hashing of all sorts, storing
+        in databases, simple allocation, and ease of programming in general.
+
+        '
+      termDef:
+        cde_id: C54100
+        cde_version: null
+        source: NCIt
+        term: Universally Unique Identifier
+        term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+    type: string
+  project_id:
+    term:
+      description: 'Unique ID for any specific defined piece of work that is undertaken
+        or attempted to meet a single requirement.
+
+        '
+    type: string
+  state:
+    default: validated
+    downloadable:
+    - uploaded
+    - md5summed
+    - validating
+    - validated
+    - error
+    - invalid
+    - released
+    oneOf:
+    - enum:
+      - uploading
+      - uploaded
+      - md5summing
+      - md5summed
+      - validating
+      - error
+      - invalid
+      - suppressed
+      - redacted
+      - live
+    - enum:
+      - validated
+      - submitted
+      - released
+    public:
+    - live
+    term:
+      description: 'The current state of the object.
+
+        '
+  submitter_id:
+    description: A human-readable, unique identifier for a record in the metadata
+      database. It can be used in place of the UUID for identifying or recalling a
+      record (e.g., in data queries or uploads/exports).
+    type: string
+  type:
+    description: The node_id of the node in the data model; the name of the node used
+      in queries and API requests (e.g., "aligned_reads_file" for the "Aligned Reads
+      File" node).
+    type: string
+  updated_datetime:
+    oneOf:
+    - format: date-time
+      type: string
+    - type: 'null'
+    term:
+      description: 'A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]
+
+        '
+  model_version:
+    type: string
+    description: Version of the submitting theranostics extension, independently of
+      the MIDRC baseline version.
+  record_status:
+    type: string
+    description: Record curation state, independent of clinical value.
+    enum:
+    - draft
+    - reviewed
+    - approved
+    - superseded
+    - withdrawn
+  source_record_id:
+    type: string
+    description: Identifier of the originating source record; use an approved pseudonym
+      when needed.
+  source_system:
+    type: string
+    description: Source system or data provider.
+  missing_properties:
+    type: array
+    description: Names of properties missing from this record; no missing value is
+      encoded as zero.
+    items:
+      type: string
+  missing_reasons:
+    type: array
+    description: Reasons corresponding by index to missing_properties.
+    items:
+      enum:
+      - unknown
+      - not_collected
+      - not_applicable
+      - not_available
+      - withheld
+      - pending
+  assessment_datetime:
+    type: string
+    description: ISO 8601 assessment datetime; use approved date shifting consistently
+      within the case.
+    format: date-time
+  days_from_course_start:
+    type: number
+    description: Signed elapsed days from the linked therapy course start.
+  time_basis:
+    type: string
+    description: Interpretation of stored dates and elapsed times.
+    enum:
+    - actual
+    - shifted
+    - relative_only
+    - unknown
+  time_window_start_day:
+    type: number
+    description: Beginning of assessment window relative to course start, in days.
+  time_window_end_day:
+    type: number
+    description: End of assessment window relative to course start, in days.
+  visit_type:
+    type: string
+    description: Clinical or research encounter type.
+  provenance_records:
+    anyOf:
+    - &id001
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      anyOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    - type: array
+      items: *id001
+      minItems: 1
+required:
+- submitter_id
+- type
+- cases
+submittable: true
+systemProperties:
+- id
+- project_id
+- state
+- created_datetime
+- updated_datetime
+title: Visit
+type: object
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+validators: null

@@ -1,0 +1,630 @@
+$schema: http://json-schema.org/draft-04/schema#
+id: clinical_assessment
+title: Clinical Assessment
+type: object
+namespace: urn:nmmi:lu177-psma:model
+category: clinical
+program: '*'
+project: '*'
+description: Symptoms, signs, performance status and baseline clinical assessment.
+additionalProperties: false
+submittable: true
+validators: null
+links:
+- name: cases
+  backref: nmmi_clinical_assessment_cases
+  label: related_to
+  target_type: case
+  multiplicity: many_to_one
+  required: true
+- name: timepoints
+  backref: nmmi_clinical_assessment_timepoints
+  label: related_to
+  target_type: timepoint
+  multiplicity: many_to_one
+  required: false
+- name: provenance_records
+  backref: nmmi_clinical_assessment_provenance_records
+  label: documented_by
+  target_type: provenance
+  multiplicity: many_to_many
+  required: false
+required:
+- type
+- submitter_id
+- cases
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+systemProperties:
+- id
+- project_id
+- state
+- created_datetime
+- updated_datetime
+properties:
+  type:
+    enum:
+    - clinical_assessment
+  submitter_id:
+    type: string
+    description: Stable submitter-assigned identifier, unique within a project. Do
+      not encode direct patient identifiers.
+    minLength: 1
+  id:
+    pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+    systemAlias: node_id
+    term:
+      description: 'A 128-bit identifier. Depending on the mechanism used to generate
+        it, it is either guaranteed to be different from all other UUIDs/GUIDs generated
+        until 3400 AD or extremely likely to be different. Its relatively small size
+        lends itself well to sorting, ordering, and hashing of all sorts, storing
+        in databases, simple allocation, and ease of programming in general.
+
+        '
+      termDef:
+        cde_id: C54100
+        cde_version: null
+        source: NCIt
+        term: Universally Unique Identifier
+        term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+    type: string
+  project_id:
+    term:
+      description: 'Unique ID for any specific defined piece of work that is undertaken
+        or attempted to meet a single requirement.
+
+        '
+    type: string
+  state:
+    default: validated
+    downloadable:
+    - uploaded
+    - md5summed
+    - validating
+    - validated
+    - error
+    - invalid
+    - released
+    oneOf:
+    - enum:
+      - uploading
+      - uploaded
+      - md5summing
+      - md5summed
+      - validating
+      - error
+      - invalid
+      - suppressed
+      - redacted
+      - live
+    - enum:
+      - validated
+      - submitted
+      - released
+    public:
+    - live
+    term:
+      description: 'The current state of the object.
+
+        '
+  created_datetime:
+    oneOf:
+    - format: date-time
+      type: string
+    - type: 'null'
+    term:
+      description: 'A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]
+
+        '
+  updated_datetime:
+    oneOf:
+    - format: date-time
+      type: string
+    - type: 'null'
+    term:
+      description: 'A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]
+
+        '
+  cases:
+    type: array
+    items:
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      oneOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    uniqueItems: true
+    description: Link to case records by submitter_id or UUID.
+    minItems: 1
+    maxItems: 1
+  timepoints:
+    type: array
+    items:
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      oneOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    uniqueItems: true
+    description: Link to timepoint records by submitter_id or UUID.
+    maxItems: 1
+  provenance_records:
+    type: array
+    items:
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      oneOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    uniqueItems: true
+    description: Link to provenance records by submitter_id or UUID.
+  model_version:
+    type: string
+    description: Version of the submitting theranostics extension, independently of
+      the MIDRC baseline version.
+  record_status:
+    type: string
+    description: Record curation state, independent of clinical value.
+    enum:
+    - draft
+    - reviewed
+    - approved
+    - superseded
+    - withdrawn
+  source_record_id:
+    type: string
+    description: Identifier of the originating source record; use an approved pseudonym
+      when needed.
+  source_system:
+    type: string
+    description: Source system or data provider.
+  missing_properties:
+    type: array
+    description: Names of properties missing from this record; no missing value is
+      encoded as zero.
+    items:
+      type: string
+  missing_reasons:
+    type: array
+    description: Reasons corresponding by index to missing_properties.
+    items:
+      enum:
+      - unknown
+      - not_collected
+      - not_applicable
+      - not_available
+      - withheld
+      - pending
+  assessment_datetime:
+    type: string
+    description: ISO 8601 assessment datetime; use approved date shifting consistently
+      within the case.
+    format: date-time
+  days_from_course_start:
+    type: number
+    description: Signed elapsed days from the linked therapy course start.
+  time_basis:
+    type: string
+    description: Interpretation of stored dates and elapsed times.
+    enum:
+    - actual
+    - shifted
+    - relative_only
+    - unknown
+  time_window_start_day:
+    type: number
+    description: Beginning of assessment window relative to course start, in days.
+  time_window_end_day:
+    type: number
+    description: End of assessment window relative to course start, in days.
+  hypotension:
+    type: string
+    description: Provisional field for Hypotension; operational definition requires
+      review.
+  hypertension:
+    type: string
+    description: Provisional field for Hypertension; operational definition requires
+      review.
+  hyponatremia:
+    type: string
+    description: Provisional field for Hyponatremia; operational definition requires
+      review.
+  hypernatremia:
+    type: string
+    description: Provisional field for Hypernatremia; operational definition requires
+      review.
+  hypokalemia:
+    type: string
+    description: Provisional field for Hypokalemia; operational definition requires
+      review.
+  hyperkalemia:
+    type: string
+    description: Provisional field for Hyperkalemia; operational definition requires
+      review.
+  hypomagnesia:
+    type: string
+    description: Provisional field for Hypomagnesia; operational definition requires
+      review.
+  pruritis:
+    type: string
+    description: Provisional field for Pruritis; operational definition requires review.
+  urinary_retention:
+    type: boolean
+    description: The presence of oliguria or anuria for the past several hours or
+      suprapubic fullness.
+  urinary_incontinence:
+    type: boolean
+    description: The presence of urge, overflow, stress, or mixed urinary incontinence.
+  fecal_incontinence:
+    type: boolean
+    description: Presence of fecal incontinence.
+  dysuria:
+    type: boolean
+    description: Presence of pain or burning with micturition.
+  impotency:
+    type: boolean
+    description: Presence of erectile dysfunction.
+  bone_pain_spine_pelvis_ribs_femur_joints_back:
+    type: boolean
+    description: Presence of bone pain, e.g., in vertebrae.
+  hypogastric_pain:
+    type: boolean
+    description: Presence of pain or tenderness of the hypogastric area.
+  loss_of_appetite_synomym_anorexia:
+    type: boolean
+    description: Loss of appetite.
+  weight_loss_ctcae_weight_decreased_or_cachexia:
+    type: boolean
+    description: Presence of unintentional weight loss in the past few weeks or months.
+  fatigue:
+    type: boolean
+    description: Presence of fatigue despite getting enough sleep.
+  urinary_urgency:
+    type: boolean
+    description: Presence of urgency to void.
+  hesitancy:
+    type: boolean
+    description: Presence of hesitancy with micturition.
+  hematuria:
+    type: boolean
+    description: Presence of gross hematuria, i.e., blood in urine.
+  hematospermia:
+    type: boolean
+    description: Presence of gross hematospermia, i.e., blood in semen.
+  nocturia:
+    type: boolean
+    description: Having to wake up at least once during nighttime sleep to urinate,
+      disrupting sleep.
+  dribbling:
+    type: boolean
+    description: Post-void involuntary leakage of a few drops of urine after the patient
+      finished urinating.
+  ipss:
+    type: integer
+    description: International Prostate Symptom Score (total score).
+  urinary_frequency:
+    type: boolean
+    description: Presence of a need to urinate more often than usual during waking
+      hours.
+  back_pain:
+    type: boolean
+    description: Presence of pain, tension, or stiffness in the back.
+  arthralgia:
+    type: boolean
+    description: Presence of joint pain (without necessarily implying inflammation).
+  spine_compression:
+    type: boolean
+    description: Presence of diagnosed spinal cord compression or vertebral compression
+      fracture.
+  pelvic_pain:
+    type: boolean
+    description: Presence of pain or discomfort in the lower abdomen or pelvic region.
+  numbness:
+    type: boolean
+    description: Presence of partial or total loss of sensation, typically in extremities.
+  paralysis:
+    type: boolean
+    description: Presence of partial or complete loss of voluntary muscle function
+      in one or more body parts.
+  weakness_limbs_leg:
+    type: boolean
+    description: Presence of reduced strength or inability to move limbs/legs against
+      resistance.
+  neuralgia:
+    type: boolean
+    description: Presence of severe, shooting, or throbbing pain along the distribution
+      of a nerve.
+  erectile_dysfunction:
+    type: boolean
+    description: Presence of inability to achieve or maintain an erection sufficient
+      for satisfactory sexual performance.
+  reduced_libido:
+    type: boolean
+    description: Presence of a noticeable decrease in sexual desire or drive.
+  painful_ejaculation:
+    type: boolean
+    description: Presence of pain or burning sensation during or immediately after
+      ejaculation.
+  infertility:
+    type: boolean
+    description: Diagnosed inability to conceive after 12 months of regular, unprotected
+      intercourse.
+  osteoporosis:
+    type: boolean
+    description: Diagnosed metabolic bone disease characterized by low bone mass (e.g.,
+      DEXA T-score ≤ -2.5).
+  metabolic_syndrome:
+    type: boolean
+    description: Diagnosed cluster of conditions (hypertension, hyperglycemia, abnormal
+      cholesterol/triglycerides, excess body fat).
+  baseline_bowel_function_summary:
+    type: string
+    description: Qualitative summary of baseline bowel function (e.g., regular, constipation,
+      diarrhea), if not captured by specific symptom grading.
+  baseline_pain_score_type:
+    type: string
+    description: The standardized scale used to assess baseline pain (e.g., NRS, Brief
+      Pain Inventory - Severity).
+  baseline_pain_severity_score:
+    type: integer
+    description: Patient-reported pain severity score at baseline using a standardized
+      scale (e.g., 0-10 Numerical Rating Scale, BPI item).
+  baseline_urinary_symptoms_severity:
+    type: integer
+    description: Severity of urinary symptoms at baseline, if assessed (e.g., using
+      IPSS score or qualitative description).
+  ecog_status_assessment_date:
+    type: string
+    format: date
+    description: Date when the ECOG performance status was assessed.
+  ecog_status_baseline:
+    type: integer
+    description: Eastern Cooperative Oncology Group (ECOG) performance status at baseline
+      prior to PSMA theranostics.
+  ecog_status_value:
+    type: integer
+    description: ECOG performance status assessed at a specific timepoint (baseline,
+      during therapy, follow-up).
+  mibg:
+    type: string
+    description: Provisional field for MIBG; operational definition requires review.
+  integer:
+    type: string
+    description: Provisional field for Integer; operational definition requires review.
+  temperature:
+    type: string
+    description: Provisional field for temperature; operational definition requires
+      review.
+  blood_pressure:
+    type: string
+    description: Provisional field for blood pressure; operational definition requires
+      review.
+  heart_rate:
+    type: string
+    description: Provisional field for heart rate; operational definition requires
+      review.
+  respiratory_rate:
+    type: string
+    description: Provisional field for respiratory rate; operational definition requires
+      review.
+  o2_saturation:
+    type: string
+    description: Provisional field for O2 saturation; operational definition requires
+      review.
+  lap:
+    type: string
+    description: Provisional field for LAP; operational definition requires review.
+  cachexia:
+    type: string
+    description: Provisional field for cachexia; operational definition requires review.
+  pallor:
+    type: string
+    description: Provisional field for pallor; operational definition requires review.
+  paresthesia:
+    type: string
+    description: Provisional field for paresthesia; operational definition requires
+      review.
+  paresis:
+    type: string
+    description: Provisional field for paresis; operational definition requires review.
+  lymphedema:
+    type: string
+    description: Provisional field for lymphedema; operational definition requires
+      review.
+  bone_tenderness:
+    type: string
+    description: Provisional field for bone tenderness; operational definition requires
+      review.
+  overdistented_bladder:
+    type: string
+    description: Provisional field for overdistented bladder; operational definition
+      requires review.
+  abnormal_dre:
+    type: string
+    description: Provisional field for abnormal DRE; operational definition requires
+      review.
+  dre_firmness:
+    type: string
+    description: Provisional field for DRE firmness; operational definition requires
+      review.
+  dre_nodule:
+    type: string
+    description: Provisional field for DRE nodule; operational definition requires
+      review.
+  dre_asymmetry:
+    type: string
+    description: Provisional field for DRE asymmetry; operational definition requires
+      review.
+  loss_of_appetite:
+    type: string
+    description: Provisional field for loss of appetite; operational definition requires
+      review.
+  weight_loss:
+    type: string
+    description: Presence of unintentional weight loss
+  urgency:
+    type: string
+    description: Provisional field for urgency; operational definition requires review.
+  bone_pain:
+    type: string
+    description: Provisional field for bone pain; operational definition requires
+      review.
+  low_back_pain:
+    type: string
+    description: Provisional field for low back pain; operational definition requires
+      review.
+  tracer:
+    type: string
+    description: Provisional field for Tracer; operational definition requires review.
+  pain_at_bony_sites:
+    type: string
+    description: Provisional field for pain at bony sites; operational definition
+      requires review.
+  functional_status_ecog_score:
+    type: string
+    description: Provisional field for functional status (ECOG score); operational
+      definition requires review.
+  diahhrea:
+    type: string
+    description: Provisional field for diahhrea; operational definition requires review.
+  dry_mouth:
+    type: string
+    description: Provisional field for dry mouth; operational definition requires
+      review.
+  bowel_movement_regularity:
+    type: string
+    description: Provisional field for bowel movement regularity; operational definition
+      requires review.
+  appetite:
+    type: string
+    description: Provisional field for appetite; operational definition requires review.
+  nausea:
+    type: string
+    description: Provisional field for nausea; operational definition requires review.
+  swelling_of_feet:
+    type: string
+    description: Provisional field for swelling of feet; operational definition requires
+      review.
+  prior_treatment_chemotherapy_androgen_receptor_antagonists_surgery_etc:
+    type: string
+    description: Provisional field for prior treatment (chemotherapy, androgen receptor
+      antagonists, surgery, etc); operational definition requires review.
+  comorbitities_diabetes_hypertension_other_disease_affecting_kidneys_and_immune_system:
+    type: string
+    description: Provisional field for comorbitities (diabetes, hypertension, other
+      disease affecting kidneys and immune system); operational definition requires
+      review.
+  prostate_cancer_stage:
+    type: string
+    description: Provisional field for prostate cancer stage; operational definition
+      requires review.
+  hormonse_sensitive_disease:
+    type: string
+    description: Provisional field for hormonse sensitive disease; operational definition
+      requires review.
+  mention_fever_as_symptom_temp_is_noted_in_signs:
+    type: string
+    description: Provisional field for Mention fever as symptom - temp is noted in
+      signs; operational definition requires review.
+  assessment_role:
+    type: string
+    description: 'Role in the clinical pathway: baseline, interim, end of treatment,
+      or follow-up.'
+  ecog_score:
+    type: integer
+    description: Recorded ECOG performance status, with assessment date and source.
+    minimum: 0
+    maximum: 5
+  prognostic_model_name:
+    type: string
+    description: Recorded prognostic assessment prognostic model name. No risk prediction
+      is calculated by this schema.
+  prognostic_model_version:
+    type: string
+    description: Recorded prognostic assessment prognostic model version. No risk
+      prediction is calculated by this schema.
+  prognostic_risk_category:
+    type: string
+    description: Recorded prognostic assessment prognostic risk category. No risk
+      prediction is calculated by this schema.
+  prognostic_context:
+    type: string
+    description: Recorded prognostic assessment prognostic context. No risk prediction
+      is calculated by this schema.
+  prognostic_score:
+    type: number
+    description: Score from the named, versioned prognostic method, when recorded.

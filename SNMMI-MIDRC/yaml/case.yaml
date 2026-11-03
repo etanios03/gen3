@@ -1,0 +1,697 @@
+$schema: http://json-schema.org/draft-04/schema#
+additionalProperties: false
+category: administrative
+description: The collection of all data related to a specific patient or case in the
+  context of a specific dataset or experiment.
+id: case
+links:
+- backref: cases
+  label: member_of
+  multiplicity: many_to_many
+  name: datasets
+  required: true
+  target_type: dataset
+- name: sites
+  target_type: site
+  backref: nmmi_case_sites
+  label: related_to
+  multiplicity: many_to_one
+  required: false
+- name: provenance_records
+  target_type: provenance
+  backref: nmmi_case_provenance_records
+  label: documented_by
+  multiplicity: many_to_many
+  required: false
+namespace: https://data.midrc.org
+nodeTerms: null
+program: '*'
+project: '*'
+properties:
+  age_at_index:
+    maximum: 89
+    minimum: 0
+    term:
+      description: 'The study participant''s age, in years, at the index event. The
+        index event is determined by the data submitter and used as an anchor date
+        for all temporal variables. Note that an age of 0 indicates a participant
+        who is younger than 1 year old. For participants with ages greater than 89
+        years, please use the property ''age_at_index_gt89''. This property is included
+        to ensure personal privacy protection in accordance with the HIPAA Safe Harbor
+        Method. More information can be found here https://www.hhs.gov/hipaa/for-professionals/special-topics/de-identification/index.html.
+
+        '
+      termDef:
+        cde_id: C181702
+        cde_version: null
+        source: NCIt
+        term: Age in Years at Index Date
+        term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&ns=ncit&code=C181702
+    type: number
+  age_at_index_gt89:
+    description: Indicates whether the subject's age at the time of the study was
+      greater than 89 years. This property is included to ensure personal privacy
+      protection in accordance with the HIPAA Safe Harbor Method. More information
+      can be found here https://www.hhs.gov/hipaa/for-professionals/special-topics/de-identification/index.html.
+    enum:
+    - 'Yes'
+    - 'No'
+  case_ids:
+    description: A list of one or more case submitter_ids associated with this data.
+    items:
+      type: string
+    type: array
+  country_of_residence:
+    term:
+      description: 'The country where the subject resides.
+
+        '
+      termDef:
+        cde_id: 416647007
+        cde_version: null
+        source: SNOMED
+        term: Country of residence
+        term_url: https://lookup.snomedtools.org/416647007
+    type: string
+  covid19_positive:
+    enum:
+    - 'Yes'
+    - 'No'
+    - Indeterminate
+    - Not Reported
+    term:
+      description: 'An indicator of whether the patient has ever had a positive COVID-19
+        test or been diagnosed with one of the following ICD-10 COVID-19 conditions:
+        COVID-19 (U07. 1), Influenza due to unidentified influenza virus with other
+        manifestations (J11.8), Post COVID-19 condition (U09.9), Myalgic encephalomyelitis/chronic
+        fatigue syndrome (G93.32), or Sequelae of other specified infectious and parasitic
+        diseases (B94.8). For more information about a patient''s specific COVID-19
+        diagnosis, details can be found under Condition.
+
+        '
+      termDef:
+        cde_id: C171614
+        cde_version: null
+        source: NCIt
+        term: Positive History of COVID-19
+        term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=24.07e&ns=ncit&code=C171614
+  created_datetime:
+    oneOf:
+    - format: date-time
+      type: string
+    - type: 'null'
+    term:
+      description: 'A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]
+
+        '
+  datasets:
+    anyOf:
+    - items:
+        additionalProperties: true
+        minItems: 1
+        properties:
+          id:
+            pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+            term:
+              description: 'A 128-bit identifier. Depending on the mechanism used
+                to generate it, it is either guaranteed to be different from all other
+                UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+                Its relatively small size lends itself well to sorting, ordering,
+                and hashing of all sorts, storing in databases, simple allocation,
+                and ease of programming in general.
+
+                '
+              termDef:
+                cde_id: C54100
+                cde_version: null
+                source: NCIt
+                term: Universally Unique Identifier
+                term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+            type: string
+          submitter_id:
+            type: string
+        type: object
+      type: array
+    - additionalProperties: true
+      properties:
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+        submitter_id:
+          type: string
+      type: object
+    description: The submitter_id or id of the dataset this case belongs to, i.e.,
+      a link to a record in the parent node.
+  days_to_death:
+    description: The number of days from the index date to the date of death.
+    type: integer
+  days_to_last_follow_up:
+    description: The number of days from the index date to the date of last follow-up.
+    type: integer
+  ethnicity:
+    enum:
+    - Hispanic or Latino
+    - Not Hispanic or Latino
+    - Not Reported
+    term:
+      description: 'A social group characterized by a distinctive social and cultural
+        tradition that is maintained from generation to generation. Members share
+        a common history and origin and a sense of identification with the group.
+        They have similar and distinctive features in their lifestyle habits and shared
+        experiences. They often have a common genetic heritage which may be reflected
+        in their experience of health and disease.
+
+        '
+      termDef:
+        cde_id: C16564
+        cde_version: 24.07e
+        source: NCIt
+        term: Ethnic Group
+        term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&ns=ncit&code=C16564
+  gen3_linked_subjects_available:
+    description: Indicates whether there is data available for the subject in other
+      data resources.
+    type: boolean
+  icu_indicator:
+    term:
+      description: 'Indicates whether the subject has been admitted to the ICU.
+
+        '
+      termDef:
+        cde_id: C171454
+        cde_version: null
+        source: NCIt
+        term: Intensive Care Unit Stay
+        term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=24.07e&ns=ncit&code=C171454
+    type: boolean
+  id:
+    pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+    systemAlias: node_id
+    term:
+      description: 'A 128-bit identifier. Depending on the mechanism used to generate
+        it, it is either guaranteed to be different from all other UUIDs/GUIDs generated
+        until 3400 AD or extremely likely to be different. Its relatively small size
+        lends itself well to sorting, ordering, and hashing of all sorts, storing
+        in databases, simple allocation, and ease of programming in general.
+
+        '
+      termDef:
+        cde_id: C54100
+        cde_version: null
+        source: NCIt
+        term: Universally Unique Identifier
+        term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+    type: string
+  index_event:
+    description: The event used as the anchor or start date for all temporal data
+      elements. This acts as day 0 on a timeline of events relating to the patient.
+      This property is included to ensure personal privacy protection in accordance
+      with the HIPAA Safe Harbor Method. More information can be found here https://www.hhs.gov/hipaa/for-professionals/special-topics/de-identification/index.html.
+    enum:
+    - COVID-19 Test
+    - Long COVID Diagnosis
+    - Study Enrollment
+    - First Imaging Study
+  indoor_biomass_smoke_exposure:
+    description: An indicator confirming exposure to indoor biomass smoke (wood, charcoal).
+    enum:
+    - 'Yes'
+    - 'No'
+    - Not Reported
+  linked_external_data:
+    description: A list of all external data resources that are confirmed to have
+      data for the case.
+    items:
+      type: string
+    type: array
+  long_covid_diagnosis:
+    enum:
+    - Positive
+    - Not Reported
+    term:
+      description: 'An indicator of whether the patient has ever been diagnosed with
+        one of the following ICD-10 long COVID-19 conditions: U09.9 (Post COVID-19
+        condition, unspecified), G93.32 (Myalgic encephalomyelitis/chronic fatigue
+        syndrome), and B94.8 (Sequelae of other specified infectious and parasitic
+        diseases). ''Positive'' means the patient was diagnosed with a long COVID
+        condition, while ''Not Reported'' means the patient has never been diagnosed
+        with a long COVID condition.
+
+        '
+      termDef:
+        cde_id: C179263
+        cde_version: null
+        source: NCIt
+        term: Post-Acute Sequelae of COVID-19
+        term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=24.07e&ns=ncit&code=C179263
+  mortality_status:
+    description: Status of participant/subject as alive or dead.
+    enum:
+    - Alive
+    - Deceased
+    - Not Reported
+  number_of_pack_years:
+    description: If participant is a former or current cigarette smoker, documents
+      the number of pack-years of smoking [(average number smoked daily)/20] x (number
+      of years smoked) = pack-years].
+    type: number
+  occupational_exposure:
+    description: An indicator confirming occupational risk exposure.
+    enum:
+    - 'Yes'
+    - 'No'
+    - Not Reported
+  occupational_exposure_type:
+    description: A description of the type of occupational exposure.
+    type: string
+  patient_category:
+    description: A category describing whether the patient was an inpatient (residing
+      in the hospital where they were being treated), an outpatient (visiting a healthcare
+      facility for diagnosis or treatment but admitted for an overnight stay), or
+      a patient visiting the Intensive Care Unit (ICU).
+    enum:
+    - Inpatient
+    - Outpatient
+    - ICU
+    - Not Reported
+  project_id:
+    term:
+      description: 'Unique ID for any specific defined piece of work that is undertaken
+        or attempted to meet a single requirement.
+
+        '
+    type: string
+  pulmonary_fibrosis_family_history:
+    description: An indicator confirming a family history of pulmonary fibrosis.
+    enum:
+    - 'Yes'
+    - 'No'
+    - Not Reported
+  race:
+    enum:
+    - American Indian or Alaska Native
+    - Asian
+    - Black or African American
+    - Native Hawaiian or other Pacific Islander
+    - Other
+    - White
+    - Not Reported
+    term:
+      description: 'A geographic ancestral origin category that is assigned to a population
+        group based mainly on physical characteristics that are thought to be distinct
+        and inherent.
+
+        '
+      termDef:
+        cde_id: C17049
+        cde_version: 24.07e
+        source: NCIt
+        term: Race
+        term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&ns=ncit&code=C17049
+  race_ethnicity:
+    description: Race and/or ethnicity minimum required category as defined in the
+      Revisions to OMB's Statistical Policy Directive No. 15 - Standards for Maintaining,
+      Collecting, and Presenting Federal Data on Race and Ethnicity. Only 7 race minimum
+      categories are enumerated, as determined by SPD 15; this question is presented
+      as 'select all that apply', so single individuals may select multiple categories.
+      There may be additional detailed categories provided in the property 'race_ethnicity_detail';
+      detailed categories must be subcategories of one of these minimum categories.
+      In the case where race is 'Other', there may be additional information in the
+      property 'race_ethnicity_write_in'.
+    items:
+      enum:
+      - Other
+      - Not Reported
+      - American Indian or Alaska Native
+      - Asian
+      - Black or African American
+      - Hispanic or Latino
+      - Middle Eastern or North African
+      - Native Hawaiian or Pacific Islander
+      - White
+    type: array
+  race_ethnicity_detail:
+    description: Race and/or ethnicity detailed category as defined in the Revisions
+      to OMB's Statistical Policy Directive No. 15 - Standards for Maintaining, Collecting,
+      and Presenting Federal Data on Race and Ethnicity; this question is presented
+      as 'select all that apply', so single individuals may select multiple categories.
+      Only 6 to 9 detailed race categories are enumerated, as determined by SPD 15;
+      in the case where the detailed category is 'Another group', there may be additional
+      information provided in the property 'race_ethnicity_write_in'.
+    items:
+      enum:
+      - Another group
+      - Not Reported
+      - Navajo Nation
+      - Blackfeet Tribe of the Blackfeet Indian Reservation of Montana
+      - Native Village of Barrow Inupiat Traditional Government
+      - Nome Eskimo Community
+      - Aztec
+      - Maya
+      - Chinese
+      - Asian Indian
+      - Filipino
+      - Japanese
+      - Korean
+      - Vietnamese
+      - Pakistani
+      - Hmong
+      - Afghan
+      - African American
+      - Jamaican
+      - Haitian
+      - Nigerian
+      - Ethiopian
+      - Somali
+      - Trinidadian and Tobagonian
+      - Ghanaian
+      - Congolese
+      - Mexican
+      - Puerto Rican
+      - Cuban
+      - Salvadoran
+      - Dominican
+      - Guatemalan
+      - Colombian
+      - Honduran
+      - Spaniard
+      - Lebanese
+      - Iranian
+      - Egyptian
+      - Syrian
+      - Iraqi
+      - Israeli
+      - Moroccan
+      - Yemeni
+      - Kurdish
+      - Native Hawaiian
+      - Samoan
+      - Chamorro
+      - Tongan
+      - Fijian
+      - Marshallese
+      - Chuukese
+      - Palauan
+      - Tahitian
+      - English
+      - German
+      - Irish
+      - Italian
+      - Polish
+      - Scottish
+      - French
+      - Swedish
+      - Norwegian
+    type: array
+  race_ethnicity_write_in:
+    description: Free-text details related to race and/or ethnicity as defined in
+      the Revisions to OMB's Statistical Policy Directive No. 15 - Standards for Maintaining,
+      Collecting, and Presenting Federal Data on Race and Ethnicity. This property
+      is only used if there is additional race information that does not match any
+      of the minimum or detailed race categories.
+    type: string
+  sex:
+    enum:
+    - Female
+    - Male
+    - Not Reported
+    term:
+      description: 'The biologic character or quality that distinguishes male and
+        female from one another as expressed by analysis of the person''s gonadal,
+        morphologic (internal and external), chromosomal, and hormonal characteristics.
+
+        '
+      termDef:
+        cde_id: C28421
+        cde_version: null
+        source: NCIt
+        term: Sex
+        term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=24.07e&ns=ncit&code=C28421
+  site_id:
+    term:
+      description: 'A de-identified code used to classify a case as part of a specific
+        data submission.
+
+        '
+      termDef:
+        cde_id: C83081
+        cde_version: null
+        source: NCIt
+        term: Study Site Identifier
+        term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=24.07e&ns=ncit&code=C83081
+    type: string
+  smoking_history:
+    description: Qualitative categorization of the participant's/subject's smoking
+      history.
+    enum:
+    - Never
+    - Former
+    - Current
+    - Not Reported
+  state:
+    default: validated
+    downloadable:
+    - uploaded
+    - md5summed
+    - validating
+    - validated
+    - error
+    - invalid
+    - released
+    oneOf:
+    - enum:
+      - uploading
+      - uploaded
+      - md5summing
+      - md5summed
+      - validating
+      - error
+      - invalid
+      - suppressed
+      - redacted
+      - live
+    - enum:
+      - validated
+      - submitted
+      - released
+    public:
+    - live
+    term:
+      description: 'The current state of the object.
+
+        '
+  submitter_id:
+    description: A human-readable, unique identifier for a record in the metadata
+      database. It can be used in place of the UUID for identifying or recalling a
+      record (e.g., in data queries or uploads/exports).
+    type: string
+  token_record_id:
+    description: An ID used to link a de-identified case in MIDRC to the same case
+      in an external data resource.
+    type: string
+  treatment_info:
+    term:
+      description: 'Indicates whether detailed treatment information is available
+        for the subject.
+
+        '
+      termDef:
+        cde_id: 55753-8
+        cde_version: null
+        source: LOINC
+        term: Treatment information
+        term_url: https://loinc.org/55753-8
+    type: boolean
+  type:
+    description: The node_id of the node in the data model; the name of the node used
+      in queries and API requests (e.g., "aligned_reads_file" for the "Aligned Reads
+      File" node).
+    type: string
+  updated_datetime:
+    oneOf:
+    - format: date-time
+      type: string
+    - type: 'null'
+    term:
+      description: 'A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]
+
+        '
+  ventilator_indicator:
+    term:
+      description: 'Indicates whether the subject has been on a ventilator.
+
+        '
+      termDef:
+        cde_id: 250870006
+        cde_version: null
+        source: SNOMED
+        term: Ventilator finding
+        term_url: https://lookup.snomedtools.org/250870006
+    type: boolean
+  zip:
+    description: The three-digit United States zip code of residence for any population
+      greater than 20,000. For zip codes where the three digit number represents a
+      population less than 20,000 "000" will be provided.
+    type: string
+  model_version:
+    type: string
+    description: Version of the submitting theranostics extension, independently of
+      the MIDRC baseline version.
+  record_status:
+    type: string
+    description: Record curation state, independent of clinical value.
+    enum:
+    - draft
+    - reviewed
+    - approved
+    - superseded
+    - withdrawn
+  source_record_id:
+    type: string
+    description: Identifier of the originating source record; use an approved pseudonym
+      when needed.
+  source_system:
+    type: string
+    description: Source system or data provider.
+  missing_properties:
+    type: array
+    description: Names of properties missing from this record; no missing value is
+      encoded as zero.
+    items:
+      type: string
+  missing_reasons:
+    type: array
+    description: Reasons corresponding by index to missing_properties.
+    items:
+      enum:
+      - unknown
+      - not_collected
+      - not_applicable
+      - not_available
+      - withheld
+      - pending
+  deidentification_method:
+    type: string
+    description: Documented de-identification approach and profile version.
+  consent_scope:
+    type: string
+    description: Permitted data-use scope; actual enforcement remains with commons
+      authorization.
+  sex_assigned_at_birth:
+    type: string
+    description: Source sex assigned at birth, kept separate from gender identity.
+  gender_identity:
+    type: string
+    description: Self-reported gender identity if collected.
+  age_at_treatment:
+    type: integer
+    description: Patient's age in years at the time they began radiopharmaceutical
+      therapy.
+  geographic_region:
+    type: string
+    description: General geographic region of patient residence (e.g., state, country,
+      or de-identified region for multi-center studies).
+  sites:
+    anyOf:
+    - &id001
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      anyOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    - type: array
+      items: *id001
+      minItems: 1
+      maxItems: 1
+  provenance_records:
+    anyOf:
+    - &id002
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      anyOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    - type: array
+      items: *id002
+      minItems: 1
+required:
+- submitter_id
+- type
+- datasets
+submittable: true
+systemProperties:
+- id
+- project_id
+- state
+- created_datetime
+- updated_datetime
+title: Case
+type: object
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+validators: null

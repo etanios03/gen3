@@ -1,0 +1,608 @@
+$schema: http://json-schema.org/draft-04/schema#
+additionalProperties: false
+category: data_file
+description: Information related to a mammography (MG) imaging series to which one
+  or more mammography images belong.
+id: mg_series_file
+links:
+- exclusive: false
+  required: true
+  subgroup:
+  - backref: mg_series_files
+    label: data_from
+    multiplicity: many_to_one
+    name: core_metadata_collections
+    required: false
+    target_type: core_metadata_collection
+  - backref: mg_series_files
+    label: related_to
+    multiplicity: many_to_one
+    name: imaging_studies
+    required: false
+    target_type: imaging_study
+namespace: https://data.midrc.org/
+program: '*'
+project: '*'
+properties:
+  case_ids:
+    description: A list of one or more case submitter_ids associated with this data.
+    items:
+      type: string
+    type: array
+  code_meaning:
+    items:
+      type: string
+    term:
+      description: '(0008,0104) Code Meaning. Note that code_meaning is pulled from
+        the View Code Sequence (0054,0220). The Digital Imaging and Communications
+        in Medicine (DICOM) standard is the international standard to transmit, store,
+        retrieve, print, process, and display medical imaging information.
+
+        '
+      termDef:
+        cde_id: (0008,0104)
+        cde_version: null
+        source: DICOM
+        term: Code Meaning
+        term_url: https://www.dicomstandard.org/current
+    type: array
+  contrast_bolus_agent:
+    items:
+      type: string
+    term:
+      description: '(0018, 0010) Contrast/Bolus Agent. The Digital Imaging and Communications
+        in Medicine (DICOM) standard is the international standard to transmit, store,
+        retrieve, print, process, and display medical imaging information.
+
+        '
+      termDef:
+        cde_id: (0018, 0010)
+        cde_version: null
+        source: DICOM
+        term: Contrast Bolus Agent
+        term_url: https://www.dicomstandard.org/current
+    type: array
+  core_metadata_collections:
+    anyOf:
+    - items:
+        additionalProperties: true
+        maxItems: 1
+        minItems: 1
+        properties:
+          id:
+            pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+            term:
+              description: 'A 128-bit identifier. Depending on the mechanism used
+                to generate it, it is either guaranteed to be different from all other
+                UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+                Its relatively small size lends itself well to sorting, ordering,
+                and hashing of all sorts, storing in databases, simple allocation,
+                and ease of programming in general.
+
+                '
+              termDef:
+                cde_id: C54100
+                cde_version: null
+                source: NCIt
+                term: Universally Unique Identifier
+                term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+            type: string
+          submitter_id:
+            type: string
+        type: object
+      type: array
+    - additionalProperties: true
+      properties:
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+        submitter_id:
+          type: string
+      type: object
+    description: The submitter_id or id of the core_metadata_collection to which the
+      mg_series_file belongs, i.e., a link to a record in the parent node.
+  created_datetime:
+    oneOf:
+    - format: date-time
+      type: string
+    - type: 'null'
+    term:
+      description: 'A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]
+
+        '
+  data_category:
+    enum:
+    - MG
+    term:
+      description: 'Broad categorization of the contents of the data file.
+
+        '
+  data_format:
+    enum:
+    - DCM
+    - nii.gz
+    term:
+      description: 'Format of the data files.
+
+        '
+  data_type:
+    enum:
+    - DICOM
+    - NIfTI
+    term:
+      description: 'Specific content type of the data file.
+
+        '
+  detector_type:
+    enum:
+    - DIRECT
+    - SCINTILLATOR
+    - STORAGE
+    - FILM
+    term:
+      description: '(0018, 7004) Detector Type. The Digital Imaging and Communications
+        in Medicine (DICOM) standard is the international standard to transmit, store,
+        retrieve, print, process, and display medical imaging information.
+
+        '
+      termDef:
+        cde_id: (0018, 7004)
+        cde_version: null
+        source: DICOM
+        term: Detector Type
+        term_url: https://www.dicomstandard.org/current
+  dicom_header_file_guid:
+    description: The GUID of the zip file containing DICOM header files for an imaging
+      series in the MIDRC index service.
+    type: string
+  error_type:
+    enum:
+    - file_size
+    - file_format
+    - md5sum
+    term:
+      description: 'Type of error for the data file object.
+
+        '
+  file_name:
+    term:
+      description: 'The name (or part of a name) of a file (of any type).
+
+        '
+    type: string
+  file_size:
+    term:
+      description: 'The size of the data file (object) in bytes.
+
+        '
+    type: integer
+  file_state:
+    default: registered
+    enum:
+    - registered
+    - uploading
+    - uploaded
+    - validating
+    - validated
+    - submitted
+    - processing
+    - processed
+    - released
+    - error
+    term:
+      description: 'The current state of the data file object.
+
+        '
+  id:
+    pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+    systemAlias: node_id
+    term:
+      description: 'A 128-bit identifier. Depending on the mechanism used to generate
+        it, it is either guaranteed to be different from all other UUIDs/GUIDs generated
+        until 3400 AD or extremely likely to be different. Its relatively small size
+        lends itself well to sorting, ordering, and hashing of all sorts, storing
+        in databases, simple allocation, and ease of programming in general.
+
+        '
+      termDef:
+        cde_id: C54100
+        cde_version: null
+        source: NCIt
+        term: Universally Unique Identifier
+        term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+    type: string
+  image_data_modification_method:
+    description: A categorical description of the type of image modification performed
+      on the study series.
+    enum:
+    - Removal of alphanumeric characters
+    - Defacing
+    - Skull-stripping
+  image_data_modification_name:
+    description: A MIDRC classification describing specific methods (e.g., software
+      tools, processes) used to modify the study series. More information can be found
+      at midrc.org.
+    type: integer
+  image_data_modified:
+    description: An indicator of whether any post-clinical modification of image pixel
+      data has been performed on the study series.
+    type: boolean
+  image_type:
+    items:
+      type: string
+    term:
+      description: '(0008, 0008) Image Type. The Digital Imaging and Communications
+        in Medicine (DICOM) standard is the international standard to transmit, store,
+        retrieve, print, process, and display medical imaging information.
+
+        '
+      termDef:
+        cde_id: (0008, 0008)
+        cde_version: null
+        source: DICOM
+        term: Image Type
+        term_url: https://www.dicomstandard.org/current
+    type: array
+  imager_pixel_spacing:
+    items:
+      type: number
+    term:
+      description: '(0018, 1164) Imager Pixel Spacing. The Digital Imaging and Communications
+        in Medicine (DICOM) standard is the international standard to transmit, store,
+        retrieve, print, process, and display medical imaging information.
+
+        '
+      termDef:
+        cde_id: (0018, 1164)
+        cde_version: null
+        source: DICOM
+        term: Imager Pixel Spacing
+        term_url: https://www.dicomstandard.org/current
+    type: array
+  imaging_studies:
+    anyOf:
+    - items:
+        additionalProperties: true
+        maxItems: 1
+        minItems: 1
+        properties:
+          id:
+            pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+            term:
+              description: 'A 128-bit identifier. Depending on the mechanism used
+                to generate it, it is either guaranteed to be different from all other
+                UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+                Its relatively small size lends itself well to sorting, ordering,
+                and hashing of all sorts, storing in databases, simple allocation,
+                and ease of programming in general.
+
+                '
+              termDef:
+                cde_id: C54100
+                cde_version: null
+                source: NCIt
+                term: Universally Unique Identifier
+                term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+            type: string
+          submitter_id:
+            type: string
+        type: object
+      type: array
+    - additionalProperties: true
+      properties:
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+        submitter_id:
+          type: string
+      type: object
+    description: The submitter_id or id of the imaging study this mg_series belongs
+      to, i.e., a link to a record in the parent node.
+  lossy_image_compression:
+    enum:
+    - '00'
+    - '01'
+    term:
+      description: '(0028, 2110) Lossy Image Compression; Note, if an image is compressed
+        with a lossy algorithm, the Attribute Lossy Image Compression (0028,2110)
+        is set to "01". Subsequently, if the image is decompressed and transferred
+        in uncompressed format, this Attribute value remains "01". The Digital Imaging
+        and Communications in Medicine (DICOM) standard is the international standard
+        to transmit, store, retrieve, print, process, and display medical imaging
+        information.
+
+        '
+      termDef:
+        cde_id: (0028, 2110)
+        cde_version: null
+        source: DICOM
+        term: Lossy Image Compression
+        term_url: https://www.dicomstandard.org/current
+  manufacturer:
+    term:
+      description: '(0008, 0070) Manufacturer. The Digital Imaging and Communications
+        in Medicine (DICOM) standard is the international standard to transmit, store,
+        retrieve, print, process, and display medical imaging information.
+
+        '
+      termDef:
+        cde_id: (0008, 0070)
+        cde_version: null
+        source: DICOM
+        term: Manufacturer
+        term_url: https://www.dicomstandard.org/current
+    type: string
+  manufacturer_model_name:
+    term:
+      description: '(0008, 1090) Manufacturer''s Model Name. The Digital Imaging and
+        Communications in Medicine (DICOM) standard is the international standard
+        to transmit, store, retrieve, print, process, and display medical imaging
+        information.
+
+        '
+      termDef:
+        cde_id: (0008, 1090)
+        cde_version: null
+        source: DICOM
+        term: Manufacturer's Model Name
+        term_url: https://www.dicomstandard.org/current
+    type: string
+  md5sum:
+    pattern: ^[a-f0-9]{32}$
+    term:
+      description: 'The 128-bit hash value expressed as a 32 digit hexadecimal number
+        used as a file''s digital fingerprint.
+
+        '
+    type: string
+  modality:
+    term:
+      description: '(0008, 0060) Modality. The Digital Imaging and Communications
+        in Medicine (DICOM) standard is the international standard to transmit, store,
+        retrieve, print, process, and display medical imaging information.
+
+        '
+      termDef:
+        cde_id: (0008, 0060)
+        cde_version: null
+        source: DICOM
+        term: Modality
+        term_url: https://www.dicomstandard.org/current
+    type: string
+  number_of_instances:
+    description: The number of instances included in this series.
+    type: integer
+  object_id:
+    description: The GUID of the object in the index service.
+    type: string
+  pixel_spacing:
+    items:
+      type: number
+    term:
+      description: '(0028, 0030) Pixel Spacing. The Digital Imaging and Communications
+        in Medicine (DICOM) standard is the international standard to transmit, store,
+        retrieve, print, process, and display medical imaging information.
+
+        '
+      termDef:
+        cde_id: (0028, 0030)
+        cde_version: null
+        source: DICOM
+        term: Pixel Spacing
+        term_url: https://www.dicomstandard.org/current
+    type: array
+  project_id:
+    term:
+      description: 'Unique ID for any specific defined piece of work that is undertaken
+        or attempted to meet a single requirement.
+
+        '
+    type: string
+  series_description:
+    term:
+      description: '(0008, 103e) Series Description. The Digital Imaging and Communications
+        in Medicine (DICOM) standard is the international standard to transmit, store,
+        retrieve, print, process, and display medical imaging information.
+
+        '
+      termDef:
+        cde_id: (0008, 103e)
+        cde_version: null
+        source: DICOM
+        term: Series Description
+        term_url: https://www.dicomstandard.org/current
+    type: string
+  series_uid:
+    term:
+      description: '(0020, 000e) Series Instance UID. The Digital Imaging and Communications
+        in Medicine (DICOM) standard is the international standard to transmit, store,
+        retrieve, print, process, and display medical imaging information.
+
+        '
+      termDef:
+        cde_id: (0020, 000e)
+        cde_version: null
+        source: DICOM
+        term: Series Instance UID
+        term_url: https://www.dicomstandard.org/current
+    type: string
+  sop_class_name:
+    items:
+      enum:
+      - Digital Mammography X-Ray Image Storage - For Presentation
+      - Digital Mammography X-Ray Image Storage - For Processing
+      - Breast Tomosynthesis Image Storage
+      - Breast Projection X-Ray Image Storage - For Presentation
+      - Breast Projection X-Ray Image Storage - For Processing
+    term:
+      description: 'The textual description for the (0008, 0016) SOP Class UID Attribute.
+        The Digital Imaging and Communications in Medicine (DICOM) standard is the
+        international standard to transmit, store, retrieve, print, process, and display
+        medical imaging information.
+
+        '
+      termDef:
+        cde_id: (0008, 0016)
+        cde_version: null
+        source: DICOM
+        term: SOP Class
+        term_url: https://www.dicomstandard.org/current
+    type: array
+  sop_class_uid:
+    items:
+      enum:
+      - 1.2.840.10008.5.1.4.1.1.1.2
+      - 1.2.840.10008.5.1.4.1.1.1.2.1
+      - 1.2.840.10008.5.1.4.1.1.13.1.3
+      - 1.2.840.10008.5.1.4.1.1.13.1.4
+      - 1.2.840.10008.5.1.4.1.1.13.1.5
+    term:
+      description: '(0008, 0016) SOP Class UID Attribute.. The Digital Imaging and
+        Communications in Medicine (DICOM) standard is the international standard
+        to transmit, store, retrieve, print, process, and display medical imaging
+        information.
+
+        '
+      termDef:
+        cde_id: (0008, 0016)
+        cde_version: null
+        source: DICOM
+        term: SOP Class UID
+        term_url: https://www.dicomstandard.org/current
+    type: array
+  spatial_resolution:
+    term:
+      description: '(0018, 1050) Spatial Resolution. The Digital Imaging and Communications
+        in Medicine (DICOM) standard is the international standard to transmit, store,
+        retrieve, print, process, and display medical imaging information.
+
+        '
+      termDef:
+        cde_id: (0018, 1050)
+        cde_version: null
+        source: DICOM
+        term: Spatial Resolution
+        term_url: https://www.dicomstandard.org/current
+    type: number
+  state:
+    default: validated
+    downloadable:
+    - uploaded
+    - md5summed
+    - validating
+    - validated
+    - error
+    - invalid
+    - released
+    oneOf:
+    - enum:
+      - uploading
+      - uploaded
+      - md5summing
+      - md5summed
+      - validating
+      - error
+      - invalid
+      - suppressed
+      - redacted
+      - live
+    - enum:
+      - validated
+      - submitted
+      - released
+    public:
+    - live
+    term:
+      description: 'The current state of the object.
+
+        '
+  submitter_id:
+    description: A human-readable, unique identifier for a record in the metadata
+      database. It can be used in place of the UUID for identifying or recalling a
+      record (e.g., in data queries or uploads/exports).
+    type: string
+  type:
+    description: The node_id of the node in the data model; the name of the node used
+      in queries and API requests (e.g., "aligned_reads_file" for the "Aligned Reads
+      File" node).
+    type: string
+  updated_datetime:
+    oneOf:
+    - format: date-time
+      type: string
+    - type: 'null'
+    term:
+      description: 'A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]
+
+        '
+  view_position:
+    items:
+      type: string
+    term:
+      description: '(0018, 5101) View Position. The Digital Imaging and Communications
+        in Medicine (DICOM) standard is the international standard to transmit, store,
+        retrieve, print, process, and display medical imaging information.
+
+        '
+      termDef:
+        cde_id: (0018, 5101)
+        cde_version: null
+        source: DICOM
+        term: View Position
+        term_url: https://www.dicomstandard.org/current
+    type: array
+required:
+- submitter_id
+- type
+- file_name
+- file_size
+- md5sum
+- data_format
+- data_type
+- data_category
+submittable: true
+systemProperties:
+- id
+- project_id
+- state
+- created_datetime
+- updated_datetime
+- file_state
+- error_type
+title: MG Series File
+type: object
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+validators: null

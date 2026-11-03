@@ -1,0 +1,424 @@
+$schema: http://json-schema.org/draft-04/schema#
+id: biomarker_assessment
+title: Biomarker Assessment
+type: object
+namespace: urn:nmmi:lu177-psma:model
+category: clinical
+program: '*'
+project: '*'
+description: Clinical or molecular biomarker assessment linked to a specimen when
+  applicable.
+additionalProperties: false
+submittable: true
+validators: null
+links:
+- name: cases
+  backref: nmmi_biomarker_assessment_cases
+  label: related_to
+  target_type: case
+  multiplicity: many_to_one
+  required: true
+- name: specimens
+  backref: nmmi_biomarker_assessment_specimens
+  label: related_to
+  target_type: specimen
+  multiplicity: many_to_one
+  required: false
+- name: timepoints
+  backref: nmmi_biomarker_assessment_timepoints
+  label: related_to
+  target_type: timepoint
+  multiplicity: many_to_one
+  required: false
+- name: provenance_records
+  backref: nmmi_biomarker_assessment_provenance_records
+  label: documented_by
+  target_type: provenance
+  multiplicity: many_to_many
+  required: false
+required:
+- type
+- submitter_id
+- cases
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+systemProperties:
+- id
+- project_id
+- state
+- created_datetime
+- updated_datetime
+properties:
+  type:
+    enum:
+    - biomarker_assessment
+  submitter_id:
+    type: string
+    description: Stable submitter-assigned identifier, unique within a project. Do
+      not encode direct patient identifiers.
+    minLength: 1
+  id:
+    pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+    systemAlias: node_id
+    term:
+      description: 'A 128-bit identifier. Depending on the mechanism used to generate
+        it, it is either guaranteed to be different from all other UUIDs/GUIDs generated
+        until 3400 AD or extremely likely to be different. Its relatively small size
+        lends itself well to sorting, ordering, and hashing of all sorts, storing
+        in databases, simple allocation, and ease of programming in general.
+
+        '
+      termDef:
+        cde_id: C54100
+        cde_version: null
+        source: NCIt
+        term: Universally Unique Identifier
+        term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+    type: string
+  project_id:
+    term:
+      description: 'Unique ID for any specific defined piece of work that is undertaken
+        or attempted to meet a single requirement.
+
+        '
+    type: string
+  state:
+    default: validated
+    downloadable:
+    - uploaded
+    - md5summed
+    - validating
+    - validated
+    - error
+    - invalid
+    - released
+    oneOf:
+    - enum:
+      - uploading
+      - uploaded
+      - md5summing
+      - md5summed
+      - validating
+      - error
+      - invalid
+      - suppressed
+      - redacted
+      - live
+    - enum:
+      - validated
+      - submitted
+      - released
+    public:
+    - live
+    term:
+      description: 'The current state of the object.
+
+        '
+  created_datetime:
+    oneOf:
+    - format: date-time
+      type: string
+    - type: 'null'
+    term:
+      description: 'A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]
+
+        '
+  updated_datetime:
+    oneOf:
+    - format: date-time
+      type: string
+    - type: 'null'
+    term:
+      description: 'A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]
+
+        '
+  cases:
+    type: array
+    items:
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      oneOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    uniqueItems: true
+    description: Link to case records by submitter_id or UUID.
+    minItems: 1
+    maxItems: 1
+  specimens:
+    type: array
+    items:
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      oneOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    uniqueItems: true
+    description: Link to specimen records by submitter_id or UUID.
+    maxItems: 1
+  timepoints:
+    type: array
+    items:
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      oneOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    uniqueItems: true
+    description: Link to timepoint records by submitter_id or UUID.
+    maxItems: 1
+  provenance_records:
+    type: array
+    items:
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      oneOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    uniqueItems: true
+    description: Link to provenance records by submitter_id or UUID.
+  model_version:
+    type: string
+    description: Version of the submitting theranostics extension, independently of
+      the MIDRC baseline version.
+  record_status:
+    type: string
+    description: Record curation state, independent of clinical value.
+    enum:
+    - draft
+    - reviewed
+    - approved
+    - superseded
+    - withdrawn
+  source_record_id:
+    type: string
+    description: Identifier of the originating source record; use an approved pseudonym
+      when needed.
+  source_system:
+    type: string
+    description: Source system or data provider.
+  missing_properties:
+    type: array
+    description: Names of properties missing from this record; no missing value is
+      encoded as zero.
+    items:
+      type: string
+  missing_reasons:
+    type: array
+    description: Reasons corresponding by index to missing_properties.
+    items:
+      enum:
+      - unknown
+      - not_collected
+      - not_applicable
+      - not_available
+      - withheld
+      - pending
+  assessment_datetime:
+    type: string
+    description: ISO 8601 assessment datetime; use approved date shifting consistently
+      within the case.
+    format: date-time
+  days_from_course_start:
+    type: number
+    description: Signed elapsed days from the linked therapy course start.
+  time_basis:
+    type: string
+    description: Interpretation of stored dates and elapsed times.
+    enum:
+    - actual
+    - shifted
+    - relative_only
+    - unknown
+  time_window_start_day:
+    type: number
+    description: Beginning of assessment window relative to course start, in days.
+  time_window_end_day:
+    type: number
+    description: End of assessment window relative to course start, in days.
+  biomarker_name:
+    type: string
+    description: Assay or biomarker name.
+  assay_method:
+    type: string
+    description: Assay platform and method.
+  unit:
+    type: string
+    description: Unit for quantitative biomarker values.
+  germline_genetic_test_date:
+    type: string
+    format: date
+    description: Date germline genetic testing was performed or results reported.
+  germline_genetic_test_results_summary:
+    type: string
+    description: Summary of key germline mutations found (e.g., BRCA1/2, ATM, CHEK2,
+      PALB2, Lynch syndrome genes) or 'No pathogenic variants identified'.
+  germline_genetic_testing_performed:
+    type: string
+    description: Indicates if germline genetic testing for cancer-related mutations
+      was performed.
+  ki67_biopsy_date:
+    type: string
+    format: date
+    description: Date the biopsy for Ki-67 analysis was performed.
+  ki67_biopsy_site:
+    type: string
+    description: Anatomical site of the biopsy used for Ki-67 index determination.
+  ki67_index_value:
+    type: number
+    description: Ki-67 proliferation index percentage from the most relevant biopsy
+      (e.g., primary or metastatic). Specify if available.
+  somatic_genetic_test_biopsy_site:
+    type: string
+    description: Site of biopsy used for somatic genetic testing, if applicable.
+  somatic_genetic_test_date:
+    type: string
+    format: date
+    description: Date somatic genetic testing was performed or results reported.
+  somatic_genetic_test_results_summary:
+    type: string
+    description: Summary of key somatic mutations found (e.g., BRCA1/2, ATM, TP53,
+      PTEN, AR alterations) or 'No targetable pathogenic variants identified'.
+  somatic_genetic_testing_performed:
+    type: string
+    description: Indicates if somatic genetic testing (from tumor tissue or ctDNA)
+      was performed.
+  ctdna:
+    type: string
+    description: Provisional field for ctDNA; operational definition requires review.
+  biopsy_method:
+    type: string
+    description: '1- Transrectal
+
+      2- Transperineal
+
+      3- Transurethral'
+  biopsy_date:
+    type: string
+    description: Provisional field for biopsy date; operational definition requires
+      review.
+  grading:
+    type: string
+    description: Provisional field for grading; operational definition requires review.
+  uicc_staging:
+    type: string
+    description: Provisional field for UICC staging; operational definition requires
+      review.
+  mutation:
+    type: string
+    description: Provisional field for mutation; operational definition requires review.
+  neuroendocrine_or_adenocarcinoma:
+    type: string
+    description: Provisional field for neuroendocrine, or adenocarcinoma; operational
+      definition requires review.
+  result_numeric:
+    type: number
+    description: Numeric assay result at this collection time.
+    minimum: 0
+  assay_name:
+    type: string
+    description: Biomarker assay name.
+  result_unit:
+    type: string
+    description: Unit of the numeric biomarker assay result.
+  assessment_role:
+    type: string
+    description: Baseline or follow-up context, specified rather than encoded in record
+      identity.

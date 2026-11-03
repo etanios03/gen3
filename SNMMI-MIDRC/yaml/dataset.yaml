@@ -1,0 +1,265 @@
+$schema: http://json-schema.org/draft-04/schema#
+additionalProperties: false
+category: administrative
+description: A set of metadata and associated data file objects originating from single
+  a research study, clinical trial or patient cohort.
+id: dataset
+links:
+- backref: datasets
+  label: performed_for
+  multiplicity: many_to_one
+  name: projects
+  required: true
+  target_type: project
+namespace: https://data.midrc.org
+nodeTerms: null
+program: '*'
+project: '*'
+properties:
+  acknowledgement:
+    description: Publication acknowledgement(s) for the published dataset.
+    type: string
+  created_datetime:
+    oneOf:
+    - format: date-time
+      type: string
+    - type: 'null'
+    term:
+      description: 'A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]
+
+        '
+  data_citation:
+    description: The citation for the published dataset.
+    type: string
+  data_contributor:
+    description: The name of the organization or individual that the contributed dataset
+      belongs to.
+    type: string
+  data_description:
+    description: A brief, free-text description of the data files and associated metadata
+      provided for this dataset.
+    type: string
+  data_url_doi:
+    description: A URL or DOI for the source of the dataset or the contributing organization's
+      website.
+    type: string
+  disease_type:
+    description: The primary type of disease studied in this dataset, if applicable.
+    type: string
+  full_name:
+    description: The full name or title of the dataset or publication.
+    type: string
+  id:
+    pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+    term:
+      description: 'A 128-bit identifier. Depending on the mechanism used to generate
+        it, it is either guaranteed to be different from all other UUIDs/GUIDs generated
+        until 3400 AD or extremely likely to be different. Its relatively small size
+        lends itself well to sorting, ordering, and hashing of all sorts, storing
+        in databases, simple allocation, and ease of programming in general.
+
+        '
+      termDef:
+        cde_id: C54100
+        cde_version: null
+        source: NCIt
+        term: Universally Unique Identifier
+        term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+    type: string
+  license:
+    description: The license under which the dataset has been published.
+    type: string
+  longitudinal:
+    description: Indicates whether the dataset has longitudinal or time-series data.
+    type: boolean
+  primary_site:
+    description: The primary body site studied in this dataset.
+    type: string
+  project_id:
+    term:
+      description: 'Unique ID for any specific defined piece of work that is undertaken
+        or attempted to meet a single requirement.
+
+        '
+    type: string
+  projects:
+    anyOf:
+    - items:
+        additionalProperties: true
+        maxItems: 1
+        minItems: 1
+        properties:
+          code:
+            type: string
+          id:
+            pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+            term:
+              description: 'A 128-bit identifier. Depending on the mechanism used
+                to generate it, it is either guaranteed to be different from all other
+                UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+                Its relatively small size lends itself well to sorting, ordering,
+                and hashing of all sorts, storing in databases, simple allocation,
+                and ease of programming in general.
+
+                '
+              termDef:
+                cde_id: C54100
+                cde_version: null
+                source: NCIt
+                term: Universally Unique Identifier
+                term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+            type: string
+        type: object
+      type: array
+    - additionalProperties: true
+      properties:
+        code:
+          type: string
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      type: object
+    description: The code of the project that this dataset belongs to, i.e., a link
+      to the parent node.
+  publication_citation:
+    description: The major or main publication(s) associated with the data itself
+      or with the publication that published the dataset.
+    type: string
+  research_description:
+    description: If the dataset is related to a research study, provide a brief, free-text
+      description or abstract of the study being performed, for example, the hypothesis
+      being tested and a very brief description of the materials, methods and results.
+    type: string
+  research_design:
+    description: A summary of the goals of the research or a general description of
+      the research's relationship to a clinical application.
+    type: string
+  research_objective:
+    description: The general objective of the research; what the researchers hope
+      to discover or determine.
+    type: string
+  research_setup:
+    description: A high level description of the setup used to achieve the research
+      objectives.
+    type: string
+  state:
+    default: validated
+    downloadable:
+    - uploaded
+    - md5summed
+    - validating
+    - validated
+    - error
+    - invalid
+    - released
+    oneOf:
+    - enum:
+      - uploading
+      - uploaded
+      - md5summing
+      - md5summed
+      - validating
+      - error
+      - invalid
+      - suppressed
+      - redacted
+      - live
+    - enum:
+      - validated
+      - submitted
+      - released
+    public:
+    - live
+    term:
+      description: 'The current state of the object.
+
+        '
+  submitter_id:
+    description: A human-readable identifier for the study's record in the database.
+      It can be used in place of the UUID for identifying or recalling a record.
+    type: string
+  type:
+    description: The name of the node in the database to be used in queries. In this
+      case "dataset".
+    enum:
+    - dataset
+  updated_datetime:
+    oneOf:
+    - format: date-time
+      type: string
+    - type: 'null'
+    term:
+      description: 'A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]
+
+        '
+  model_version:
+    type: string
+    description: Version of the submitting theranostics extension, independently of
+      the MIDRC baseline version.
+  record_status:
+    type: string
+    description: Record curation state, independent of clinical value.
+    enum:
+    - draft
+    - reviewed
+    - approved
+    - superseded
+    - withdrawn
+  source_record_id:
+    type: string
+    description: Identifier of the originating source record; use an approved pseudonym
+      when needed.
+  source_system:
+    type: string
+    description: Source system or data provider.
+  missing_properties:
+    type: array
+    description: Names of properties missing from this record; no missing value is
+      encoded as zero.
+    items:
+      type: string
+  missing_reasons:
+    type: array
+    description: Reasons corresponding by index to missing_properties.
+    items:
+      enum:
+      - unknown
+      - not_collected
+      - not_applicable
+      - not_available
+      - withheld
+      - pending
+required:
+- submitter_id
+- type
+- data_description
+- projects
+submittable: true
+systemProperties:
+- id
+- project_id
+- state
+- created_datetime
+- updated_datetime
+title: Dataset
+type: object
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+validators: null

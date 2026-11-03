@@ -1,0 +1,1515 @@
+$schema: http://json-schema.org/draft-04/schema#
+additionalProperties: false
+category: annotation
+description: Information describing characteristics of imaging studies, series and
+  instances (e.g., segmentations, bounding boxes, feature labels) and inferences based
+  on those characteristics (e.g., predicted diagnoses). Annotations may be recorded
+  in the course of clinical care or retrospectively for purposes of research (e.g.,
+  imaging annotations from PACS or retrospective labeling tools). Please refer to
+  https://midrc.org/annotations to learn more about a particular batch of annotations.
+id: annotation
+links:
+- exclusive: false
+  required: true
+  subgroup:
+  - backref: annotations
+    label: related_to
+    multiplicity: many_to_one
+    name: datasets
+    required: false
+    target_type: dataset
+  - backref: annotations
+    label: related_to
+    multiplicity: many_to_one
+    name: cases
+    required: false
+    target_type: case
+  - backref: annotations
+    label: related_to
+    multiplicity: many_to_one
+    name: imaging_studies
+    required: false
+    target_type: imaging_study
+  - backref: annotations
+    label: related_to
+    multiplicity: many_to_one
+    name: cr_series_files
+    required: false
+    target_type: cr_series_file
+  - backref: annotations
+    label: related_to
+    multiplicity: many_to_one
+    name: ct_series_files
+    required: false
+    target_type: ct_series_file
+  - backref: annotations
+    label: related_to
+    multiplicity: many_to_one
+    name: dx_series_files
+    required: false
+    target_type: dx_series_file
+  - backref: annotations
+    label: related_to
+    multiplicity: many_to_one
+    name: mg_series_files
+    required: false
+    target_type: mg_series_file
+  - backref: annotations
+    label: related_to
+    multiplicity: many_to_one
+    name: mr_series_files
+    required: false
+    target_type: mr_series_file
+  - backref: annotations
+    label: related_to
+    multiplicity: many_to_one
+    name: nm_series_files
+    required: false
+    target_type: nm_series_file
+  - backref: annotations
+    label: related_to
+    multiplicity: many_to_one
+    name: pt_series_files
+    required: false
+    target_type: pt_series_file
+  - backref: annotations
+    label: related_to
+    multiplicity: many_to_one
+    name: rf_series_files
+    required: false
+    target_type: rf_series_file
+  - backref: annotations
+    label: related_to
+    multiplicity: many_to_one
+    name: us_series_files
+    required: false
+    target_type: us_series_file
+  - backref: annotations
+    label: related_to
+    multiplicity: many_to_one
+    name: xa_series_files
+    required: false
+    target_type: xa_series_file
+  - backref: annotations
+    label: related_to
+    multiplicity: many_to_one
+    name: annotation_files
+    required: false
+    target_type: annotation_file
+  - backref: annotations
+    label: related_to
+    multiplicity: many_to_one
+    name: dicom_annotation_files
+    required: false
+    target_type: dicom_annotation_file
+- name: anatomic_targets
+  target_type: anatomic_target
+  backref: nmmi_annotation_anatomic_targets
+  label: related_to
+  multiplicity: many_to_one
+  required: false
+- name: registrations
+  target_type: registration
+  backref: nmmi_annotation_registrations
+  label: related_to
+  multiplicity: many_to_many
+  required: false
+- name: provenance_records
+  target_type: provenance
+  backref: nmmi_annotation_provenance_records
+  label: related_to
+  multiplicity: many_to_many
+  required: false
+- name: anatomic_reference_pt_series_files
+  target_type: pt_series_file
+  backref: nmmi_annotation_anatomic_reference_pt_series_files
+  label: related_to
+  multiplicity: many_to_one
+  required: false
+- name: anatomic_reference_nm_series_files
+  target_type: nm_series_file
+  backref: nmmi_annotation_anatomic_reference_nm_series_files
+  label: related_to
+  multiplicity: many_to_one
+  required: false
+- name: anatomic_reference_ct_series_files
+  target_type: ct_series_file
+  backref: nmmi_annotation_anatomic_reference_ct_series_files
+  label: related_to
+  multiplicity: many_to_one
+  required: false
+- name: anatomic_reference_mr_series_files
+  target_type: mr_series_file
+  backref: nmmi_annotation_anatomic_reference_mr_series_files
+  label: related_to
+  multiplicity: many_to_one
+  required: false
+namespace: https://data.midrc.org
+nodeTerms: null
+program: '*'
+project: '*'
+properties:
+  airspace_disease_grading:
+    description: Values are extracted from the annotation file midrc_mdai_chestxr.
+      Accepted values are "mild" opacities (1-2 lung zones), "moderate" opacities
+      (3-4 lung zones), and "severe" opacities (>4 lung zones).
+    enum:
+    - mild
+    - moderate
+    - severe
+  annotation_files:
+    anyOf:
+    - items:
+        additionalProperties: true
+        maxItems: 1
+        minItems: 1
+        properties:
+          id:
+            pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+            term:
+              description: 'A 128-bit identifier. Depending on the mechanism used
+                to generate it, it is either guaranteed to be different from all other
+                UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+                Its relatively small size lends itself well to sorting, ordering,
+                and hashing of all sorts, storing in databases, simple allocation,
+                and ease of programming in general.
+
+                '
+              termDef:
+                cde_id: C54100
+                cde_version: null
+                source: NCIt
+                term: Universally Unique Identifier
+                term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+            type: string
+          submitter_id:
+            type: string
+        type: object
+      type: array
+    - additionalProperties: true
+      properties:
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+        submitter_id:
+          type: string
+      type: object
+    description: The submitter_id or id of the annotation_file this annotation relates
+      to, i.e., a link to a record in the parent node.
+  annotation_long_name:
+    description: The long name of the annotation provides more information about the
+      specific annotation.
+    type: string
+  annotation_method:
+    description: Defines the method by which the annotation was created. Clinically_derived
+      - Based on information produced in the process of the subject's medical care;
+      Retrospective_expert - Based on information produced retrospective to the subject's
+      care by annotators with relevant special clinical expertise; Retrospective_general
+      - Based on information produced retrospective to the subject's care by annotators
+      without relevant special clinical expertise; Retrospective_auto - Based on information
+      produced retrospective to the subject's care using automated means.
+    enum:
+    - Clinically_derived
+    - Retrospective_expert
+    - Retrospective_general
+    - Retrospective_auto
+  annotation_name:
+    enum:
+    - midrc_bpr_landmarks
+    - midrc_bpr_regions
+    - midrc_lung_segs
+    - midrc_lung_measures
+    - midrc_mdai_chestxr
+    - midrc_mRALE_Mastermind_Challenge
+    - SIFT
+    - NMMI_PSMA_SEGMENTATION
+    - NMMI_PSMA_DOSE_MAP
+    term:
+      description: 'The name of the annotation. These names are unique and assigned
+        by MIDRC. Annotation names reference a document posted on the MIDRC website
+        describing the annotation, methods and values expected.  All MIDRC created
+        annotations start with "midrc_".
+
+        '
+      termDef:
+        cde_id: null
+        cde_version: null
+        source: MIDRC
+        term: Annotation Name
+        term_url: https://www.midrc.org/annotations
+  annotator_id:
+    description: Coded value to represent a particular annotator in a group. These
+      need only be unique per annotation.
+    type: string
+  case_ids:
+    description: A list of one or more case submitter_ids associated with this data.
+    items:
+      type: string
+    type: array
+  cases:
+    anyOf:
+    - items:
+        additionalProperties: true
+        maxItems: 1
+        minItems: 1
+        properties:
+          id:
+            pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+            term:
+              description: 'A 128-bit identifier. Depending on the mechanism used
+                to generate it, it is either guaranteed to be different from all other
+                UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+                Its relatively small size lends itself well to sorting, ordering,
+                and hashing of all sorts, storing in databases, simple allocation,
+                and ease of programming in general.
+
+                '
+              termDef:
+                cde_id: C54100
+                cde_version: null
+                source: NCIt
+                term: Universally Unique Identifier
+                term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+            type: string
+          submitter_id:
+            type: string
+        type: object
+      type: array
+    - additionalProperties: true
+      properties:
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+        submitter_id:
+          type: string
+      type: object
+    description: The submitter_id or id of the case this annotation relates to, i.e.,
+      a link to a record in the parent node.
+  class_covid19_pneumonia:
+    description: Values are extracted from the annotation file midrc_mdai_chestxr;
+      Accepted values include "typical" appearance, which is multifocal bilateral,
+      peripheral opacities, or opacities with rounded morphology, lower lung-predominant
+      distribution;  "indeterminate" appearance, which is absence of typical findings
+      and unilateral, central or upper lung predominant distribution of airspace disease;
+      "atypical" appearance, which is pneumothorax or pleural effusion, pulmonary
+      edema, lobar consolidation, solitary lung nodule, or mass diffuse tiny nodules
+      cavity; "negative" for pneumonia, which is no lung opacities.
+    enum:
+    - atypical
+    - indeterminate
+    - negative
+    - typical
+  cr_series_files:
+    anyOf:
+    - items:
+        additionalProperties: true
+        maxItems: 1
+        minItems: 1
+        properties:
+          id:
+            pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+            term:
+              description: 'A 128-bit identifier. Depending on the mechanism used
+                to generate it, it is either guaranteed to be different from all other
+                UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+                Its relatively small size lends itself well to sorting, ordering,
+                and hashing of all sorts, storing in databases, simple allocation,
+                and ease of programming in general.
+
+                '
+              termDef:
+                cde_id: C54100
+                cde_version: null
+                source: NCIt
+                term: Universally Unique Identifier
+                term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+            type: string
+          submitter_id:
+            type: string
+        type: object
+      type: array
+    - additionalProperties: true
+      properties:
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+        submitter_id:
+          type: string
+      type: object
+    description: The submitter_id or id of the CR imaging series this annotation relates
+      to, i.e., a link to a record in the parent node.
+  created_datetime:
+    oneOf:
+    - format: date-time
+      type: string
+    - type: 'null'
+    term:
+      description: 'A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]
+
+        '
+  ct_series_files:
+    anyOf:
+    - items:
+        additionalProperties: true
+        maxItems: 1
+        minItems: 1
+        properties:
+          id:
+            pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+            term:
+              description: 'A 128-bit identifier. Depending on the mechanism used
+                to generate it, it is either guaranteed to be different from all other
+                UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+                Its relatively small size lends itself well to sorting, ordering,
+                and hashing of all sorts, storing in databases, simple allocation,
+                and ease of programming in general.
+
+                '
+              termDef:
+                cde_id: C54100
+                cde_version: null
+                source: NCIt
+                term: Universally Unique Identifier
+                term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+            type: string
+          submitter_id:
+            type: string
+        type: object
+      type: array
+    - additionalProperties: true
+      properties:
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+        submitter_id:
+          type: string
+      type: object
+    description: The submitter_id or id of the CT imaging series this annotation relates
+      to, i.e., a link to a record in the parent node.
+  datasets:
+    anyOf:
+    - items:
+        additionalProperties: true
+        maxItems: 1
+        minItems: 1
+        properties:
+          id:
+            pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+            term:
+              description: 'A 128-bit identifier. Depending on the mechanism used
+                to generate it, it is either guaranteed to be different from all other
+                UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+                Its relatively small size lends itself well to sorting, ordering,
+                and hashing of all sorts, storing in databases, simple allocation,
+                and ease of programming in general.
+
+                '
+              termDef:
+                cde_id: C54100
+                cde_version: null
+                source: NCIt
+                term: Universally Unique Identifier
+                term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+            type: string
+          submitter_id:
+            type: string
+        type: object
+      type: array
+    - additionalProperties: true
+      properties:
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+        submitter_id:
+          type: string
+      type: object
+    description: The submitter_id or id of the case this annotation relates to, i.e.,
+      a link to a record in the parent node.
+  dicom_annotation_files:
+    anyOf:
+    - items:
+        additionalProperties: true
+        maxItems: 1
+        minItems: 1
+        properties:
+          id:
+            pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+            term:
+              description: 'A 128-bit identifier. Depending on the mechanism used
+                to generate it, it is either guaranteed to be different from all other
+                UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+                Its relatively small size lends itself well to sorting, ordering,
+                and hashing of all sorts, storing in databases, simple allocation,
+                and ease of programming in general.
+
+                '
+              termDef:
+                cde_id: C54100
+                cde_version: null
+                source: NCIt
+                term: Universally Unique Identifier
+                term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+            type: string
+          submitter_id:
+            type: string
+        type: object
+      type: array
+    - additionalProperties: true
+      properties:
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+        submitter_id:
+          type: string
+      type: object
+    description: The submitter_id or id of the dicom_annotation_file this annotation
+      relates to, i.e., a link to a record in the parent node.
+  dx_series_files:
+    anyOf:
+    - items:
+        additionalProperties: true
+        maxItems: 1
+        minItems: 1
+        properties:
+          id:
+            pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+            term:
+              description: 'A 128-bit identifier. Depending on the mechanism used
+                to generate it, it is either guaranteed to be different from all other
+                UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+                Its relatively small size lends itself well to sorting, ordering,
+                and hashing of all sorts, storing in databases, simple allocation,
+                and ease of programming in general.
+
+                '
+              termDef:
+                cde_id: C54100
+                cde_version: null
+                source: NCIt
+                term: Universally Unique Identifier
+                term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+            type: string
+          submitter_id:
+            type: string
+        type: object
+      type: array
+    - additionalProperties: true
+      properties:
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+        submitter_id:
+          type: string
+      type: object
+    description: The submitter_id or id of the DX imaging series this annotation relates
+      to, i.e., a link to a record in the parent node.
+  id:
+    pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+    systemAlias: node_id
+    term:
+      description: 'A 128-bit identifier. Depending on the mechanism used to generate
+        it, it is either guaranteed to be different from all other UUIDs/GUIDs generated
+        until 3400 AD or extremely likely to be different. Its relatively small size
+        lends itself well to sorting, ordering, and hashing of all sorts, storing
+        in databases, simple allocation, and ease of programming in general.
+
+        '
+      termDef:
+        cde_id: C54100
+        cde_version: null
+        source: NCIt
+        term: Universally Unique Identifier
+        term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+    type: string
+  imaging_studies:
+    anyOf:
+    - items:
+        additionalProperties: true
+        maxItems: 1
+        minItems: 1
+        properties:
+          id:
+            pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+            term:
+              description: 'A 128-bit identifier. Depending on the mechanism used
+                to generate it, it is either guaranteed to be different from all other
+                UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+                Its relatively small size lends itself well to sorting, ordering,
+                and hashing of all sorts, storing in databases, simple allocation,
+                and ease of programming in general.
+
+                '
+              termDef:
+                cde_id: C54100
+                cde_version: null
+                source: NCIt
+                term: Universally Unique Identifier
+                term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+            type: string
+          submitter_id:
+            type: string
+        type: object
+      type: array
+    - additionalProperties: true
+      properties:
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+        submitter_id:
+          type: string
+      type: object
+    description: The submitter_id or id of the imaging_study this annotation relates
+      to, i.e., a link to a record in the parent node.
+  instance_uids:
+    description: Used to denote that this annotation applies only to specific images
+      (image instances) in a series.  If absent, an annotation that references an
+      imaging series node applies to the entire imaging series.
+    items:
+      type: string
+    type: array
+  mg_series_files:
+    anyOf:
+    - items:
+        additionalProperties: true
+        maxItems: 1
+        minItems: 1
+        properties:
+          id:
+            pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+            term:
+              description: 'A 128-bit identifier. Depending on the mechanism used
+                to generate it, it is either guaranteed to be different from all other
+                UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+                Its relatively small size lends itself well to sorting, ordering,
+                and hashing of all sorts, storing in databases, simple allocation,
+                and ease of programming in general.
+
+                '
+              termDef:
+                cde_id: C54100
+                cde_version: null
+                source: NCIt
+                term: Universally Unique Identifier
+                term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+            type: string
+          submitter_id:
+            type: string
+        type: object
+      type: array
+    - additionalProperties: true
+      properties:
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+        submitter_id:
+          type: string
+      type: object
+    description: The submitter_id or id of the MG imaging series this annotation relates
+      to, i.e., a link to a record in the parent node.
+  midrc_mRALE_score:
+    description: Values are extracted from the annotation file mRALE_Mastermind_Challenge.
+      The Radiographic Assessment of Lung Edema (RALE) score is provided as a reference
+      standard assessment of disease severity on chest radiograph.  A normal chest
+      radiograph receives a score of 0, while a chest radiograph with complete consolidation
+      of both lungs receives the maximum score of 24.
+    maximum: 24
+    minimum: 0
+    type: integer
+  mr_series_files:
+    anyOf:
+    - items:
+        additionalProperties: true
+        maxItems: 1
+        minItems: 1
+        properties:
+          id:
+            pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+            term:
+              description: 'A 128-bit identifier. Depending on the mechanism used
+                to generate it, it is either guaranteed to be different from all other
+                UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+                Its relatively small size lends itself well to sorting, ordering,
+                and hashing of all sorts, storing in databases, simple allocation,
+                and ease of programming in general.
+
+                '
+              termDef:
+                cde_id: C54100
+                cde_version: null
+                source: NCIt
+                term: Universally Unique Identifier
+                term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+            type: string
+          submitter_id:
+            type: string
+        type: object
+      type: array
+    - additionalProperties: true
+      properties:
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+        submitter_id:
+          type: string
+      type: object
+    description: The submitter_id or id of the MR imaging series this annotation relates
+      to, i.e., a link to a record in the parent node.
+  nm_series_files:
+    anyOf:
+    - items:
+        additionalProperties: true
+        maxItems: 1
+        minItems: 1
+        properties:
+          id:
+            pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+            term:
+              description: 'A 128-bit identifier. Depending on the mechanism used
+                to generate it, it is either guaranteed to be different from all other
+                UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+                Its relatively small size lends itself well to sorting, ordering,
+                and hashing of all sorts, storing in databases, simple allocation,
+                and ease of programming in general.
+
+                '
+              termDef:
+                cde_id: C54100
+                cde_version: null
+                source: NCIt
+                term: Universally Unique Identifier
+                term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+            type: string
+          submitter_id:
+            type: string
+        type: object
+      type: array
+    - additionalProperties: true
+      properties:
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+        submitter_id:
+          type: string
+      type: object
+    description: The submitter_id or id of the NM imaging series this annotation relates
+      to, i.e., a link to a record in the parent node.
+  project_id:
+    term:
+      description: 'Unique ID for any specific defined piece of work that is undertaken
+        or attempted to meet a single requirement.
+
+        '
+    type: string
+  pt_series_files:
+    anyOf:
+    - items:
+        additionalProperties: true
+        maxItems: 1
+        minItems: 1
+        properties:
+          id:
+            pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+            term:
+              description: 'A 128-bit identifier. Depending on the mechanism used
+                to generate it, it is either guaranteed to be different from all other
+                UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+                Its relatively small size lends itself well to sorting, ordering,
+                and hashing of all sorts, storing in databases, simple allocation,
+                and ease of programming in general.
+
+                '
+              termDef:
+                cde_id: C54100
+                cde_version: null
+                source: NCIt
+                term: Universally Unique Identifier
+                term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+            type: string
+          submitter_id:
+            type: string
+        type: object
+      type: array
+    - additionalProperties: true
+      properties:
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+        submitter_id:
+          type: string
+      type: object
+    description: The submitter_id or id of the PT imaging series this annotation relates
+      to, i.e., a link to a record in the parent node.
+  rf_series_files:
+    anyOf:
+    - items:
+        additionalProperties: true
+        maxItems: 1
+        minItems: 1
+        properties:
+          id:
+            pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+            term:
+              description: 'A 128-bit identifier. Depending on the mechanism used
+                to generate it, it is either guaranteed to be different from all other
+                UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+                Its relatively small size lends itself well to sorting, ordering,
+                and hashing of all sorts, storing in databases, simple allocation,
+                and ease of programming in general.
+
+                '
+              termDef:
+                cde_id: C54100
+                cde_version: null
+                source: NCIt
+                term: Universally Unique Identifier
+                term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+            type: string
+          submitter_id:
+            type: string
+        type: object
+      type: array
+    - additionalProperties: true
+      properties:
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+        submitter_id:
+          type: string
+      type: object
+    description: The submitter_id or id of the RF imaging series this annotation relates
+      to, i.e., a link to a record in the parent node.
+  sift_image_quality_index:
+    description: A score of image quality based on the SIFT annotation software.
+    enum:
+    - A
+    - B
+    - C
+    - D
+    - Not Reported
+  software_version:
+    term:
+      description: '(0018, 1020) Software Version(s). The Digital Imaging and Communications
+        in Medicine (DICOM) standard is the international standard to transmit, store,
+        retrieve, print, process, and display medical imaging information.
+
+        '
+      termDef:
+        cde_id: (0018, 1020)
+        cde_version: null
+        source: DICOM
+        term: Software Version(s)
+        term_url: https://www.dicomstandard.org/current
+    type: string
+  state:
+    default: validated
+    downloadable:
+    - uploaded
+    - md5summed
+    - validating
+    - validated
+    - error
+    - invalid
+    - released
+    oneOf:
+    - enum:
+      - uploading
+      - uploaded
+      - md5summing
+      - md5summed
+      - validating
+      - error
+      - invalid
+      - suppressed
+      - redacted
+      - live
+    - enum:
+      - validated
+      - submitted
+      - released
+    public:
+    - live
+    term:
+      description: 'The current state of the object.
+
+        '
+  submitter_id:
+    description: A human-readable, unique identifier for a record in the metadata
+      database. It can be used in place of the UUID for identifying or recalling a
+      record (e.g., in data queries or uploads/exports).
+    type: string
+  type:
+    description: The node_id of the node in the data model; the name of the node used
+      in queries and API requests (e.g., "aligned_reads_file" for the "Aligned Reads
+      File" node).
+    type: string
+  updated_datetime:
+    oneOf:
+    - format: date-time
+      type: string
+    - type: 'null'
+    term:
+      description: 'A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]
+
+        '
+  us_series_files:
+    anyOf:
+    - items:
+        additionalProperties: true
+        maxItems: 1
+        minItems: 1
+        properties:
+          id:
+            pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+            term:
+              description: 'A 128-bit identifier. Depending on the mechanism used
+                to generate it, it is either guaranteed to be different from all other
+                UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+                Its relatively small size lends itself well to sorting, ordering,
+                and hashing of all sorts, storing in databases, simple allocation,
+                and ease of programming in general.
+
+                '
+              termDef:
+                cde_id: C54100
+                cde_version: null
+                source: NCIt
+                term: Universally Unique Identifier
+                term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+            type: string
+          submitter_id:
+            type: string
+        type: object
+      type: array
+    - additionalProperties: true
+      properties:
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+        submitter_id:
+          type: string
+      type: object
+    description: The submitter_id or id of the US imaging series this annotation relates
+      to, i.e., a link to a record in the parent node.
+  xa_series_files:
+    anyOf:
+    - items:
+        additionalProperties: true
+        maxItems: 1
+        minItems: 1
+        properties:
+          id:
+            pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+            term:
+              description: 'A 128-bit identifier. Depending on the mechanism used
+                to generate it, it is either guaranteed to be different from all other
+                UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+                Its relatively small size lends itself well to sorting, ordering,
+                and hashing of all sorts, storing in databases, simple allocation,
+                and ease of programming in general.
+
+                '
+              termDef:
+                cde_id: C54100
+                cde_version: null
+                source: NCIt
+                term: Universally Unique Identifier
+                term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+            type: string
+          submitter_id:
+            type: string
+        type: object
+      type: array
+    - additionalProperties: true
+      properties:
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+        submitter_id:
+          type: string
+      type: object
+    description: The submitter_id or id of the XA imaging series this annotation relates
+      to, i.e., a link to a record in the parent node.
+  model_version:
+    type: string
+    description: Version of the submitting theranostics extension, independently of
+      the MIDRC baseline version.
+  record_status:
+    type: string
+    description: Record curation state, independent of clinical value.
+    enum:
+    - draft
+    - reviewed
+    - approved
+    - superseded
+    - withdrawn
+  source_record_id:
+    type: string
+    description: Identifier of the originating source record; use an approved pseudonym
+      when needed.
+  source_system:
+    type: string
+    description: Source system or data provider.
+  missing_properties:
+    type: array
+    description: Names of properties missing from this record; no missing value is
+      encoded as zero.
+    items:
+      type: string
+  missing_reasons:
+    type: array
+    description: Reasons corresponding by index to missing_properties.
+    items:
+      enum:
+      - unknown
+      - not_collected
+      - not_applicable
+      - not_available
+      - withheld
+      - pending
+  segmentation_identifier:
+    type: string
+    description: Contour identifier for this particular target, image and method.
+  segmentation_method:
+    type: string
+    description: Segmentation method.
+  software_name:
+    type: string
+    description: Segmentation software name.
+  parameters:
+    type: string
+    description: Segmentation parameters.
+  frame_of_reference_uid:
+    type: string
+    description: Segmentation frame of reference uid.
+  roi_image_uid:
+    type: string
+    description: Unique identifier of the image on which the ROI was defined and measured.
+  roi_segmentation_imaging_modality:
+    type: string
+    description: 'The imaging modality used for contouring the ROI. '
+  roi_segmentation_method_absolute_threshold_value:
+    type: string
+    description: Provisional field for ROI_Segmentation_Method_Absolute_Threshold_Value;
+      operational definition requires review.
+  segmentation_method_description:
+    type: string
+    description: 'A description of the segmentation method, particularly for those
+      that fit in the "Other" category. '
+  roi_segmentation_method_ratio_reference_region:
+    type: string
+    description: Provisional field for ROI_Segmentation_Method_Ratio_Reference_Region;
+      operational definition requires review.
+  roi_segmentation_method_ratio_threshold_value:
+    type: string
+    description: Provisional field for ROI_Segmentation_Method_Ratio_Threshold_Value;
+      operational definition requires review.
+  roi_segmentation_method_relative_threshold_value:
+    type: string
+    description: Provisional field for ROI_Segmentation_Method_Relative_Threshold_Value;
+      operational definition requires review.
+  roi_segmentation_modality_coregistration_method:
+    type: string
+    description: The method used to coregister the imaging modalities used during
+      ROI segmentation.
+  roi_segmentation_modality_coregistration_method_name:
+    type: string
+    description: A free-text description of the method used to coregister the imaging
+      modalities used during ROI segmentation.
+  anatomic_targets:
+    anyOf:
+    - &id001
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      anyOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    - type: array
+      items: *id001
+      minItems: 1
+      maxItems: 1
+  registrations:
+    anyOf:
+    - &id002
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      anyOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    - type: array
+      items: *id002
+      minItems: 1
+  provenance_records:
+    anyOf:
+    - &id003
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      anyOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    - type: array
+      items: *id003
+      minItems: 1
+  annotation_profile:
+    type: string
+    description: Theranostics annotation profile.
+    enum:
+    - segmentation
+    - other
+  anatomic_reference_pt_series_files:
+    anyOf:
+    - &id004
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      anyOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    - type: array
+      items: *id004
+      minItems: 1
+      maxItems: 1
+  anatomic_reference_nm_series_files:
+    anyOf:
+    - &id005
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      anyOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    - type: array
+      items: *id005
+      minItems: 1
+      maxItems: 1
+  anatomic_reference_ct_series_files:
+    anyOf:
+    - &id006
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      anyOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    - type: array
+      items: *id006
+      minItems: 1
+      maxItems: 1
+  anatomic_reference_mr_series_files:
+    anyOf:
+    - &id007
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      anyOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    - type: array
+      items: *id007
+      minItems: 1
+      maxItems: 1
+required:
+- submitter_id
+- type
+submittable: true
+systemProperties:
+- id
+- project_id
+- state
+- created_datetime
+- updated_datetime
+title: Annotation
+type: object
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+validators: null

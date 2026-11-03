@@ -1,0 +1,695 @@
+$schema: http://json-schema.org/draft-04/schema#
+additionalProperties: false
+category: data_file
+description: A detailed report that describes the results of an imaging test. A radiology
+  report can include narrative information about the type of imaging test that was
+  done, how it was done, and any labels representing the results of the test.
+id: radiology_report
+links:
+- exclusive: false
+  required: true
+  subgroup:
+  - backref: radiology_reports
+    label: data_from
+    multiplicity: many_to_one
+    name: core_metadata_collections
+    required: false
+    target_type: core_metadata_collection
+  - backref: radiology_reports
+    label: related_to
+    multiplicity: many_to_one
+    name: datasets
+    required: false
+    target_type: dataset
+  - backref: radiology_reports
+    label: related_to
+    multiplicity: many_to_one
+    name: cases
+    required: false
+    target_type: case
+  - backref: radiology_reports
+    label: related_to
+    multiplicity: many_to_many
+    name: imaging_studies
+    required: false
+    target_type: imaging_study
+namespace: https://data.midrc.org
+nodeTerms: null
+program: '*'
+project: '*'
+properties:
+  airway_involvement:
+    description: An indicator confirming whether airway involvement was discovered
+      during imaging.
+    enum:
+    - 'Yes'
+    - 'No'
+    - Not Reported
+  airway_involvement_type:
+    description: A description noting the specific type of airway involvement discovered
+      during imaging.
+    items:
+      enum:
+      - Bronchial Stenosis
+      - Bronchofistula
+      - Other
+      - Not Reported
+    type: array
+  body_part_examined:
+    description: (0018, 0015) Body Part Examined.
+    items:
+      type: string
+    type: array
+  case_ids:
+    description: A list of one or more case submitter_ids associated with this data.
+    items:
+      type: string
+    type: array
+  cases:
+    anyOf:
+    - items:
+        additionalProperties: true
+        maxItems: 1
+        minItems: 1
+        properties:
+          id:
+            pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+            term:
+              description: 'A 128-bit identifier. Depending on the mechanism used
+                to generate it, it is either guaranteed to be different from all other
+                UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+                Its relatively small size lends itself well to sorting, ordering,
+                and hashing of all sorts, storing in databases, simple allocation,
+                and ease of programming in general.
+
+                '
+              termDef:
+                cde_id: C54100
+                cde_version: null
+                source: NCIt
+                term: Universally Unique Identifier
+                term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+            type: string
+          submitter_id:
+            type: string
+        type: object
+      type: array
+    - additionalProperties: true
+      properties:
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+        submitter_id:
+          type: string
+      type: object
+    description: The submitter_id or id of the case this report relates to, i.e.,
+      a link to a record in the parent node.
+  cavities:
+    description: An indicator confirming whether cavities were discovered during imaging.
+    enum:
+    - 'Yes'
+    - 'No'
+    - Not Reported
+  cavities_count:
+    description: The number of cavities discovered during imaging.
+    type: integer
+  cavities_largest_size:
+    description: A measure in size of the largest cavity discovered during imaging.
+    type: number
+  cavities_wall_thickness:
+    description: A measure of wall thickness of the cavities discovered during imaging.
+    type: number
+  core_metadata_collections:
+    anyOf:
+    - items:
+        additionalProperties: true
+        maxItems: 1
+        minItems: 1
+        properties:
+          id:
+            pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+            term:
+              description: 'A 128-bit identifier. Depending on the mechanism used
+                to generate it, it is either guaranteed to be different from all other
+                UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+                Its relatively small size lends itself well to sorting, ordering,
+                and hashing of all sorts, storing in databases, simple allocation,
+                and ease of programming in general.
+
+                '
+              termDef:
+                cde_id: C54100
+                cde_version: null
+                source: NCIt
+                term: Universally Unique Identifier
+                term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+            type: string
+          submitter_id:
+            type: string
+        type: object
+      type: array
+    - additionalProperties: true
+      properties:
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+        submitter_id:
+          type: string
+      type: object
+    description: The submitter_id or id of the core_metadata_collection to which the
+      report belongs, i.e., a link to a record in the parent node.
+  created_datetime:
+    oneOf:
+    - format: date-time
+      type: string
+    - type: 'null'
+    term:
+      description: 'A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]
+
+        '
+  ct_protocol:
+    description: A description of the protocol used for a computed tomography (CT)
+      scan.
+    items:
+      enum:
+      - High Resolution CT (HRCT)
+      - Routine Non-Contrast
+      - Routine CT Chest with Contrast
+      - CT Pulmonary Angiogram (PE Protocol)
+      - Slice thickness
+      - Expiration
+      - Inspiration
+    type: array
+  cysts_bullae:
+    description: An indicator confirming whether cysts or bullae were discovered during
+      imaging.
+    enum:
+    - 'Yes'
+    - 'No'
+    - Not Reported
+  data_category:
+    enum:
+    - Radiology Report
+    term:
+      description: 'Broad categorization of the contents of the data file.
+
+        '
+  data_format:
+    enum:
+    - CSV
+    - DICOM
+    - JSON
+    - PDF
+    - RTF
+    - TSV
+    - TXT
+    - XML
+    term:
+      description: 'Format of the data files.
+
+        '
+  data_type:
+    enum:
+    - Radiology Report
+    term:
+      description: 'Specific content type of the data file.
+
+        '
+  datasets:
+    anyOf:
+    - items:
+        additionalProperties: true
+        maxItems: 1
+        minItems: 1
+        properties:
+          id:
+            pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+            term:
+              description: 'A 128-bit identifier. Depending on the mechanism used
+                to generate it, it is either guaranteed to be different from all other
+                UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+                Its relatively small size lends itself well to sorting, ordering,
+                and hashing of all sorts, storing in databases, simple allocation,
+                and ease of programming in general.
+
+                '
+              termDef:
+                cde_id: C54100
+                cde_version: null
+                source: NCIt
+                term: Universally Unique Identifier
+                term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+            type: string
+          submitter_id:
+            type: string
+        type: object
+      type: array
+    - additionalProperties: true
+      properties:
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+        submitter_id:
+          type: string
+      type: object
+    description: The submitter_id or id of the case this report relates to, i.e.,
+      a link to a record in the parent node.
+  distribution_axial:
+    description: A description noting the distribution of fibrosis across the different
+      zones relative to the center of the lung.
+    enum:
+    - Peripheral
+    - Central
+    - Diffuse
+    - Not reported
+  distribution_zone:
+    description: A description noting the distribution of fibrosis across the different
+      zones within the lungs.
+    enum:
+    - Upper
+    - Mid
+    - Lower
+    - Not Reported
+  error_type:
+    enum:
+    - file_size
+    - file_format
+    - md5sum
+    term:
+      description: 'Type of error for the data file object.
+
+        '
+  fibrocalcific_scarring:
+    description: An indicator confirming whether fibrocalcific scaring was discovered
+      during imaging.
+    enum:
+    - 'Yes'
+    - 'No'
+    - Not Reported
+  fibrosis_pattern:
+    description: A description of the pattern of fibrosis related scaring, determined
+      by imaging.
+    enum:
+    - Usual Interstitial Pneumonia (UIP)
+    - Probable UIP
+    - Indeterminate
+    - Alternative Diagnosis
+    - Not reported
+  fibrosis_segments:
+    description: A description of the specific anatomic location of the fibrosis.
+    items:
+      enum:
+      - Upper
+      - Middle
+      - Lower
+    type: array
+  file_name:
+    term:
+      description: 'The name (or part of a name) of a file (of any type).
+
+        '
+    type: string
+  file_size:
+    term:
+      description: 'The size of the data file (object) in bytes.
+
+        '
+    type: integer
+  file_state:
+    default: registered
+    enum:
+    - registered
+    - uploading
+    - uploaded
+    - validating
+    - validated
+    - submitted
+    - processing
+    - processed
+    - released
+    - error
+    term:
+      description: 'The current state of the data file object.
+
+        '
+  ground_glass_opacities:
+    description: An indicator confirming whether ground-glass opacities (GGOs) were
+      discovered during imaging.
+    enum:
+    - 'Yes'
+    - 'No'
+    - Not Reported
+  ground_glass_opacities_focality:
+    description: A description noting whether confirmed ground-glass opacities (GGOs)
+      were localized (focal) or spread across multiple locations (diffuse).
+    enum:
+    - Focal
+    - Diffuse
+  honeycombing:
+    description: An indicator confirming whether honeycomb fibrosis was discovered
+      during imaging.
+    enum:
+    - 'Yes'
+    - 'No'
+    - Not Reported
+  honeycombing_focality:
+    description: A description noting whether confirmed honeycomb fibrosis was localized
+      (focal) or spread across multiple locations (diffuse).
+    enum:
+    - Focal
+    - Diffuse
+  id:
+    pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+    systemAlias: node_id
+    term:
+      description: 'A 128-bit identifier. Depending on the mechanism used to generate
+        it, it is either guaranteed to be different from all other UUIDs/GUIDs generated
+        until 3400 AD or extremely likely to be different. Its relatively small size
+        lends itself well to sorting, ordering, and hashing of all sorts, storing
+        in databases, simple allocation, and ease of programming in general.
+
+        '
+      termDef:
+        cde_id: C54100
+        cde_version: null
+        source: NCIt
+        term: Universally Unique Identifier
+        term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+    type: string
+  image_quality:
+    description: A description noting the quality of the image(s) used for the radiology
+      report.
+    enum:
+    - Optimal
+    - Suboptimal
+    - Non-diagnostic
+  imaging_studies:
+    anyOf:
+    - items:
+        additionalProperties: true
+        maxItems: 1
+        minItems: 1
+        properties:
+          id:
+            pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+            term:
+              description: 'A 128-bit identifier. Depending on the mechanism used
+                to generate it, it is either guaranteed to be different from all other
+                UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+                Its relatively small size lends itself well to sorting, ordering,
+                and hashing of all sorts, storing in databases, simple allocation,
+                and ease of programming in general.
+
+                '
+              termDef:
+                cde_id: C54100
+                cde_version: null
+                source: NCIt
+                term: Universally Unique Identifier
+                term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+            type: string
+          submitter_id:
+            type: string
+        type: object
+      type: array
+    - additionalProperties: true
+      properties:
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+        submitter_id:
+          type: string
+      type: object
+    description: The submitter_id or id of the imaging_study this report relates to,
+      i.e., a link to a record in the parent node.
+  laterality:
+    description: Laterality type relative to the anatomic site of the body examined
+      or affected.
+    enum:
+    - Unilaterall
+    - Bilateral
+    - Not reported
+  lymphadenopathy_consolidation:
+    description: An indicator confirming whether lymphadenopathy or consolidation
+      were discovered during imaging.
+    enum:
+    - 'Yes'
+    - 'No'
+    - Not Reported
+  md5sum:
+    pattern: ^[a-f0-9]{32}$
+    term:
+      description: 'The 128-bit hash value expressed as a 32 digit hexadecimal number
+        used as a file''s digital fingerprint.
+
+        '
+    type: string
+  modality:
+    description: (0008, 0060) Modality
+    type: string
+  object_id:
+    description: The GUID of the object in the index service.
+    type: string
+  paracicatricial_emphysema:
+    description: An indicator confirming whether paracicatricial emphysema was discovered
+      during imaging.
+    enum:
+    - 'Yes'
+    - 'No'
+    - Not Reported
+  parenchymal_bands:
+    description: An indicator confirming whether parenchymal bands were discovered
+      during imaging.
+    enum:
+    - 'Yes'
+    - 'No'
+    - Not Reported
+  pleural_involvement:
+    description: An indication of whether the pleura impacted by the fibrosis, based
+      on imaging.
+    enum:
+    - 'Yes'
+    - 'No'
+    - Not Reported
+  pleural_involvement_phase:
+    description: A description noting the phase of pleural involvement.
+    items:
+      enum:
+      - Effusion
+      - Thickening
+      - Calcification
+    type: array
+  project_id:
+    term:
+      description: 'Unique ID for any specific defined piece of work that is undertaken
+        or attempted to meet a single requirement.
+
+        '
+    type: string
+  pulmonary_hypertension_signs:
+    description: A description noting the specific signs of pulmonary hypertension
+      discovered during imaging.
+    items:
+      enum:
+      - Pulmonary Artery Dilatation
+      - Right Ventricle Enlargement
+    type: array
+  pulmonary_hypertension_signs_indicator:
+    description: An indicator confirming whether imaging showed signs of pulmonary
+      hypertension.
+    enum:
+    - Effusion
+    - Thickening
+    - Calcification
+  report_generation_method:
+    description: A categorical description of the way the report was generated, either
+      through clinical care (Clinical) or through computational means (Synethic).
+    enum:
+    - Clinical
+    - Synthetic
+  report_modification_method:
+    description: A categorical description of the type of modification performed on
+      the report, either by redaction of sensitive information (Redacted) or by obscuring
+      it through replacement with random or shifted values (Synthetic replacement).
+    enum:
+    - Redacted
+    - Synthetic replacement
+  reticular_opacities:
+    description: An indicator confirming whether reticular opacities were discovered
+      during imaging.
+    enum:
+    - 'Yes'
+    - 'No'
+    - Not Reported
+  reticular_opacities_focality:
+    description: A description noting whether confirmed reticular opacities were localized
+      (focal) or spread across multiple locations (diffuse).
+    enum:
+    - Focal
+    - Diffuse
+  state:
+    default: validated
+    downloadable:
+    - uploaded
+    - md5summed
+    - validating
+    - validated
+    - error
+    - invalid
+    - released
+    oneOf:
+    - enum:
+      - uploading
+      - uploaded
+      - md5summing
+      - md5summed
+      - validating
+      - error
+      - invalid
+      - suppressed
+      - redacted
+      - live
+    - enum:
+      - validated
+      - submitted
+      - released
+    public:
+    - live
+    term:
+      description: 'The current state of the object.
+
+        '
+  study_description:
+    description: (0008, 1030) Study Description.
+    type: string
+  submitter_id:
+    description: A human-readable, unique identifier for a record in the metadata
+      database. It can be used in place of the UUID for identifying or recalling a
+      record (e.g., in data queries or uploads/exports).
+    type: string
+  symmetry:
+    description: A description noting how the fibrotic changes are distributed throughout
+      the organ or tissue.
+    enum:
+    - Symmetrical
+    - Asymmetrical
+    - Not reported
+  traction_bronchiectasis:
+    description: A indicator confirming whether traction bronchiectasis was discovered
+      during imaging.
+    enum:
+    - 'Yes'
+    - 'No'
+    - Not Reported
+  traction_bronchiectasis_focality:
+    description: A description noting whether confirmed traction bronchiectasis was
+      localized (focal) or spread across multiple locations (diffuse).
+    enum:
+    - Focal
+    - Diffuse
+  tuberculoma_calcified_ghon_focus:
+    description: An indicator confirming whether a tuberculoma calcified ghon focus
+      was discovered during imaging.
+    enum:
+    - 'Yes'
+    - 'No'
+    - Not Reported
+  type:
+    description: The node_id of the node in the data model; the name of the node used
+      in queries and API requests (e.g., "aligned_reads_file" for the "Aligned Reads
+      File" node).
+    type: string
+  updated_datetime:
+    oneOf:
+    - format: date-time
+      type: string
+    - type: 'null'
+    term:
+      description: 'A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]
+
+        '
+required:
+- submitter_id
+- type
+- file_name
+- file_size
+- md5sum
+- data_category
+- data_format
+- data_type
+submittable: true
+systemProperties:
+- id
+- project_id
+- state
+- created_datetime
+- updated_datetime
+- file_state
+- error_type
+title: Radiology Report
+type: object
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+validators: null

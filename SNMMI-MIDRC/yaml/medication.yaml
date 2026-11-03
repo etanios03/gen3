@@ -1,0 +1,424 @@
+$schema: http://json-schema.org/draft-04/schema#
+additionalProperties: false
+category: medical_history
+description: Information related to medication prescribed, dispensed or administered
+  to the case.
+id: medication
+links:
+- backref: medications
+  label: related_to
+  multiplicity: many_to_one
+  name: cases
+  required: true
+  target_type: case
+- name: provenance_records
+  target_type: provenance
+  backref: nmmi_medication_provenance_records
+  label: documented_by
+  multiplicity: many_to_many
+  required: false
+namespace: https://data.midrc.org
+nodeTerms: null
+program: '*'
+project: '*'
+properties:
+  case_ids:
+    description: A list of one or more case submitter_ids associated with this data.
+    items:
+      type: string
+    type: array
+  cases:
+    anyOf:
+    - items:
+        additionalProperties: true
+        maxItems: 1
+        minItems: 1
+        properties:
+          id:
+            pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+            term:
+              description: 'A 128-bit identifier. Depending on the mechanism used
+                to generate it, it is either guaranteed to be different from all other
+                UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+                Its relatively small size lends itself well to sorting, ordering,
+                and hashing of all sorts, storing in databases, simple allocation,
+                and ease of programming in general.
+
+                '
+              termDef:
+                cde_id: C54100
+                cde_version: null
+                source: NCIt
+                term: Universally Unique Identifier
+                term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+            type: string
+          submitter_id:
+            type: string
+        type: object
+      type: array
+    - additionalProperties: true
+      properties:
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+        submitter_id:
+          type: string
+      type: object
+    description: The submitter_id or id of the case receiving this medication, i.e.,
+      a link to a record in the parent node.
+  created_datetime:
+    oneOf:
+    - format: date-time
+      type: string
+    - type: 'null'
+    term:
+      description: 'A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]
+
+        '
+  days_to_medication_end:
+    description: The number of days from the index date to the date the case stopped
+      a specific medication.
+    type: integer
+  days_to_medication_start:
+    description: The number of days from the index date to the date the case started
+      a specific medication.
+    type: integer
+  dose_sequence_number:
+    description: The sequence number of a specific dose of a medication given in a
+      series of doses.
+    type: integer
+  id:
+    pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+    systemAlias: node_id
+    term:
+      description: 'A 128-bit identifier. Depending on the mechanism used to generate
+        it, it is either guaranteed to be different from all other UUIDs/GUIDs generated
+        until 3400 AD or extremely likely to be different. Its relatively small size
+        lends itself well to sorting, ordering, and hashing of all sorts, storing
+        in databases, simple allocation, and ease of programming in general.
+
+        '
+      termDef:
+        cde_id: C54100
+        cde_version: null
+        source: NCIt
+        term: Universally Unique Identifier
+        term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+    type: string
+  medication_code:
+    description: The code for a specific medication, assigned by the code system.
+    type: string
+  medication_code_system:
+    term:
+      description: 'The code for a specific medication, assigned by the code system.
+
+        '
+      termDef:
+        cde_id: C70895
+        cde_version: null
+        source: NCIt
+        term: Code System
+        term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=24.07e&ns=ncit&code=C70895
+    type: string
+  medication_manufacturer:
+    term:
+      description: 'The name of the company that manufactured the medication.
+
+        '
+      termDef:
+        cde_id: C156626
+        cde_version: null
+        source: NCIt
+        term: Drug Manufacturer
+        term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=24.07e&ns=ncit&code=C156626
+    type: string
+  medication_name:
+    term:
+      description: 'The name of the specific medication the case was prescribed or
+        administered.
+
+        '
+      termDef:
+        cde_id: C164322
+        cde_version: null
+        source: NCIt
+        term: Drug Name
+        term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=24.07e&ns=ncit&code=C164322
+    type: string
+  medication_type:
+    description: A categorization of medication used to describe the type of medication
+      the patient was perscribed or administered.
+    enum:
+    - ACE inhibitors
+    - Bronchodilator
+    - Chemotherapy
+    - Immunosuppressive medication
+    - Immunotherapy
+    - Inhaled steroids
+    - NSAID
+    - Protease inhibitor
+    - Supplemental oxygen
+    - Systemic steroids
+    - Vaccine
+  project_id:
+    term:
+      description: 'Unique ID for any specific defined piece of work that is undertaken
+        or attempted to meet a single requirement.
+
+        '
+    type: string
+  state:
+    default: validated
+    downloadable:
+    - uploaded
+    - md5summed
+    - validating
+    - validated
+    - error
+    - invalid
+    - released
+    oneOf:
+    - enum:
+      - uploading
+      - uploaded
+      - md5summing
+      - md5summed
+      - validating
+      - error
+      - invalid
+      - suppressed
+      - redacted
+      - live
+    - enum:
+      - validated
+      - submitted
+      - released
+    public:
+    - live
+    term:
+      description: 'The current state of the object.
+
+        '
+  submitter_id:
+    description: A human-readable, unique identifier for a record in the metadata
+      database. It can be used in place of the UUID for identifying or recalling a
+      record (e.g., in data queries or uploads/exports).
+    type: string
+  type:
+    description: The node_id of the node in the data model; the name of the node used
+      in queries and API requests (e.g., "aligned_reads_file" for the "Aligned Reads
+      File" node).
+    type: string
+  updated_datetime:
+    oneOf:
+    - format: date-time
+      type: string
+    - type: 'null'
+    term:
+      description: 'A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]
+
+        '
+  model_version:
+    type: string
+    description: Version of the submitting theranostics extension, independently of
+      the MIDRC baseline version.
+  record_status:
+    type: string
+    description: Record curation state, independent of clinical value.
+    enum:
+    - draft
+    - reviewed
+    - approved
+    - superseded
+    - withdrawn
+  source_record_id:
+    type: string
+    description: Identifier of the originating source record; use an approved pseudonym
+      when needed.
+  source_system:
+    type: string
+    description: Source system or data provider.
+  missing_properties:
+    type: array
+    description: Names of properties missing from this record; no missing value is
+      encoded as zero.
+    items:
+      type: string
+  missing_reasons:
+    type: array
+    description: Reasons corresponding by index to missing_properties.
+    items:
+      enum:
+      - unknown
+      - not_collected
+      - not_applicable
+      - not_available
+      - withheld
+      - pending
+  prior_androgen_receptor_targeted_agent:
+    type: boolean
+    description: Specifies if the patient received prior ARPI therapy (e.g., Abiraterone,
+      Enzalutamide).
+  prior_arpi_names:
+    type: array
+    items:
+      type: string
+    description: List of ARPIs previously administered.
+  prior_chemo_nontaxane_regimens:
+    type: string
+    description: List or description of non-taxane chemotherapy regimens previously
+      administered.
+  prior_chemotherapy_nontaxane:
+    type: boolean
+    description: Specifies if the patient received prior non-taxane chemotherapy regimens.
+  prior_hormonal_other_regimens:
+    type: string
+    description: List or description of other hormonal therapies previously administered.
+  prior_hormonal_therapy_other:
+    type: boolean
+    description: Specifies if the patient received prior hormonal therapies other
+      than initial ADT or the main ARPIs listed separately (e.g., ketoconazole, estrogens).
+  prior_immunotherapy:
+    type: boolean
+    description: Specifies if the patient received prior immunotherapy (e.g., Sipuleucel-T,
+      Pembrolizumab).
+  prior_immunotherapy_regimens:
+    type: string
+    description: List or description of immunotherapies previously administered.
+  prior_other_systemic_therapies:
+    type: string
+    description: Details of other systemic therapies received for prostate cancer
+      (e.g., Sipuleucel-T, Radium-223).
+  prior_radiopharmaceutical_therapy:
+    type: boolean
+    description: Specifies if the patient received prior radiopharmaceutical therapy
+      other than the current Lu-177 PSMA (e.g., Radium-223, Strontium-89).
+  prior_rpt_agent:
+    type: array
+    items:
+      type: string
+    description: Name of the prior therapeutic radiopharmaceutical agent(s) administered.
+  prior_rpt_completion_date:
+    type: string
+    format: date
+    description: Date the last cycle of prior radiopharmaceutical therapy was administered.
+  prior_taxane_chemotherapy:
+    type: boolean
+    description: Specifies if the patient received prior taxane-based chemotherapy
+      (e.g., Docetaxel, Cabazitaxel).
+  prior_taxane_names:
+    type: array
+    items:
+      type: string
+    description: List of taxane chemotherapies previously administered.
+  concurrent_therapies_during_lu177:
+    type: array
+    items:
+      type: string
+    description: Any other cancer therapies administered concurrently with Lu-177
+      PSMA.
+  hormone_therapy:
+    type: string
+    description: Provisional field for hormone therapy; operational definition requires
+      review.
+  chemotherapy:
+    type: string
+    description: Provisional field for chemotherapy; operational definition requires
+      review.
+  immunotherapy:
+    type: string
+    description: Provisional field for Immunotherapy; operational definition requires
+      review.
+  arpi:
+    type: string
+    description: type of treatment
+  other_medication:
+    type: string
+    description: Provisional field for Other medication; operational definition requires
+      review.
+  morphine:
+    type: string
+    description: Provisional field for Morphine; operational definition requires review.
+  fentanyl:
+    type: string
+    description: Provisional field for Fentanyl; operational definition requires review.
+  pain_medication:
+    type: string
+    description: Provisional field for Pain medication; operational definition requires
+      review.
+  start_date:
+    type: string
+    description: Date of medication start date.
+    format: date
+  end_date:
+    type: string
+    description: Date of medication end date.
+    format: date
+  provenance_records:
+    anyOf:
+    - &id001
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      anyOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    - type: array
+      items: *id001
+      minItems: 1
+required:
+- submitter_id
+- type
+- cases
+submittable: true
+systemProperties:
+- id
+- project_id
+- state
+- created_datetime
+- updated_datetime
+title: Medication
+type: object
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+validators: null

@@ -1,0 +1,683 @@
+$schema: http://json-schema.org/draft-04/schema#
+additionalProperties: false
+category: data_file
+description: Information related to a NM imaging series to which one or more nuclear
+  medicine images belong.
+id: nm_series_file
+links:
+- exclusive: false
+  required: true
+  subgroup:
+  - backref: nm_series_files
+    label: data_from
+    multiplicity: many_to_one
+    name: core_metadata_collections
+    required: false
+    target_type: core_metadata_collection
+  - backref: nm_series_files
+    label: related_to
+    multiplicity: many_to_one
+    name: imaging_studies
+    required: false
+    target_type: imaging_study
+- name: provenance_records
+  target_type: provenance
+  backref: nmmi_nm_series_file_provenance_records
+  label: related_to
+  multiplicity: many_to_many
+  required: false
+namespace: https://data.midrc.org/
+program: '*'
+project: '*'
+properties:
+  body_part_examined:
+    items:
+      type: string
+    term:
+      description: '(0018, 0015) Body Part Examined. The Digital Imaging and Communications
+        in Medicine (DICOM) standard is the international standard to transmit, store,
+        retrieve, print, process, and display medical imaging information.
+
+        '
+      termDef:
+        cde_id: (0018, 0015)
+        cde_version: null
+        source: DICOM
+        term: Body Part Examined
+        term_url: https://www.dicomstandard.org/current
+    type: array
+  case_ids:
+    description: A list of one or more case submitter_ids associated with this data.
+    items:
+      type: string
+    type: array
+  core_metadata_collections:
+    anyOf:
+    - items:
+        additionalProperties: true
+        maxItems: 1
+        minItems: 1
+        properties:
+          id:
+            pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+            term:
+              description: 'A 128-bit identifier. Depending on the mechanism used
+                to generate it, it is either guaranteed to be different from all other
+                UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+                Its relatively small size lends itself well to sorting, ordering,
+                and hashing of all sorts, storing in databases, simple allocation,
+                and ease of programming in general.
+
+                '
+              termDef:
+                cde_id: C54100
+                cde_version: null
+                source: NCIt
+                term: Universally Unique Identifier
+                term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+            type: string
+          submitter_id:
+            type: string
+        type: object
+      type: array
+    - additionalProperties: true
+      properties:
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+        submitter_id:
+          type: string
+      type: object
+    description: The submitter_id or id of the core_metadata_collection to which the
+      dx_series_file belongs, i.e., a link to a record in the parent node.
+  created_datetime:
+    oneOf:
+    - format: date-time
+      type: string
+    - type: 'null'
+    term:
+      description: 'A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]
+
+        '
+  data_category:
+    enum:
+    - NM
+    term:
+      description: 'Broad categorization of the contents of the data file.
+
+        '
+  data_format:
+    enum:
+    - DCM
+    - nii.gz
+    term:
+      description: 'Format of the data files.
+
+        '
+  data_type:
+    enum:
+    - DICOM
+    - NIfTI
+    term:
+      description: 'Specific content type of the data file.
+
+        '
+  dicom_header_file_guid:
+    description: The GUID of the zip file containing DICOM header files for an imaging
+      series in the MIDRC index service.
+    type: string
+  error_type:
+    enum:
+    - file_size
+    - file_format
+    - md5sum
+    term:
+      description: 'Type of error for the data file object.
+
+        '
+  file_name:
+    term:
+      description: 'The name (or part of a name) of a file (of any type).
+
+        '
+    type: string
+  file_size:
+    term:
+      description: 'The size of the data file (object) in bytes.
+
+        '
+    type: integer
+  file_state:
+    default: registered
+    enum:
+    - registered
+    - uploading
+    - uploaded
+    - validating
+    - validated
+    - submitted
+    - processing
+    - processed
+    - released
+    - error
+    term:
+      description: 'The current state of the data file object.
+
+        '
+  id:
+    pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+    systemAlias: node_id
+    term:
+      description: 'A 128-bit identifier. Depending on the mechanism used to generate
+        it, it is either guaranteed to be different from all other UUIDs/GUIDs generated
+        until 3400 AD or extremely likely to be different. Its relatively small size
+        lends itself well to sorting, ordering, and hashing of all sorts, storing
+        in databases, simple allocation, and ease of programming in general.
+
+        '
+      termDef:
+        cde_id: C54100
+        cde_version: null
+        source: NCIt
+        term: Universally Unique Identifier
+        term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+    type: string
+  image_data_modification_method:
+    description: A categorical description of the type of image modification performed
+      on the study series.
+    enum:
+    - Removal of alphanumeric characters
+    - Defacing
+    - Skull-stripping
+  image_data_modification_name:
+    description: A MIDRC classification describing specific methods (e.g., software
+      tools, processes) used to modify the study series. More information can be found
+      at midrc.org.
+    type: integer
+  image_data_modified:
+    description: An indicator of whether any post-clinical modification of image pixel
+      data has been performed on the study series.
+    type: boolean
+  imaging_studies:
+    anyOf:
+    - items:
+        additionalProperties: true
+        maxItems: 1
+        minItems: 1
+        properties:
+          id:
+            pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+            term:
+              description: 'A 128-bit identifier. Depending on the mechanism used
+                to generate it, it is either guaranteed to be different from all other
+                UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+                Its relatively small size lends itself well to sorting, ordering,
+                and hashing of all sorts, storing in databases, simple allocation,
+                and ease of programming in general.
+
+                '
+              termDef:
+                cde_id: C54100
+                cde_version: null
+                source: NCIt
+                term: Universally Unique Identifier
+                term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+            type: string
+          submitter_id:
+            type: string
+        type: object
+      type: array
+    - additionalProperties: true
+      properties:
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+        submitter_id:
+          type: string
+      type: object
+    description: The submitter_id or id of the imaging_study this nm_series_file belongs
+      to, i.e., a link to a record in the parent node.
+  lossy_image_compression:
+    enum:
+    - '00'
+    - '01'
+    term:
+      description: '(0028, 2110) Lossy Image Compression; Note, if an image is compressed
+        with a lossy algorithm, the Attribute Lossy Image Compression (0028,2110)
+        is set to "01". Subsequently, if the image is decompressed and transferred
+        in uncompressed format, this Attribute value remains "01". The Digital Imaging
+        and Communications in Medicine (DICOM) standard is the international standard
+        to transmit, store, retrieve, print, process, and display medical imaging
+        information.
+
+        '
+      termDef:
+        cde_id: (0028, 2110)
+        cde_version: null
+        source: DICOM
+        term: Lossy Image Compression
+        term_url: https://www.dicomstandard.org/current
+  manufacturer:
+    term:
+      description: '(0008, 0070) Manufacturer. The Digital Imaging and Communications
+        in Medicine (DICOM) standard is the international standard to transmit, store,
+        retrieve, print, process, and display medical imaging information.
+
+        '
+      termDef:
+        cde_id: (0008, 0070)
+        cde_version: null
+        source: DICOM
+        term: Manufacturer
+        term_url: https://www.dicomstandard.org/current
+    type: string
+  manufacturer_model_name:
+    term:
+      description: '(0008, 1090) Manufacturer''s Model Name. The Digital Imaging and
+        Communications in Medicine (DICOM) standard is the international standard
+        to transmit, store, retrieve, print, process, and display medical imaging
+        information.
+
+        '
+      termDef:
+        cde_id: (0008, 1090)
+        cde_version: null
+        source: DICOM
+        term: Manufacturer's Model Name
+        term_url: https://www.dicomstandard.org/current
+    type: string
+  md5sum:
+    pattern: ^[a-f0-9]{32}$
+    term:
+      description: 'The 128-bit hash value expressed as a 32 digit hexadecimal number
+        used as a file''s digital fingerprint.
+
+        '
+    type: string
+  modality:
+    term:
+      description: '(0008, 0060) Modality. The Digital Imaging and Communications
+        in Medicine (DICOM) standard is the international standard to transmit, store,
+        retrieve, print, process, and display medical imaging information.
+
+        '
+      termDef:
+        cde_id: (0008, 0060)
+        cde_version: null
+        source: DICOM
+        term: Modality
+        term_url: https://www.dicomstandard.org/current
+    type: string
+  number_of_instances:
+    description: The number of instances included in this series.
+    type: integer
+  object_id:
+    description: The GUID of the object in the index service.
+    type: string
+  project_id:
+    term:
+      description: 'Unique ID for any specific defined piece of work that is undertaken
+        or attempted to meet a single requirement.
+
+        '
+    type: string
+  radiopharmaceutical:
+    term:
+      description: '(0018,0031) Radiopharmaceutical. The Digital Imaging and Communications
+        in Medicine (DICOM) standard is the international standard to transmit, store,
+        retrieve, print, process, and display medical imaging information.
+
+        '
+      termDef:
+        cde_id: (0018,0031)
+        cde_version: null
+        source: DICOM
+        term: Radiopharmaceutical
+        term_url: https://www.dicomstandard.org/current
+    type: string
+  series_description:
+    term:
+      description: '(0008, 103e) Series Description. The Digital Imaging and Communications
+        in Medicine (DICOM) standard is the international standard to transmit, store,
+        retrieve, print, process, and display medical imaging information.
+
+        '
+      termDef:
+        cde_id: (0008, 103e)
+        cde_version: null
+        source: DICOM
+        term: Series Description
+        term_url: https://www.dicomstandard.org/current
+    type: string
+  series_uid:
+    term:
+      description: '(0020, 000e) Series Instance UID. The Digital Imaging and Communications
+        in Medicine (DICOM) standard is the international standard to transmit, store,
+        retrieve, print, process, and display medical imaging information.
+
+        '
+      termDef:
+        cde_id: (0020, 000e)
+        cde_version: null
+        source: DICOM
+        term: Series Instance UID
+        term_url: https://www.dicomstandard.org/current
+    type: string
+  state:
+    default: validated
+    downloadable:
+    - uploaded
+    - md5summed
+    - validating
+    - validated
+    - error
+    - invalid
+    - released
+    oneOf:
+    - enum:
+      - uploading
+      - uploaded
+      - md5summing
+      - md5summed
+      - validating
+      - error
+      - invalid
+      - suppressed
+      - redacted
+      - live
+    - enum:
+      - validated
+      - submitted
+      - released
+    public:
+    - live
+    term:
+      description: 'The current state of the object.
+
+        '
+  submitter_id:
+    description: A human-readable, unique identifier for a record in the metadata
+      database. It can be used in place of the UUID for identifying or recalling a
+      record (e.g., in data queries or uploads/exports).
+    type: string
+  type:
+    description: The node_id of the node in the data model; the name of the node used
+      in queries and API requests (e.g., "aligned_reads_file" for the "Aligned Reads
+      File" node).
+    type: string
+  updated_datetime:
+    oneOf:
+    - format: date-time
+      type: string
+    - type: 'null'
+    term:
+      description: 'A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]
+
+        '
+  model_version:
+    type: string
+    description: Version of the submitting theranostics extension, independently of
+      the MIDRC baseline version.
+  record_status:
+    type: string
+    description: Record curation state, independent of clinical value.
+    enum:
+    - draft
+    - reviewed
+    - approved
+    - superseded
+    - withdrawn
+  source_record_id:
+    type: string
+    description: Identifier of the originating source record; use an approved pseudonym
+      when needed.
+  source_system:
+    type: string
+    description: Source system or data provider.
+  missing_properties:
+    type: array
+    description: Names of properties missing from this record; no missing value is
+      encoded as zero.
+    items:
+      type: string
+  missing_reasons:
+    type: array
+    description: Reasons corresponding by index to missing_properties.
+    items:
+      enum:
+      - unknown
+      - not_collected
+      - not_applicable
+      - not_available
+      - withheld
+      - pending
+  frame_of_reference_uid:
+    type: string
+    description: DICOM frame-of-reference UID or equivalent, de-identified consistently.
+  image_type:
+    type: string
+    description: The type of image and whether it is a primary/original or secondary/derived
+      image (0008,0008).
+  series_type:
+    type: string
+    description: A description of the PET series type and whether it is static, dynamic,
+      or whole-body; typically found in DICOM tag (0054,1000).
+  series_time:
+    type: string
+    description: Provisional field for Series Time; operational definition requires
+      review.
+  series_date:
+    type: string
+    description: Provisional field for Series Date; operational definition requires
+      review.
+  number_of_slices:
+    type: string
+    description: Provisional field for Number of Slices; operational definition requires
+      review.
+  sha256:
+    type: string
+    description: SHA-256 checksum of the immutable artifact.
+    pattern: ^[a-fA-F0-9]{64}$
+  format_version:
+    type: string
+    description: Format or standard release, including PETSIRD version where relevant.
+  deidentification_profile:
+    type: string
+    description: Profile used to de-identify file contents and metadata.
+  rows:
+    type: integer
+    description: Pixel rows.
+    minimum: 1
+  columns:
+    type: integer
+    description: Pixel columns.
+    minimum: 1
+  pixel_spacing:
+    items:
+      type: number
+    term:
+      description: '(0028, 0030) Pixel Spacing. The Digital Imaging and Communications
+        in Medicine (DICOM) standard is the international standard to transmit, store,
+        retrieve, print, process, and display medical imaging information.
+
+        '
+      termDef:
+        cde_id: (0028, 0030)
+        cde_version: null
+        source: DICOM
+        term: Pixel Spacing
+        term_url: https://www.dicomstandard.org/current
+    type: array
+  voxel_spacing_mm:
+    type: array
+    description: Three-dimensional voxel spacing with axis convention recorded.
+    items:
+      type: number
+      minimum: 0
+    minItems: 3
+    maxItems: 3
+  quantitative_units:
+    type: string
+    description: Voxel units; preserve original unit and normalization context.
+  slice_thickness:
+    items:
+      type: number
+    term:
+      description: '(0018, 0050) Slice Thickness. The Digital Imaging and Communications
+        in Medicine (DICOM) standard is the international standard to transmit, store,
+        retrieve, print, process, and display medical imaging information.
+
+        '
+      termDef:
+        cde_id: (0018, 0050)
+        cde_version: null
+        source: DICOM
+        term: Slice Thickness
+        term_url: https://www.dicomstandard.org/current
+    type: array
+  spacing_between_slices:
+    items:
+      type: number
+    term:
+      description: '(0018, 0088) Spacing Between Slices. The Digital Imaging and Communications
+        in Medicine (DICOM) standard is the international standard to transmit, store,
+        retrieve, print, process, and display medical imaging information.
+
+        '
+      termDef:
+        cde_id: (0018, 0088)
+        cde_version: null
+        source: DICOM
+        term: Spacing Between Slices
+        term_url: https://www.dicomstandard.org/current
+    type: array
+  suv_type:
+    type: number
+    description: Provisional field for SUV Type; operational definition requires review.
+  image_orientation_patient:
+    type: string
+    description: Provisional field for Image Orientation (Patient); operational definition
+      requires review.
+  image_position_patient:
+    type: string
+    description: Provisional field for Image Position (Patient); operational definition
+      requires review.
+  photometric_interpretation:
+    type: string
+    description: Provisional field for Photometric Interpretation; operational definition
+      requires review.
+  bits_allocated:
+    type: string
+    description: Provisional field for Bits Allocated; operational definition requires
+      review.
+  bits_stored:
+    type: string
+    description: Provisional field for Bits Stored; operational definition requires
+      review.
+  pixel_representation:
+    type: string
+    description: Provisional field for Pixel Representation; operational definition
+      requires review.
+  samples_per_pixel:
+    type: string
+    description: Provisional field for Samples per Pixel; operational definition requires
+      review.
+  provenance_records:
+    anyOf:
+    - &id001
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      anyOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    - type: array
+      items: *id001
+      minItems: 1
+  nm_acquisition_kind:
+    type: string
+    description: Explicit NM acquisition subtype; modality NM alone does not distinguish
+      planar from SPECT.
+    enum:
+    - planar
+    - SPECT
+    - other
+    - unknown
+required:
+- submitter_id
+- type
+- file_name
+- file_size
+- md5sum
+- data_format
+- data_type
+- data_category
+submittable: true
+systemProperties:
+- id
+- project_id
+- state
+- created_datetime
+- updated_datetime
+- file_state
+- error_type
+title: NM Series File
+type: object
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+validators: null

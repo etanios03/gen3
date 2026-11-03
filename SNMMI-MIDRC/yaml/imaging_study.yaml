@@ -1,0 +1,674 @@
+$schema: http://json-schema.org/draft-04/schema#
+additionalProperties: false
+category: medical_history
+description: Information related to an imaging study or exam done for diagnostic or
+  research purposes, including patient clinical or contextual data recorded at the
+  time of the imaging study.
+id: imaging_study
+links:
+- backref: imaging_studies
+  label: related_to
+  multiplicity: many_to_one
+  name: cases
+  required: true
+  target_type: case
+- backref: imaging_studies
+  label: member_of
+  multiplicity: many_to_many
+  name: datasets
+  required: true
+  target_type: dataset
+- name: visits
+  target_type: visit
+  backref: nmmi_imaging_study_visits
+  label: related_to
+  multiplicity: many_to_one
+  required: false
+- name: timepoints
+  target_type: timepoint
+  backref: nmmi_imaging_study_timepoints
+  label: related_to
+  multiplicity: many_to_one
+  required: false
+- name: administrations
+  target_type: administration
+  backref: nmmi_imaging_study_administrations
+  label: related_to
+  multiplicity: many_to_many
+  required: false
+- name: provenance_records
+  target_type: provenance
+  backref: nmmi_imaging_study_provenance_records
+  label: documented_by
+  multiplicity: many_to_many
+  required: false
+namespace: https://data.midrc.org/
+program: '*'
+project: '*'
+properties:
+  age_at_imaging:
+    maximum: 89
+    minimum: 0
+    term:
+      description: 'The study participant''s age, in years, at the time the imaging
+        study was performed. Note that an age of 0 indicates a participant who is
+        younger than 1 year old. For participants with ages greater than 89 years,
+        please use the property ''age_at_index_gt89''.
+
+        '
+      termDef:
+        cde_id: C201610
+        cde_version: null
+        source: NCIt
+        term: Age at Imaging
+        term_url: :https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=24.07e&ns=ncit&code=C201610
+    type: number
+  age_at_imaging_gt89:
+    description: Indicates whether the age of the patient in years at the time the
+      imaging study was performed is greater than 89 years. This property is included
+      to ensure personal privacy protection in accordance with the HIPAA Safe Harbor
+      Method. More information can be found here https://www.hhs.gov/hipaa/for-professionals/special-topics/de-identification/index.html.
+    enum:
+    - 'Yes'
+    - 'No'
+  body_part_examined:
+    items:
+      type: string
+    term:
+      description: '(0018, 0015) Body Part Examined. The Digital Imaging and Communications
+        in Medicine (DICOM) standard is the international standard to transmit, store,
+        retrieve, print, process, and display medical imaging information.
+
+        '
+      termDef:
+        cde_id: (0018, 0015)
+        cde_version: null
+        source: DICOM
+        term: Body Part Examined
+        term_url: https://www.dicomstandard.org/current
+    type: array
+  case_ids:
+    description: A list of one or more case submitter_ids associated with this data.
+    items:
+      type: string
+    type: array
+  cases:
+    anyOf:
+    - items:
+        additionalProperties: true
+        maxItems: 1
+        minItems: 1
+        properties:
+          id:
+            pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+            term:
+              description: 'A 128-bit identifier. Depending on the mechanism used
+                to generate it, it is either guaranteed to be different from all other
+                UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+                Its relatively small size lends itself well to sorting, ordering,
+                and hashing of all sorts, storing in databases, simple allocation,
+                and ease of programming in general.
+
+                '
+              termDef:
+                cde_id: C54100
+                cde_version: null
+                source: NCIt
+                term: Universally Unique Identifier
+                term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+            type: string
+          submitter_id:
+            type: string
+        type: object
+      type: array
+    - additionalProperties: true
+      properties:
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+        submitter_id:
+          type: string
+      type: object
+    description: The submitter_id or id of the case observed in this imaging_study,
+      i.e., a link to a record in the parent node.
+  created_datetime:
+    oneOf:
+    - format: date-time
+      type: string
+    - type: 'null'
+    term:
+      description: 'A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]
+
+        '
+  datasets:
+    anyOf:
+    - items:
+        additionalProperties: true
+        minItems: 1
+        properties:
+          id:
+            pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+            term:
+              description: 'A 128-bit identifier. Depending on the mechanism used
+                to generate it, it is either guaranteed to be different from all other
+                UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+                Its relatively small size lends itself well to sorting, ordering,
+                and hashing of all sorts, storing in databases, simple allocation,
+                and ease of programming in general.
+
+                '
+              termDef:
+                cde_id: C54100
+                cde_version: null
+                source: NCIt
+                term: Universally Unique Identifier
+                term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+            type: string
+          submitter_id:
+            type: string
+        type: object
+      type: array
+    - additionalProperties: true
+      properties:
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+        submitter_id:
+          type: string
+      type: object
+    description: The submitter_id or id of the dataset this case belongs to, i.e.,
+      a link to a record in the parent node.
+  days_from_study_to_neg_covid_test:
+    description: The number of days from the imaging study to the patient's negative
+      COVID-19 test(s).  This property takes a list of values, each of which represents
+      a COVID-19 test for the patient. A positive value for this property means that
+      a negative COVID-19 test result was obtained for the patient that many days
+      after the imaging study was performed. A negative value indicates that a negative
+      COVID-19 test result was obtained prior to the date of imaging. This property
+      is included to ensure personal privacy protection in accordance with the HIPAA
+      Safe Harbor Method. More information can be found here https://www.hhs.gov/hipaa/for-professionals/special-topics/de-identification/index.html.
+    items:
+      type: integer
+    type: array
+  days_from_study_to_pos_covid_test:
+    description: The number of days from the imaging study to the patient's positive
+      COVID-19 test(s).  This property takes a list of values, each of which represents
+      a COVID-19 test for the patient. A positive value for this property means that
+      a positive COVID-19 test result was obtained for the patient that many days
+      after the imaging study was performed. A negative value indicates that the positive
+      COVID-19 test result was obtained prior to the date of imaging. This property
+      is included to ensure personal privacy protection in accordance with the HIPAA
+      Safe Harbor Method. More information can be found here https://www.hhs.gov/hipaa/for-professionals/special-topics/de-identification/index.html.
+    items:
+      type: integer
+    type: array
+  days_to_study:
+    description: The number of days between the case's index date and the date of
+      the imaging study. This property is included to ensure personal privacy protection
+      in accordance with the HIPAA Safe Harbor Method. More information can be found
+      here https://www.hhs.gov/hipaa/for-professionals/special-topics/de-identification/index.html.
+    type: number
+  id:
+    pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+    systemAlias: node_id
+    term:
+      description: 'A 128-bit identifier. Depending on the mechanism used to generate
+        it, it is either guaranteed to be different from all other UUIDs/GUIDs generated
+        until 3400 AD or extremely likely to be different. Its relatively small size
+        lends itself well to sorting, ordering, and hashing of all sorts, storing
+        in databases, simple allocation, and ease of programming in general.
+
+        '
+      termDef:
+        cde_id: C54100
+        cde_version: null
+        source: NCIt
+        term: Universally Unique Identifier
+        term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+    type: string
+  image_data_modified:
+    description: An indicator of whether any post-clinical modification of image pixel
+      data has been performed on the study.
+    type: boolean
+  loinc_code:
+    term:
+      description: 'The LOINC code assigned based on the study description provided.
+        The Logical Observation Identifiers, Names, and Codes (LOINC) standard is
+        A common language (set of identifiers, names, and codes) for clinical and
+        laboratory observations.
+
+        '
+      termDef:
+        cde_id: LOINC
+        cde_version: null
+        source: LOINC
+        term: LOINC Code
+        term_url: https://loinc.org/search/?t=1&s=playbook
+    type: string
+  loinc_contrast:
+    term:
+      description: 'The LOINC indicator noting whether the image was completed with
+        or without contrast, as associated with the assigned LOINC code. The Logical
+        Observation Identifiers, Names, and Codes (LOINC) standard is A common language
+        (set of identifiers, names, and codes) for clinical and laboratory observations.
+
+        '
+      termDef:
+        cde_id: LOINC
+        cde_version: null
+        source: LOINC
+        term: LOINC Contrast
+        term_url: https://loinc.org/search/?t=1&s=playbook
+    type: string
+  loinc_long_common_name:
+    term:
+      description: 'The LOINC long common name associated with the assigned LOINC
+        code. The Logical Observation Identifiers, Names, and Codes (LOINC) standard
+        is A common language (set of identifiers, names, and codes) for clinical and
+        laboratory observations.
+
+        '
+      termDef:
+        cde_id: LOINC
+        cde_version: null
+        source: LOINC
+        term: LOINC Long Common Name
+        term_url: https://loinc.org/search/?t=1&s=playbook
+    type: string
+  loinc_method:
+    term:
+      description: 'The LOINC method or imaging modality associated with the assigned
+        LOINC code. The Logical Observation Identifiers, Names, and Codes (LOINC)
+        standard is A common language (set of identifiers, names, and codes) for clinical
+        and laboratory observations.
+
+        '
+      termDef:
+        cde_id: LOINC
+        cde_version: null
+        source: LOINC
+        term: LOINC Method
+        term_url: https://loinc.org/search/?t=1&s=playbook
+    type: string
+  loinc_system:
+    term:
+      description: 'The LOINC system or body part examined associated with the assigned
+        LOINC code. The Logical Observation Identifiers, Names, and Codes (LOINC)
+        standard is A common language (set of identifiers, names, and codes) for clinical
+        and laboratory observations.
+
+        '
+      termDef:
+        cde_id: LOINC
+        cde_version: null
+        source: LOINC
+        term: LOINC System
+        term_url: https://loinc.org/search/?t=1&s=playbook
+    type: string
+  project_id:
+    term:
+      description: 'Unique ID for any specific defined piece of work that is undertaken
+        or attempted to meet a single requirement.
+
+        '
+    type: string
+  state:
+    default: validated
+    downloadable:
+    - uploaded
+    - md5summed
+    - validating
+    - validated
+    - error
+    - invalid
+    - released
+    oneOf:
+    - enum:
+      - uploading
+      - uploaded
+      - md5summing
+      - md5summed
+      - validating
+      - error
+      - invalid
+      - suppressed
+      - redacted
+      - live
+    - enum:
+      - validated
+      - submitted
+      - released
+    public:
+    - live
+    term:
+      description: 'The current state of the object.
+
+        '
+  study_description:
+    term:
+      description: '(0008, 1030) Study Description. The Digital Imaging and Communications
+        in Medicine (DICOM) standard is the international standard to transmit, store,
+        retrieve, print, process, and display medical imaging information.
+
+        '
+      termDef:
+        cde_id: (0008, 1030)
+        cde_version: null
+        source: DICOM
+        term: Study Description
+        term_url: https://www.dicomstandard.org/current
+    type: string
+  study_modality:
+    items:
+      type: string
+    term:
+      description: 'The modalities of the imaging study; derived from (0008, 0060)
+        Modality. The Digital Imaging and Communications in Medicine (DICOM) standard
+        is the international standard to transmit, store, retrieve, print, process,
+        and display medical imaging information.
+
+        '
+      termDef:
+        cde_id: (0008, 0060)
+        cde_version: null
+        source: DICOM
+        term: Study Modality
+        term_url: https://www.dicomstandard.org/current
+    type: array
+  study_uid:
+    term:
+      description: '(0020, 000d) Study Instance UID. The Digital Imaging and Communications
+        in Medicine (DICOM) standard is the international standard to transmit, store,
+        retrieve, print, process, and display medical imaging information.
+
+        '
+      termDef:
+        cde_id: (0020, 000d)
+        cde_version: null
+        source: DICOM
+        term: Study Instance UID
+        term_url: https://www.dicomstandard.org/current
+    type: string
+  study_year:
+    term:
+      description: 'The year when imaging study was performed; year component of Study
+        Date (0008, 0020).
+
+        '
+      termDef:
+        cde_id: (0008, 0020)
+        cde_version: null
+        source: DICOM
+        term: Study Date Attribute
+        term_url: https://www.dicomstandard.org/current
+    type: integer
+  study_year_shifted:
+    description: Indicates whether the study year has been shifted for de-identification.
+      This property is included to ensure personal privacy protection in accordance
+      with the HIPAA Safe Harbor Method. More information can be found here https://www.hhs.gov/hipaa/for-professionals/special-topics/de-identification/index.html.
+    type: boolean
+  submitter_id:
+    description: A human-readable, unique identifier for a record in the metadata
+      database. It can be used in place of the UUID for identifying or recalling a
+      record (e.g., in data queries or uploads/exports).
+    type: string
+  type:
+    description: The node_id of the node in the data model; the name of the node used
+      in queries and API requests (e.g., "aligned_reads_file" for the "Aligned Reads
+      File" node).
+    type: string
+  updated_datetime:
+    oneOf:
+    - format: date-time
+      type: string
+    - type: 'null'
+    term:
+      description: 'A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]
+
+        '
+  model_version:
+    type: string
+    description: Version of the submitting theranostics extension, independently of
+      the MIDRC baseline version.
+  record_status:
+    type: string
+    description: Record curation state, independent of clinical value.
+    enum:
+    - draft
+    - reviewed
+    - approved
+    - superseded
+    - withdrawn
+  source_record_id:
+    type: string
+    description: Identifier of the originating source record; use an approved pseudonym
+      when needed.
+  source_system:
+    type: string
+    description: Source system or data provider.
+  missing_properties:
+    type: array
+    description: Names of properties missing from this record; no missing value is
+      encoded as zero.
+    items:
+      type: string
+  missing_reasons:
+    type: array
+    description: Reasons corresponding by index to missing_properties.
+    items:
+      enum:
+      - unknown
+      - not_collected
+      - not_applicable
+      - not_available
+      - withheld
+      - pending
+  study_date:
+    type: string
+    description: Date of imaging study.
+    format: date
+  imaging_purpose:
+    type: string
+    description: Baseline, eligibility, dosimetry, response or follow-up purpose.
+  is_therapy_baseline:
+    type: boolean
+    description: Is this the baseline exam for PSMA therapy
+  study_time:
+    type: string
+    description: Provisional field for Study Time; operational definition requires
+      review.
+  accession_number_pseudonym:
+    type: string
+    description: Provisional field for Accession Number; operational definition requires
+      review.
+  visits:
+    anyOf:
+    - &id001
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      anyOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    - type: array
+      items: *id001
+      minItems: 1
+      maxItems: 1
+  timepoints:
+    anyOf:
+    - &id002
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      anyOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    - type: array
+      items: *id002
+      minItems: 1
+      maxItems: 1
+  administrations:
+    anyOf:
+    - &id003
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      anyOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    - type: array
+      items: *id003
+      minItems: 1
+  provenance_records:
+    anyOf:
+    - &id004
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      anyOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    - type: array
+      items: *id004
+      minItems: 1
+required:
+- submitter_id
+- type
+- cases
+- datasets
+submittable: true
+systemProperties:
+- id
+- project_id
+- state
+- created_datetime
+- updated_datetime
+title: Imaging Study
+type: object
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+validators: null

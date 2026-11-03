@@ -1,0 +1,797 @@
+$schema: http://json-schema.org/draft-04/schema#
+id: acquisition
+title: Acquisition
+type: object
+namespace: urn:nmmi:lu177-psma:model
+category: clinical
+program: '*'
+project: '*'
+description: Acquisition settings and timing for one series or frame group.
+additionalProperties: false
+submittable: true
+validators: null
+links:
+- name: scanners
+  backref: nmmi_acquisition_scanners
+  label: related_to
+  target_type: scanner
+  multiplicity: many_to_one
+  required: true
+- name: scanner_qas
+  backref: nmmi_acquisition_scanner_qas
+  label: qualified_by
+  target_type: scanner_qa
+  multiplicity: many_to_many
+  required: false
+- name: provenance_records
+  backref: nmmi_acquisition_provenance_records
+  label: documented_by
+  target_type: provenance
+  multiplicity: many_to_many
+  required: false
+- name: imaging_studies
+  target_type: imaging_study
+  backref: nmmi_acquisition_imaging_studies
+  label: related_to
+  multiplicity: many_to_one
+  required: true
+- name: pt_series_files
+  target_type: pt_series_file
+  backref: nmmi_acquisition_pt_series_files
+  label: related_to
+  multiplicity: many_to_one
+  required: false
+- name: nm_series_files
+  target_type: nm_series_file
+  backref: nmmi_acquisition_nm_series_files
+  label: related_to
+  multiplicity: many_to_one
+  required: false
+- name: ct_series_files
+  target_type: ct_series_file
+  backref: nmmi_acquisition_ct_series_files
+  label: related_to
+  multiplicity: many_to_one
+  required: false
+- name: mr_series_files
+  target_type: mr_series_file
+  backref: nmmi_acquisition_mr_series_files
+  label: related_to
+  multiplicity: many_to_one
+  required: false
+- name: raw_files
+  target_type: supplementary_file
+  backref: nmmi_acquisition_raw_files
+  label: related_to
+  multiplicity: many_to_many
+  required: false
+required:
+- type
+- submitter_id
+- scanners
+- imaging_studies
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+systemProperties:
+- id
+- project_id
+- state
+- created_datetime
+- updated_datetime
+properties:
+  type:
+    enum:
+    - acquisition
+  submitter_id:
+    type: string
+    description: Stable submitter-assigned identifier, unique within a project. Do
+      not encode direct patient identifiers.
+    minLength: 1
+  id:
+    pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+    systemAlias: node_id
+    term:
+      description: 'A 128-bit identifier. Depending on the mechanism used to generate
+        it, it is either guaranteed to be different from all other UUIDs/GUIDs generated
+        until 3400 AD or extremely likely to be different. Its relatively small size
+        lends itself well to sorting, ordering, and hashing of all sorts, storing
+        in databases, simple allocation, and ease of programming in general.
+
+        '
+      termDef:
+        cde_id: C54100
+        cde_version: null
+        source: NCIt
+        term: Universally Unique Identifier
+        term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+    type: string
+  project_id:
+    term:
+      description: 'Unique ID for any specific defined piece of work that is undertaken
+        or attempted to meet a single requirement.
+
+        '
+    type: string
+  state:
+    default: validated
+    downloadable:
+    - uploaded
+    - md5summed
+    - validating
+    - validated
+    - error
+    - invalid
+    - released
+    oneOf:
+    - enum:
+      - uploading
+      - uploaded
+      - md5summing
+      - md5summed
+      - validating
+      - error
+      - invalid
+      - suppressed
+      - redacted
+      - live
+    - enum:
+      - validated
+      - submitted
+      - released
+    public:
+    - live
+    term:
+      description: 'The current state of the object.
+
+        '
+  created_datetime:
+    oneOf:
+    - format: date-time
+      type: string
+    - type: 'null'
+    term:
+      description: 'A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]
+
+        '
+  updated_datetime:
+    oneOf:
+    - format: date-time
+      type: string
+    - type: 'null'
+    term:
+      description: 'A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]
+
+        '
+  scanners:
+    type: array
+    items:
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      oneOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    uniqueItems: true
+    description: Link to scanner records by submitter_id or UUID.
+    minItems: 1
+    maxItems: 1
+  scanner_qas:
+    type: array
+    items:
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      oneOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    uniqueItems: true
+    description: Link to scanner_qa records by submitter_id or UUID.
+  provenance_records:
+    type: array
+    items:
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      oneOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    uniqueItems: true
+    description: Link to provenance records by submitter_id or UUID.
+  model_version:
+    type: string
+    description: Version of the submitting theranostics extension, independently of
+      the MIDRC baseline version.
+  record_status:
+    type: string
+    description: Record curation state, independent of clinical value.
+    enum:
+    - draft
+    - reviewed
+    - approved
+    - superseded
+    - withdrawn
+  source_record_id:
+    type: string
+    description: Identifier of the originating source record; use an approved pseudonym
+      when needed.
+  source_system:
+    type: string
+    description: Source system or data provider.
+  missing_properties:
+    type: array
+    description: Names of properties missing from this record; no missing value is
+      encoded as zero.
+    items:
+      type: string
+  missing_reasons:
+    type: array
+    description: Reasons corresponding by index to missing_properties.
+    items:
+      enum:
+      - unknown
+      - not_collected
+      - not_applicable
+      - not_available
+      - withheld
+      - pending
+  protocol_name:
+    type: string
+    description: Acquisition protocol name.
+  duration_seconds:
+    type: number
+    description: Acquisition duration.
+    minimum: 0
+  energy_window_names:
+    type: array
+    description: Ordered energy-window labels.
+    items:
+      type: string
+  energy_window_lower_kev:
+    type: array
+    description: Ordered energy-window limits in keV.
+    items:
+      type: number
+      minimum: 0
+  energy_window_upper_kev:
+    type: array
+    description: Ordered energy-window limits in keV.
+    items:
+      type: number
+      minimum: 0
+  number_of_energy_windows:
+    type: integer
+    description: Number of windows; equals length of all window arrays.
+    minimum: 1
+  number_of_bed_positions:
+    type: integer
+    description: Number of bed positions.
+    minimum: 1
+  number_of_spect_acquisition_projections:
+    type: integer
+    description: The total number of projections acquired during the SPECT acquisition.
+  imaging_spect_detector_type:
+    type: string
+    description: The scintillating material used by the gamma camera to detect photons.
+  imaging_spect_image_comments:
+    type: string
+    description: A free-text field allowing any relevant comments or annotations about
+      the acquisition; can contain information about acquisition and reconstruction
+      settings.
+  spiral_pitch_factor:
+    type: number
+    description: Provisional field for Spiral Pitch Factor; operational definition
+      requires review.
+  mas_exposure:
+    type: number
+    description: Provisional field for mAs (exposure); operational definition requires
+      review.
+  kvp:
+    type: integer
+    description: Provisional field for kVp; operational definition requires review.
+  exposure_time:
+    type: integer
+    description: Provisional field for Exposure Time; operational definition requires
+      review.
+  ma_x_ray_tube_current:
+    type: number
+    description: Provisional field for mA (X-ray tube current); operational definition
+      requires review.
+  revolution_time:
+    type: number
+    description: Provisional field for Revolution Time; operational definition requires
+      review.
+  scan_options:
+    type: string
+    description: Provisional field for Scan Options; operational definition requires
+      review.
+  frame_reference_time:
+    type: integer
+    description: Provisional field for Frame Reference Time; operational definition
+      requires review.
+  frame_duration:
+    type: integer
+    description: Provisional field for Frame Duration; operational definition requires
+      review.
+  radiopharmaceutical_substabce:
+    type: string
+    description: Provisional field for Radiopharmaceutical Substabce; operational
+      definition requires review.
+  radionuclide_code_meaning:
+    type: string
+    description: Provisional field for Radionuclide Code Meaning; operational definition
+      requires review.
+  frame_start_time:
+    type: number
+    description: Provisional field for Frame Start Time; operational definition requires
+      review.
+  actual_frame_duration:
+    type: integer
+    description: Provisional field for Actual Frame Duration; operational definition
+      requires review.
+  sensitivity_factor:
+    type: number
+    description: Provisional field for Sensitivity Factor; operational definition
+      requires review.
+  sliceprogressiondirection:
+    type: string
+    description: Provisional field for SliceProgressionDirection; operational definition
+      requires review.
+  image_index:
+    type: string
+    description: Provisional field for Image Index; operational definition requires
+      review.
+  counts_source_attribute:
+    type: string
+    description: Provisional field for Counts Source Attribute; operational definition
+      requires review.
+  radiopharmaceutical_info_seq:
+    type: string
+    description: Provisional field for Radiopharmaceutical Info Seq; operational definition
+      requires review.
+  energy_window_seq:
+    type: string
+    description: Provisional field for Energy Window Seq; operational definition requires
+      review.
+  collimator_name:
+    type: string
+    description: Provisional field for Collimator Name; operational definition requires
+      review.
+  collimator_type:
+    type: string
+    description: Provisional field for Collimator Type; operational definition requires
+      review.
+  angular_step:
+    type: number
+    description: Provisional field for Angular Step; operational definition requires
+      review.
+  rotation_direction:
+    type: string
+    description: Provisional field for Rotation Direction; operational definition
+      requires review.
+  acquisition_start_condition:
+    type: string
+    description: Provisional field for Acquisition Start Condition; operational definition
+      requires review.
+  acquisition_end_condition:
+    type: string
+    description: Provisional field for Acquisition End Condition; operational definition
+      requires review.
+  cardiac_cycle_position:
+    type: number
+    description: Provisional field for Cardiac Cycle Position; operational definition
+      requires review.
+  rotation_information_sequence:
+    type: string
+    description: Provisional field for Rotation Information Sequence; operational
+      definition requires review.
+  tomo_angle_range:
+    type: number
+    description: Provisional field for Tomo Angle Range; operational definition requires
+      review.
+  energy_window_information_sequence:
+    type: string
+    description: Provisional field for Energy Window Information Sequence; operational
+      definition requires review.
+  number_of_frames_in_rotation:
+    type: string
+    description: Provisional field for Number of Frames in Rotation; operational definition
+      requires review.
+  start_angle:
+    type: string
+    description: Provisional field for Start Angle; operational definition requires
+      review.
+  type_of_detector_motion:
+    type: string
+    description: Provisional field for Type of Detector Motion; operational definition
+      requires review.
+  acuisition_date_time:
+    type: string
+    description: Provisional field for Acuisition date/time??; operational definition
+      requires review.
+  frame_time_continuous_bed:
+    type: string
+    description: Provisional field for Frame time continuous bed; operational definition
+      requires review.
+  bed_speed:
+    type: string
+    description: Provisional field for bed speed?; operational definition requires
+      review.
+  table_motion:
+    type: string
+    description: Provisional field for table motion; operational definition requires
+      review.
+  x_ray_tube_current:
+    type: number
+    description: X-Ray Tube Current in mA.
+  exposure:
+    type: number
+    description: The exposure expressed in mAs, for example calculated from Exposure
+      Time and X-Ray Tube Current.
+  ctdivol:
+    type: number
+    description: Computed Tomography Dose Index (CTDIvol), in mGy according to IEC
+      60601-2-44, Ed.2.1 (Clause 29.1.103.4), The Volume CTDIvol. It describes the
+      average dose for this image for the selected CT conditions of operation.
+  ctdi_phantom_type_code_sequence:
+    type: string
+    description: Provisional field for CTDI Phantom Type Code Sequence; operational
+      definition requires review.
+  type_of_sequence:
+    type: string
+    description: Provisional field for TYPE OF SEQUENCE; operational definition requires
+      review.
+  contrast_enhanced:
+    type: string
+    description: Provisional field for CONTRAST-ENHANCED; operational definition requires
+      review.
+  high_bit:
+    type: string
+    description: Provisional field for High Bit; operational definition requires review.
+  acquisition_number:
+    type: string
+    description: Provisional field for Acquisition Number; operational definition
+      requires review.
+  acquisition_termination_condition:
+    type: string
+    description: Provisional field for Acquisition Termination Condition; operational
+      definition requires review.
+  detector_motion_details_sequence:
+    type: string
+    description: Provisional field for Detector Motion Details Sequence; operational
+      definition requires review.
+  pet_frame_acquisition_sequence:
+    type: string
+    description: Provisional field for PET Frame Acquisition Sequence; operational
+      definition requires review.
+  pet_position_sequence:
+    type: string
+    description: Provisional field for PET Position Sequence; operational definition
+      requires review.
+  collimator_grid_name:
+    type: string
+    description: Provisional field for Collimator/Grid Name; operational definition
+      requires review.
+  gantry_detector_slew:
+    type: string
+    description: Provisional field for Gantry/Detector Slew; operational definition
+      requires review.
+  counts_source:
+    type: string
+    description: Primary Source of Counts
+  acquisition_time:
+    type: string
+    description: Time of scan acquisition
+  table_speed:
+    type: string
+    description: Table motion speed
+  table_traverse:
+    type: string
+    description: Total distance moved
+  table_motion_direction:
+    type: string
+    description: Head-first/Feet-first
+  number_of_time_slices:
+    type: string
+    description: Maximum number of Time Slices existing in Series
+  imaging_studies:
+    anyOf:
+    - &id001
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      anyOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    - type: array
+      items: *id001
+      minItems: 1
+      maxItems: 1
+  pt_series_files:
+    anyOf:
+    - &id002
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      anyOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    - type: array
+      items: *id002
+      minItems: 1
+      maxItems: 1
+  nm_series_files:
+    anyOf:
+    - &id003
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      anyOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    - type: array
+      items: *id003
+      minItems: 1
+      maxItems: 1
+  ct_series_files:
+    anyOf:
+    - &id004
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      anyOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    - type: array
+      items: *id004
+      minItems: 1
+      maxItems: 1
+  mr_series_files:
+    anyOf:
+    - &id005
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      anyOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    - type: array
+      items: *id005
+      minItems: 1
+      maxItems: 1
+  raw_files:
+    anyOf:
+    - &id006
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      anyOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    - type: array
+      items: *id006
+      minItems: 1
+  acquisition_type_source_value:
+    type: string
+    description: Original acquisition-type label when its modality or DICOM attribute
+      context has not been adjudicated. Confirmed CT Acquisition Type uses MIDRC ct_series_file.acquisition_type.
+  source_section_note_2_image_characteristics:
+    type: string
+    description: Provisional field for 2. Image Characteristics; operational definition
+      requires review.
+  source_section_note_3_acquisition_parameters:
+    type: string
+    description: Provisional field for 3. Acquisition Parameters; operational definition
+      requires review.
+  source_section_note_5_other_important_fields:
+    type: string
+    description: Provisional field for 5. Other Important Fields; operational definition
+      requires review.

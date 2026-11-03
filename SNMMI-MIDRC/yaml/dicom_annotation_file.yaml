@@ -1,0 +1,492 @@
+$schema: http://json-schema.org/draft-04/schema#
+additionalProperties: false
+category: data_file
+description: The dicom_annotation_file node provides the ability to link a DICOM series
+  file containing annotation information to an imaging study.
+id: dicom_annotation_file
+links:
+- backref: dicom_annotation_files
+  label: data_from
+  multiplicity: many_to_one
+  name: core_metadata_collections
+  required: false
+  target_type: core_metadata_collection
+- backref: dicom_annotation_files
+  label: related_to
+  multiplicity: many_to_one
+  name: imaging_studies
+  required: true
+  target_type: imaging_study
+- name: provenance_records
+  target_type: provenance
+  backref: nmmi_dicom_annotation_file_provenance_records
+  label: related_to
+  multiplicity: many_to_many
+  required: false
+namespace: https://data.midrc.org
+nodeTerms: null
+program: '*'
+project: '*'
+properties:
+  annotation_method:
+    description: Defines the method by which the annotation was created. Clinically_derived
+      - Based on information produced in the process of the subject's medical care;
+      Retrospective_expert - Based on information produced retrospective to the subject's
+      care by annotators with relevant special clinical expertise; Retrospective_general
+      - Based on information produced retrospective to the subject's care by annotators
+      without relevant special clinical expertise; Retrospective_auto - Based on information
+      produced retrospective to the subject's care using automated means.
+    enum:
+    - Clinically_derived
+    - Retrospective_expert
+    - Retrospective_general
+    - Retrospective_auto
+  annotation_name:
+    enum:
+    - midrc_bpr_landmarks
+    - midrc_bpr_regions
+    - midrc_lung_segs
+    - midrc_lung_measures
+    - midrc_mdai_chestxr
+    - midrc_mRALE_Mastermind_Challenge
+    - SIFT
+    - NMMI_PSMA_SEGMENTATION
+    - NMMI_PSMA_DOSE_MAP
+    term:
+      description: 'The name of the annotation. These names are unique and assigned
+        by MIDRC. Annotation names reference a document posted on the MIDRC website
+        describing the annotation, methods and values expected.  All MIDRC created
+        annotations start with "midrc_".
+
+        '
+      termDef:
+        cde_id: null
+        cde_version: null
+        source: MIDRC
+        term: Annotation Name
+        term_url: https://www.midrc.org/annotations
+  annotator_id:
+    description: Coded value to represent a particular annotator in a group. These
+      need only be unique per annotation.
+    type: string
+  case_ids:
+    description: A list of one or more case submitter_ids associated with this data.
+    items:
+      type: string
+    type: array
+  core_metadata_collections:
+    anyOf:
+    - items:
+        additionalProperties: true
+        maxItems: 1
+        minItems: 1
+        properties:
+          id:
+            pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+            term:
+              description: 'A 128-bit identifier. Depending on the mechanism used
+                to generate it, it is either guaranteed to be different from all other
+                UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+                Its relatively small size lends itself well to sorting, ordering,
+                and hashing of all sorts, storing in databases, simple allocation,
+                and ease of programming in general.
+
+                '
+              termDef:
+                cde_id: C54100
+                cde_version: null
+                source: NCIt
+                term: Universally Unique Identifier
+                term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+            type: string
+          submitter_id:
+            type: string
+        type: object
+      type: array
+    - additionalProperties: true
+      properties:
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+        submitter_id:
+          type: string
+      type: object
+    description: The submitter_id or id of the core_metadata_collection to which the
+      rf_series_file belongs, i.e., a link to a record in the parent node.
+  created_datetime:
+    oneOf:
+    - format: date-time
+      type: string
+    - type: 'null'
+    term:
+      description: 'A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]
+
+        '
+  data_category:
+    description: The category of the annotation file. Must be "DICOM Annotation Series
+      File".
+    enum:
+    - DICOM Annotation Series File
+  data_format:
+    description: The file format of the annotation file, e.g., JSON.
+    enum:
+    - DCM
+  data_type:
+    description: An indication of whether the annotation is expert validated by MIDRC
+      (“Internal Annotation”) or has not be validated by MIDRC experts (“External
+      Annotation”).
+    enum:
+    - Internal Annotation
+    - External Annotation
+  error_type:
+    enum:
+    - file_size
+    - file_format
+    - md5sum
+    term:
+      description: 'Type of error for the data file object.
+
+        '
+  file_name:
+    term:
+      description: 'The name (or part of a name) of a file (of any type).
+
+        '
+    type: string
+  file_size:
+    term:
+      description: 'The size of the data file (object) in bytes.
+
+        '
+    type: integer
+  file_state:
+    default: registered
+    enum:
+    - registered
+    - uploading
+    - uploaded
+    - validating
+    - validated
+    - submitted
+    - processing
+    - processed
+    - released
+    - error
+    term:
+      description: 'The current state of the data file object.
+
+        '
+  id:
+    pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+    systemAlias: node_id
+    term:
+      description: 'A 128-bit identifier. Depending on the mechanism used to generate
+        it, it is either guaranteed to be different from all other UUIDs/GUIDs generated
+        until 3400 AD or extremely likely to be different. Its relatively small size
+        lends itself well to sorting, ordering, and hashing of all sorts, storing
+        in databases, simple allocation, and ease of programming in general.
+
+        '
+      termDef:
+        cde_id: C54100
+        cde_version: null
+        source: NCIt
+        term: Universally Unique Identifier
+        term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+    type: string
+  imaging_studies:
+    anyOf:
+    - items:
+        additionalProperties: true
+        maxItems: 1
+        minItems: 1
+        properties:
+          id:
+            pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+            term:
+              description: 'A 128-bit identifier. Depending on the mechanism used
+                to generate it, it is either guaranteed to be different from all other
+                UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+                Its relatively small size lends itself well to sorting, ordering,
+                and hashing of all sorts, storing in databases, simple allocation,
+                and ease of programming in general.
+
+                '
+              termDef:
+                cde_id: C54100
+                cde_version: null
+                source: NCIt
+                term: Universally Unique Identifier
+                term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+            type: string
+          submitter_id:
+            type: string
+        type: object
+      type: array
+    - additionalProperties: true
+      properties:
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+        submitter_id:
+          type: string
+      type: object
+    description: The submitter_id or id of the imaging_study this annotation relates
+      to, i.e., a link to a record in the parent node.
+  manufacturer:
+    description: (0008, 0070) Manufacturer
+    type: string
+  manufacturer_model_name:
+    description: (0008, 1090) Manufacturer's Model Name
+    type: string
+  md5sum:
+    pattern: ^[a-f0-9]{32}$
+    term:
+      description: 'The 128-bit hash value expressed as a 32 digit hexadecimal number
+        used as a file''s digital fingerprint.
+
+        '
+    type: string
+  modality:
+    description: (0008, 0060) Modality
+    enum:
+    - RTSTRUCT
+    - PR
+    - SR
+    - SEG
+    - DOC
+    - OT
+    - RTDOSE
+  object_id:
+    description: The GUID of the object in the index service.
+    type: string
+  project_id:
+    term:
+      description: 'Unique ID for any specific defined piece of work that is undertaken
+        or attempted to meet a single requirement.
+
+        '
+    type: string
+  series_description:
+    description: (0008, 103e) Series Description; a general description of or additional
+      information about the imaging series. If possible, the Series Description should
+      match the annotation_name provided.
+    type: string
+  series_uid:
+    description: (0020, 000e) Series Instance UID; the UID or unique identification
+      code of the imaging series.
+    type: string
+  software_versions:
+    description: (0018,1020) Software Versions. This is the software version of the
+      application where the annotation series was created.
+    type: string
+  state:
+    default: validated
+    downloadable:
+    - uploaded
+    - md5summed
+    - validating
+    - validated
+    - error
+    - invalid
+    - released
+    oneOf:
+    - enum:
+      - uploading
+      - uploaded
+      - md5summing
+      - md5summed
+      - validating
+      - error
+      - invalid
+      - suppressed
+      - redacted
+      - live
+    - enum:
+      - validated
+      - submitted
+      - released
+    public:
+    - live
+    term:
+      description: 'The current state of the object.
+
+        '
+  submitter_id:
+    description: A human-readable, unique identifier for a record in the metadata
+      database. It can be used in place of the UUID for identifying or recalling a
+      record (e.g., in data queries or uploads/exports).
+    type: string
+  type:
+    description: The node_id of the node in the data model; the name of the node used
+      in queries and API requests (e.g., "aligned_reads_file" for the "Aligned Reads
+      File" node).
+    type: string
+  updated_datetime:
+    oneOf:
+    - format: date-time
+      type: string
+    - type: 'null'
+    term:
+      description: 'A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]
+
+        '
+  model_version:
+    type: string
+    description: Version of the submitting theranostics extension, independently of
+      the MIDRC baseline version.
+  record_status:
+    type: string
+    description: Record curation state, independent of clinical value.
+    enum:
+    - draft
+    - reviewed
+    - approved
+    - superseded
+    - withdrawn
+  source_record_id:
+    type: string
+    description: Identifier of the originating source record; use an approved pseudonym
+      when needed.
+  source_system:
+    type: string
+    description: Source system or data provider.
+  missing_properties:
+    type: array
+    description: Names of properties missing from this record; no missing value is
+      encoded as zero.
+    items:
+      type: string
+  missing_reasons:
+    type: array
+    description: Reasons corresponding by index to missing_properties.
+    items:
+      enum:
+      - unknown
+      - not_collected
+      - not_applicable
+      - not_available
+      - withheld
+      - pending
+  sha256:
+    type: string
+    description: SHA-256 checksum of the immutable artifact.
+    pattern: ^[a-fA-F0-9]{64}$
+  format_version:
+    type: string
+    description: Format or standard release, including PETSIRD version where relevant.
+  deidentification_profile:
+    type: string
+    description: Profile used to de-identify file contents and metadata.
+  dicom_structure_set_roi_sequence_reference:
+    type: string
+    description: ROI definitions
+  dicom_contour_data_reference:
+    type: string
+    description: ROI contours
+  theranostics_file_role:
+    type: string
+    description: Role of this existing MIDRC file object in the theranostics workflow.
+    enum:
+    - raw_acquisition
+    - segmentation
+    - dose_map
+    - clinical_document
+    - processing_parameters
+    - other
+  provenance_records:
+    anyOf:
+    - &id001
+      type: object
+      additionalProperties: false
+      properties:
+        submitter_id:
+          type: string
+          minLength: 1
+        id:
+          pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+          term:
+            description: 'A 128-bit identifier. Depending on the mechanism used to
+              generate it, it is either guaranteed to be different from all other
+              UUIDs/GUIDs generated until 3400 AD or extremely likely to be different.
+              Its relatively small size lends itself well to sorting, ordering, and
+              hashing of all sorts, storing in databases, simple allocation, and ease
+              of programming in general.
+
+              '
+            termDef:
+              cde_id: C54100
+              cde_version: null
+              source: NCIt
+              term: Universally Unique Identifier
+              term_url: https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&version=16.02d&ns=NCI_Thesaurus&code=C54100
+          type: string
+      anyOf:
+      - required:
+        - submitter_id
+      - required:
+        - id
+    - type: array
+      items: *id001
+      minItems: 1
+required:
+- submitter_id
+- type
+- file_name
+- file_size
+- md5sum
+- data_format
+- data_type
+- data_category
+- annotation_name
+- case_ids
+- modality
+- series_description
+- series_uid
+- imaging_studies
+submittable: true
+systemProperties:
+- id
+- project_id
+- state
+- created_datetime
+- updated_datetime
+- file_state
+- error_type
+title: DICOM Annotation Series File
+type: object
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+validators: null
