@@ -123,25 +123,25 @@ links:
 - name: anatomic_reference_pt_series_files
   target_type: pt_series_file
   backref: nmmi_annotation_anatomic_reference_pt_series_files
-  label: related_to
+  label: anatomic_reference
   multiplicity: many_to_one
   required: false
 - name: anatomic_reference_nm_series_files
   target_type: nm_series_file
   backref: nmmi_annotation_anatomic_reference_nm_series_files
-  label: related_to
+  label: anatomic_reference
   multiplicity: many_to_one
   required: false
 - name: anatomic_reference_ct_series_files
   target_type: ct_series_file
   backref: nmmi_annotation_anatomic_reference_ct_series_files
-  label: related_to
+  label: anatomic_reference
   multiplicity: many_to_one
   required: false
 - name: anatomic_reference_mr_series_files
   target_type: mr_series_file
   backref: nmmi_annotation_anatomic_reference_mr_series_files
-  label: related_to
+  label: anatomic_reference
   multiplicity: many_to_one
   required: false
 namespace: https://data.midrc.org

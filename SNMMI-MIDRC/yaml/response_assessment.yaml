@@ -26,7 +26,7 @@ links:
   required: false
 - name: followup_imaging_studies
   backref: nmmi_response_assessment_followup_imaging_studies
-  label: supported_by
+  label: followup_supported_by
   target_type: imaging_study
   multiplicity: many_to_many
   required: false
@@ -57,7 +57,7 @@ links:
 - name: followup_burdens
   backref: nmmi_response_assessment_followup_burdens
   label: supported_by
-  target_type: disease_burden
+  target_type: followup_disease_burden
   multiplicity: many_to_one
   required: false
 - name: anatomic_targets
@@ -81,13 +81,13 @@ links:
 - name: followup_pros
   backref: nmmi_response_assessment_followup_pros
   label: supported_by
-  target_type: patient_reported_outcome
+  target_type: followup_patient_outcome
   multiplicity: many_to_many
   required: false
 - name: confirmation_pros
   backref: nmmi_response_assessment_confirmation_pros
   label: supported_by
-  target_type: patient_reported_outcome
+  target_type: confirmation_patient_outcome
   multiplicity: many_to_many
   required: false
 - name: clinical_assessments
@@ -117,25 +117,25 @@ links:
 - name: roi_measurements
   target_type: measurement
   backref: nmmi_response_assessment_roi_measurements
-  label: related_to
+  label: roi_related_to
   multiplicity: many_to_many
   required: false
 - name: baseline_psa_results
   target_type: measurement
   backref: nmmi_response_assessment_baseline_psa_results
-  label: related_to
+  label: psa_related_to
   multiplicity: many_to_one
   required: false
 - name: nadir_psa_results
   target_type: measurement
   backref: nmmi_response_assessment_nadir_psa_results
-  label: related_to
+  label: nadir_related_to
   multiplicity: many_to_one
   required: false
 - name: confirmatory_psa_results
   target_type: measurement
   backref: nmmi_response_assessment_confirmatory_psa_results
-  label: related_to
+  label: confirmatory_psa_related
   multiplicity: many_to_one
   required: false
 required:

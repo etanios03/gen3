@@ -50,25 +50,25 @@ links:
   - name: reference_pt_series_files
     target_type: pt_series_file
     backref: nmmi_registration_reference_pt_series_files
-    label: related_to
+    label: reference_related_to
     multiplicity: many_to_one
     required: false
   - name: reference_nm_series_files
     target_type: nm_series_file
     backref: nmmi_registration_reference_nm_series_files
-    label: related_to
+    label: reference_related_to
     multiplicity: many_to_one
     required: false
   - name: reference_ct_series_files
     target_type: ct_series_file
     backref: nmmi_registration_reference_ct_series_files
-    label: related_to
+    label: reference_related_to
     multiplicity: many_to_one
     required: false
   - name: reference_mr_series_files
     target_type: mr_series_file
     backref: nmmi_registration_reference_mr_series_files
-    label: related_to
+    label: reference_related_to
     multiplicity: many_to_one
     required: false
 required:
