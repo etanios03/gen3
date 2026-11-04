@@ -188,11 +188,9 @@ sheepdog:
   enabled: true
   resources:
     requests:
-      cpu: "100m"
-      memory: "128Mi"
+      memory: "1Gi"
     limits: 
-      cpu: "200m"
-      memory: "256Mi"
+      memory: "4Gi"
 
 indexd:
   enabled: true
@@ -209,11 +207,9 @@ peregrine:
   enabled: true
   resources:
     requests:
-      cpu: "100m"
-      memory: "128Mi"
+      memory: "1Gi"
     limits:
-      cpu: "200m"
-      memory: "256Mi"
+      memory: "4Gi"
 
 revproxy:
   enabled: true
@@ -237,6 +233,30 @@ portal:
     limits:
       cpu: "2000m"     # Allows up to 1 full CPU core during spikes
       memory: "6Gi" 
+  gitops:
+    json: |
+      {
+        "graphql": {
+          "boardCounts": [
+            { "graphql": "_case_count",          "name": "Case",          "plural": "Cases" },
+            { "graphql": "_study_count",         "name": "Study",         "plural": "Studies" },
+            { "graphql": "_imaging_study_count", "name": "Imaging Study", "plural": "Imaging Studies" }
+          ],
+          "chartCounts": [
+            { "graphql": "_case_count",          "name": "Case",          "plural": "Cases" },
+            { "graphql": "_study_count",         "name": "Study",         "plural": "Studies" },
+            { "graphql": "_imaging_study_count", "name": "Imaging Study", "plural": "Imaging Studies" }
+          ],
+          "projectDetails": [
+            { "graphql": "_case_count",          "name": "Case",          "plural": "Cases" },
+            { "graphql": "_study_count",         "name": "Study",         "plural": "Studies" },
+            { "graphql": "_imaging_study_count", "name": "Imaging Study", "plural": "Imaging Studies" }
+          ]
+        },
+        "components": {
+          "appName": "MIDRC Theranostics Prototype"
+        }
+      }
 
 
 guppy:
