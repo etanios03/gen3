@@ -187,4 +187,4 @@ kubectl rollout status deployment/minio --namespace gen3 --timeout=300s
 
 echo "MinIO is up. S3 endpoint inside the cluster: http://minio.gen3.svc.cluster.local:9000"
 echo "Console (port-forward to view): kubectl port-forward -n gen3 svc/minio-console 9001:9001"
-echo "MinIO setup complete."
+echo "MinIO setup complete"

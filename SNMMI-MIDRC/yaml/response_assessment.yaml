@@ -56,8 +56,8 @@ links:
   required: false
 - name: followup_burdens
   backref: nmmi_response_assessment_followup_burdens
-  label: supported_by
-  target_type: followup_disease_burden
+  label: followup_supported_by
+  target_type: disease_burden
   multiplicity: many_to_one
   required: false
 - name: anatomic_targets
@@ -80,14 +80,14 @@ links:
   required: false
 - name: followup_pros
   backref: nmmi_response_assessment_followup_pros
-  label: supported_by
-  target_type: followup_patient_outcome
+  label: followup_pros_supported_by
+  target_type: patient_reported_outcome
   multiplicity: many_to_many
   required: false
 - name: confirmation_pros
   backref: nmmi_response_assessment_confirmation_pros
-  label: supported_by
-  target_type: confirmation_patient_outcome
+  label: confirmation_supported_by
+  target_type: patient_reported_outcome
   multiplicity: many_to_many
   required: false
 - name: clinical_assessments

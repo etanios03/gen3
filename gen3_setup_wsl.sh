@@ -25,11 +25,11 @@ check_and_install() {
   if ! command -v "$cmd" &>/dev/null; then
     echo "⚙️  $cmd not found. Installing..."
     eval "$install_cmd" || {
-      echo "❌ Failed to install $cmd"
-      echo "👉 Install manually: $url"
+      echo "failed to install $cmd"
+      echo "install manually: $url"
       exit 1
     }
-    echo "✅ $cmd installed."
+    echo "$cmd installed."
   fi
 }
 
@@ -37,7 +37,7 @@ check_and_install() {
 # DOCKER CHECK (WSL-AWARE)
 # -----------------------------
 if ! command -v docker &>/dev/null; then
-  echo "❌ Docker not found."
+  echo "docker not found"
 
   if $IS_WSL; then
     cat <<EOF
@@ -53,7 +53,7 @@ After that, restart WSL:
   wsl --shutdown
 EOF
   else
-    echo "Install Docker for your OS."
+    echo "Install Docker for your OS"
   fi
 
   exit 1
@@ -96,13 +96,13 @@ check_and_install \
   "curl -sS https://webinstall.dev/k9s | bash" \
   "https://k9scli.io/"
 
-echo "✅ All dependencies verified."
+echo "all dependencies verified!!"
 
 # -----------------------------
 # KIND CLUSTER
 # -----------------------------
 if kind get clusters | grep -q '^kind$'; then
-  echo "🧹 Deleting existing Kind cluster..."
+  echo "...deleting existing Kind cluster..."
   kind delete cluster
 fi
 
@@ -131,14 +131,14 @@ EOF
 # -----------------------------
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
 
-echo "⏳ Waiting for ingress-nginx controller..."
+echo "...waiting for ingress-nginx controller..."
 
 timeout=$((SECONDS + 300))
 while ! kubectl get pods -n ingress-nginx \
   -l app.kubernetes.io/component=controller 2>/dev/null | grep -q controller; do
   sleep 1
   (( SECONDS > timeout )) && {
-    echo "❌ Timed out waiting for ingress-nginx pod"
+    echo "timed out waiting for ingress-nginx pod"
     exit 1
   }
 done
@@ -149,12 +149,12 @@ kubectl wait \
   --selector=app.kubernetes.io/component=controller \
   --timeout=90s
 
-echo "✅ ingress-nginx is ready"
+echo "ingress-nginx is ready"
 
 # -----------------------------
 # GEN3
 # -----------------------------
 helm upgrade --install dev gen3/gen3 -f values_SNMMI.yaml
 
-echo "🎉 Gen3 setup complete"
-echo "👉 Run: k9s"
+echo "gen3 setup complete!!"
+echo "to see pods, run: k9s"
